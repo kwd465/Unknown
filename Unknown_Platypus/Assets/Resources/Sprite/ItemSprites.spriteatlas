@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ItemSprites
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: Android
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 50
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_IgnorePlatformSupport: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+      enableAlphaDilation: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: ebd48c3ca5366bc4c93f8b539d9f2107, type: 3}
+    - {fileID: 102900000, guid: cd230a74e2df5be42958625de198da75, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+    packedSpriteRenderDataKeys:
+    - 4575ee0084c3c466ebd93fc870b2e07c: 21300000
+    - 47b40e5043f03461083413cd041e34f6: 21300000
+    - 59dceeb1278244b429441fc1a4d16dc7: 21300000
+    - 28d224327b9d04da9b4c3294fadd3f2e: 21300000
+    - 1b4ab323c3684824c8c12d284b4688de: 21300000
+    - 757173630afd94d148482142f5a883cf: 21300000
+    - e52a13a4a0e4a43f88322b871c249663: 21300000
+    - 2194d9b430882438fb8c2fbb0a9ff16a: 21300000
+    - 50b92cb414d954a83964180edb24a2bb: 21300000
+    - a1dc43e42275645958f7afb8676a61d4: 21300000
+    - 9ed20a5564e5d694cbf9322747030227: 21300000
+    - 92b17276948dc4d11ac5f086599075a3: 21300000
+    - 9fa0a81764ce54078bf8ed2a101177a1: 21300000
+    - 2310278994f694cfab07227a0610b67f: 21300000
+    - 582b1299f0c844ab4a1f067d96068d1f: 21300000
+    - b654673a0d2064048a8b830cbf0f90fd: 21300000
+    - b032d73b00a8a45ee91a6b8ab0138dc9: 21300000
+    - 2a3b46ecbdd584408a9ad6c5e85a9c77: 21300000
+    - 2233ab3ecfa2a4021ad77dfe8e6bcb76: 21300000
+    - 089afe5e34f7446f8a4806048b4d4742: 21300000
+    - 9f414d9ea0cb84efdb59f2b3fe62fa34: 21300000
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 4575ee0084c3c466ebd93fc870b2e07c, type: 3}
+  - {fileID: 21300000, guid: 47b40e5043f03461083413cd041e34f6, type: 3}
+  - {fileID: 21300000, guid: 59dceeb1278244b429441fc1a4d16dc7, type: 3}
+  - {fileID: 21300000, guid: 28d224327b9d04da9b4c3294fadd3f2e, type: 3}
+  - {fileID: 21300000, guid: 1b4ab323c3684824c8c12d284b4688de, type: 3}
+  - {fileID: 21300000, guid: 757173630afd94d148482142f5a883cf, type: 3}
+  - {fileID: 21300000, guid: e52a13a4a0e4a43f88322b871c249663, type: 3}
+  - {fileID: 21300000, guid: 2194d9b430882438fb8c2fbb0a9ff16a, type: 3}
+  - {fileID: 21300000, guid: 50b92cb414d954a83964180edb24a2bb, type: 3}
+  - {fileID: 21300000, guid: a1dc43e42275645958f7afb8676a61d4, type: 3}
+  - {fileID: 21300000, guid: 9ed20a5564e5d694cbf9322747030227, type: 3}
+  - {fileID: 21300000, guid: 92b17276948dc4d11ac5f086599075a3, type: 3}
+  - {fileID: 21300000, guid: 9fa0a81764ce54078bf8ed2a101177a1, type: 3}
+  - {fileID: 21300000, guid: 2310278994f694cfab07227a0610b67f, type: 3}
+  - {fileID: 21300000, guid: 582b1299f0c844ab4a1f067d96068d1f, type: 3}
+  - {fileID: 21300000, guid: b654673a0d2064048a8b830cbf0f90fd, type: 3}
+  - {fileID: 21300000, guid: b032d73b00a8a45ee91a6b8ab0138dc9, type: 3}
+  - {fileID: 21300000, guid: 2a3b46ecbdd584408a9ad6c5e85a9c77, type: 3}
+  - {fileID: 21300000, guid: 2233ab3ecfa2a4021ad77dfe8e6bcb76, type: 3}
+  - {fileID: 21300000, guid: 089afe5e34f7446f8a4806048b4d4742, type: 3}
+  - {fileID: 21300000, guid: 9f414d9ea0cb84efdb59f2b3fe62fa34, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - Skill_16
+  - Skill_08
+  - exp_2
+  - Skill_18
+  - exp_1
+  - Skill_06
+  - Skill_01
+  - Skill_02
+  - Skill_10
+  - Skill_07
+  - exp_3
+  - Skill_12
+  - Skill_04
+  - Skill_05
+  - Skill_17
+  - Skill_09
+  - Skill_11
+  - Skill_15
+  - Skill_03
+  - Skill_13
+  - Skill_14
+  m_RenderDataMap: {}
+  m_Tag: ItemSprites
+  m_IsVariant: 0

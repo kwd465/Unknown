@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 15a69922df2914073afed4593b5847e9
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _Gratex: {fileID: 2800000, guid: ba41bb3d40bb14f4da0ac08c76b56a62, type: 3}
+  - _NoiseTex: {fileID: 2800000, guid: 4d785d85ff63c4d368cdc3f9d80426ab, type: 3}
+  nonModifiableTextures: []
+  preprocessorOverride: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
