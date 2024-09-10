@@ -1,0 +1,2 @@
+﻿id,name,hp,atk,def,distance,speed,attackSpeed,AttackType
+1,slime,1,10,1,0,1.5,1,Melee

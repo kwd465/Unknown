@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: KOGUN_SH_Exp
+  m_Shader: {fileID: 4800000, guid: a910f5a6e6607e847b3060c8566e19a4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _USECUSTOM_ON
+  m_InvalidKeywords: []
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _DissolveTex:
+        m_Texture: {fileID: 2800000, guid: 510e540f101fe1b40a249ea89af8efee, type: 3}
+        m_Scale: {x: 2, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseTex:
+        m_Texture: {fileID: 2800000, guid: 583d109e49600b04382baffd4f84435d, type: 3}
+        m_Scale: {x: 2, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SubTex:
+        m_Texture: {fileID: 2800000, guid: b51cea59eeae705458cee17bc33f9605, type: 3}
+        m_Scale: {x: 0.25, y: 0.25}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BaseStep: 0.68
+    - _ColorRangeVal: 0
+    - _Dissolve: 1
+    - _HighStep: 1.1
+    - _NoiseStr: 0.25
+    - _NoiseUpanner: 0
+    - _NoiseVpanner: -0.5
+    - _ShadowStep: 0.68
+    - _Smooth: 0.01
+    - _SubVal: 0.5
+    - _UseCustom: 1
+    - _UseCustom1: 0
+    - __dirty: 0
+    m_Colors:
+    - _BaseAColor: {r: 2, g: 0.18134493, b: 0, a: 0}
+    - _BaseBColor: {r: 0.16981131, g: 0.042452827, b: 0, a: 0}
+    - _HighColor: {r: 2, g: 1.299334, b: 0.33018863, a: 0}
+    - _ShadowColor: {r: 0.47058824, g: 0.026533196, b: 0, a: 0}
+  m_BuildTextureStacks: []

@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Map
+  - Monster
+  - FxTemporaire
+  - Area
+  - Ground
+  - Rooting
+  - Item
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - Map
+  - Water
+  - UI
+  - Item
+  - Monster
+  - Player
+  - obstacle
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: BackFx
+    uniqueID: 2104277213
+    locked: 0
+  - name: Player
+    uniqueID: 1358405337
+    locked: 0
+  - name: Fx
+    uniqueID: 2061097525
+    locked: 0
+  - name: Ui
+    uniqueID: 3199085159
+    locked: 0

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: fa3f985e15ce1447ba537258c002896f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _FXT_GraTex01_Clamp: {fileID: 2800000, guid: 1caf87650664dee449f17bbe81f7f58e, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
