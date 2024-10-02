@@ -171,7 +171,6 @@ public class SkillObject : MonoBehaviour
 
     public virtual void UpdateLogic()
     {
-
         if (m_skillData != null && m_skillCount > 1 && m_DamTick > 0)
         {
             if (m_curCount == m_skillCount)
