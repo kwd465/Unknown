@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//���ư��½�ų���� �߻� ��ų�� ����
+//스킬 운석 -Jun 24-09-30
 public class SkillPlanet : SkillObject
 {
     private List<GameObject> targetList = new List<GameObject>();
@@ -33,6 +33,7 @@ public class SkillPlanet : SkillObject
         Vector3 _target = m_dir * 5f * Time.fixedDeltaTime;
         transform.position += _target;
         // �̵� ������ ������ ���մϴ�.
+        //각도 계산
         float angle = Mathf.Atan2(m_dir.y, m_dir.x) * Mathf.Rad2Deg;
 
         // ������Ʈ�� ȸ�� ������ �����մϴ�.
@@ -43,6 +44,8 @@ public class SkillPlanet : SkillObject
             m_checkTime = 0;
             Close();
         }
+
+        Debug.Log(@$"운석 dir {_target} {m_dir} {angle} {targetList.Count}");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

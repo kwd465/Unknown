@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class LobbyUIManager : MonoBehaviour
+public partial class LobbyUIManager : MonoBehaviour
 {
     [SerializeField]
     private Image[] bgStar;
@@ -12,6 +12,7 @@ public class LobbyUIManager : MonoBehaviour
     private RectTransform endV;
     [SerializeField]
     private RectTransform bgRectTransform;
+    [SerializeField] MenuTab MenuTabUi;
 
     public UIBase testUI;
 
@@ -23,7 +24,7 @@ public class LobbyUIManager : MonoBehaviour
     private int index = 0;
     private float bgMoveSpeed = 3f;
 
-    private void Awake()
+    private void Start()
     {
         SoundControl.PlayBGM("Lobby");
         UIBase[] uiPop = GetComponentsInChildren<UIBase>();
@@ -62,6 +63,7 @@ public class LobbyUIManager : MonoBehaviour
                 //temp += Vector2.up * bgMoveSpeed * Time.deltaTime;
                 break;
         }
+
         //temp.x = Mathf.Clamp(temp.x, -clampedX, clampedX);
         //temp.y = Mathf.Clamp(temp.y, -clampedY, clampedY);
         //bgRectTransform.anchoredPosition = temp;
@@ -79,8 +81,7 @@ public class LobbyUIManager : MonoBehaviour
         //UIManager.instance.ESC();
     }
     public void MenuOn(int id)
-    {
-        
+    {   
         switch((LobbyMenuBtn)id)
         {
             case LobbyMenuBtn.Charactor:
@@ -93,6 +94,8 @@ public class LobbyUIManager : MonoBehaviour
             case LobbyMenuBtn.BlackHall:
                 break;
         }
+
+        MenuTabUi.SetActive(id);
     }
     public void GameStart()
     {
@@ -115,5 +118,24 @@ public class LobbyUIManager : MonoBehaviour
             shootingStar.DOAnchorPos(start, 0);
             Invoke("ShootingStar", shootingDuration);
         });
+    }
+}
+
+
+public partial class LobbyUIManager : MonoBehaviour
+{
+    [System.Serializable]
+    private class MenuTab
+    {
+        [SerializeField] Button[] BtnArr;
+
+        public void SetActive(int _index)
+        {
+            for (int i = 0; i < BtnArr.Length; i++)
+            {
+                BtnArr[i].transform.localScale = i == _index ? Vector3.one * 1.5f : Vector3.one;
+                Debug.Log($@"tlqkf {i} {_index} {BtnArr[i].transform.localScale}");
+            }
+        }
     }
 }

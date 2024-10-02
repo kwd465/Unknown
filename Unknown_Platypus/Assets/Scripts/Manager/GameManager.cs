@@ -7,7 +7,7 @@ using static UnityEngine.GraphicsBuffer;
 public class GameManager : BHSingleton<GameManager>
 {
 
-    private void Awake()
+    private void Start()
     {
         StagePlayLogic.instance.Init();
     }
