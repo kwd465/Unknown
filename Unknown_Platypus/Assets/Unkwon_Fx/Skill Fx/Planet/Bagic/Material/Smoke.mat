@@ -74,7 +74,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaIns: 20
+    - _AlphaIns: 7
     - _AlphaPow: 1
     - _BumpScale: 1
     - _Cull_Mode: 0
