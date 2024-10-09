@@ -67,7 +67,7 @@ public class EditorTool : EditorWindow
                 if (_haveSkill != null)
                 {
                     
-                    if (_haveSkill.skilllv == 4)
+                    if (_haveSkill.skilllv == ConstData.SkillMaxLevel)
                         continue;
 
 

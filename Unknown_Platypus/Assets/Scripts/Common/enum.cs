@@ -18,7 +18,6 @@ public enum LobbyMenuBtn
 {
     Charactor,
     Equip,
-    Ship,
     BlackHall
 }
 public enum ActorType

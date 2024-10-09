@@ -52,7 +52,7 @@ public class UIItem_SkillInfo : UIBase
         base.ResetData();
 
         SetImgActive(m_goNew, m_data.skilllv == 1);
-        SetImgActive(m_goMaster, m_data.skilllv == 4);
+        SetImgActive(m_goMaster, m_data.skilllv == ConstData.SkillMaxLevel);
 
         for (int i = 0; i < m_data.skilllv; i++)
         {

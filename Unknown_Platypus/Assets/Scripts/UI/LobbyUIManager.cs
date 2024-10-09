@@ -89,8 +89,6 @@ public partial class LobbyUIManager : MonoBehaviour
                 break;
             case LobbyMenuBtn.Equip:
                 break;
-            case LobbyMenuBtn.Ship:
-                break;
             case LobbyMenuBtn.BlackHall:
                 break;
         }

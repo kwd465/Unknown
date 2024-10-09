@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using Spine;
+using UnityEngine.Playables;
 
 public enum SKILLOPTION_TYPE
 {
@@ -25,6 +27,7 @@ public enum SKILLOPTION_TYPE
     debuff_movespeed,
 }
 
+[System.Serializable]
 public class SkillEffect
 {
     public bool isBaseSkill = false;
@@ -52,7 +55,6 @@ public class SkillEffect
         }
     }
 
-
     public SkillEffect(SkillTableData _skillTable, Player _ownerData, bool _isBaseSkill = false)
     {
         m_dicCurSelectOption.Clear();
@@ -67,7 +69,6 @@ public class SkillEffect
         {
             m_isReady = true;
         }
-        
     }
 
     /// <summary>
@@ -94,6 +95,12 @@ public class SkillEffect
     {
         m_coolTime = 0f;
         m_isReady = false;
+        Debug.Log("skill use");
+    }
+
+    public virtual void EndSkill()
+    {
+
     }
 
     public virtual void UpdateSkill()

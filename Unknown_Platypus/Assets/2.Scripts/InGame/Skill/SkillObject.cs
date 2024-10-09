@@ -2,6 +2,7 @@ using BH;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using static UnityEngine.GraphicsBuffer;
 
 public class TargetPlayer
@@ -61,7 +62,11 @@ public class SkillObject : MonoBehaviour
     protected int m_curCount;
     protected int m_skillCount;
     protected bool m_isSkillDie;
-    
+
+    [Header("스킬 공격 이펙트")]
+    public ParticleSystem LowLevelEffect;
+    public ParticleSystem MaxLevelEffect;
+    private ParticleSystem NowSelectEffect;
 
     protected List<Player> m_taretList = new List<Player>();
 
@@ -106,6 +111,12 @@ public class SkillObject : MonoBehaviour
         }
         for (int i = 0; i < m_taretList.Count; i++)
             Apply(m_taretList[i]);
+
+        MaxLevelEffect.gameObject.SetActive(false);
+        LowLevelEffect.gameObject.SetActive(false);
+        NowSelectEffect = _data.m_skillTable.skilllv >= 5 ? MaxLevelEffect : LowLevelEffect;
+        Debug.Log($@"skill init {_data.m_skillTable.skilllv}");
+        NowSelectEffect.gameObject.SetActive(true);
     }
 
     public virtual void Init(SkillEffect _data, List<Player> _targets, Player _owner, Vector3 _dir)
@@ -150,9 +161,14 @@ public class SkillObject : MonoBehaviour
         Vector3 _pos = _target.transform.position;
         _pos.y += Random.Range(0.2f, 0.5f);
         _pos.x += Random.Range(-0.2f, 0.2f);
-        Effect _effect = EffectManager.instance.Play(HitEffect, _pos, Quaternion.identity);
-        if (isSetParentHit)
-            _effect.transform.SetParent(_target.transform);
+
+        if (HitEffect != null && HitEffect != "")
+        {
+            Effect _effect = EffectManager.instance.Play(HitEffect, _pos, Quaternion.identity);
+            if (isSetParentHit)
+                _effect.transform.SetParent(_target.transform);
+        }
+
         BattleControl.instance.ApplySkill(m_skillData, m_owner, _target);
     }
 
