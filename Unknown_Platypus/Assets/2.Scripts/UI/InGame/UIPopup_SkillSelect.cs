@@ -82,6 +82,7 @@ public class UIPopup_SkillSelect : UIPopup
                 if (_haveSkill != null)
                 {
                     //���߿� ��å���� ���׷��̵� �ؾߵȴ�
+                    //이거 아무래도 스킬 맥스 레벨 표시 한것 같은데 ? -Jun 24-10-05
                     if (_haveSkill.skilllv == 4)
                         continue;
 
