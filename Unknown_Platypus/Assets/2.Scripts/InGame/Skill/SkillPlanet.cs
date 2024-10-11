@@ -22,6 +22,7 @@ public class SkillPlanet : SkillObject
         gameObject.SetActive(true);
         m_checkTime = 0;
         transform.localScale = new Vector3(m_area, m_area, 1f);
+        Debug.Log("apply");
     }
 
     override public void UpdateLogic()
