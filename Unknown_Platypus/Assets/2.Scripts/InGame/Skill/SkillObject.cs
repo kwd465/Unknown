@@ -90,6 +90,7 @@ public class SkillObject : MonoBehaviour
 
     public virtual void Init(SkillEffect _data, Player _target, Player _owner , Vector3 _dir)
     {
+        Debug.Log("init");
         m_dir = _dir;
         m_taretList.Clear();
         if (isColliderCheck == false)
@@ -103,7 +104,14 @@ public class SkillObject : MonoBehaviour
         m_skillCount = SkillControl.instance.GetSkillHitCount(_owner, m_skillData.m_skillTable);
         if (m_effect != null)
             m_DamTick = m_effect.ActiveTime / m_skillCount;
-      
+
+        MaxLevelEffect.gameObject.SetActive(false);
+        LowLevelEffect.gameObject.SetActive(false);
+
+        NowSelectEffect = _data.m_skillTable.skilllv >= 5 ? MaxLevelEffect : LowLevelEffect;
+        NowSelectEffect.gameObject.SetActive(true);
+        Debug.Log($@"skill init {_data.m_skillTable.skilllv} {MaxLevelEffect.gameObject.activeSelf} {LowLevelEffect.gameObject.activeSelf}");
+
         if (_target == null)
         {
             Apply();
@@ -112,15 +120,13 @@ public class SkillObject : MonoBehaviour
         for (int i = 0; i < m_taretList.Count; i++)
             Apply(m_taretList[i]);
 
-        MaxLevelEffect.gameObject.SetActive(false);
-        LowLevelEffect.gameObject.SetActive(false);
-        NowSelectEffect = _data.m_skillTable.skilllv >= 5 ? MaxLevelEffect : LowLevelEffect;
-        Debug.Log($@"skill init {_data.m_skillTable.skilllv}");
-        NowSelectEffect.gameObject.SetActive(true);
+
+
     }
 
     public virtual void Init(SkillEffect _data, List<Player> _targets, Player _owner, Vector3 _dir)
     {
+        Debug.Log("init list target");
         m_dir = _dir;
         m_taretList.Clear();
         if(isColliderCheck == false)
