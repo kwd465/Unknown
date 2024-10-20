@@ -4,26 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
-public class UIPopup_SkillSelect : UIPopup
+public partial class UIPopup_SkillSelect : UIPopup
 {
+    [SerializeField] Sprite[] ArrowSpriteArr;
+    [SerializeField] Sprite EnterBtnActiveSprite;
+    [SerializeField] Sprite EnterBtnInActiveSprite;
 
-    [SerializeField]
-    private Image[] m_leftSkillSlot;
-    [SerializeField]
-    private Image[] m_rightSkillSlot;
 
-    [SerializeField]
-    private TextMeshProUGUI m_tfBtn;
+    [SerializeField] Image[] m_leftSkillSlot;
+    [SerializeField] Image[] m_rightSkillSlot;
 
-    [SerializeField]
-    private Button m_btnReset;
-    [SerializeField]
-    private List<UIItem_SkillInfo> m_uiItemSkillInfo;
+    [SerializeField] TextMeshProUGUI m_tfBtn;
+
+    [SerializeField] Button m_btnReset;
+    [SerializeField] Button EnterBtn;
+
+    [SerializeField] List<UIItem_SkillInfo> m_uiItemSkillInfo;
+
+    [SerializeField] List<UiItemSkillInfo> SkillInfoList;
+    [SerializeField] Arrow ArrowUi;
 
     private List<SkillTableData> m_haveSkillList = new List<SkillTableData>();
+    private readonly int MaxSkillActivityBtnCount = 7;
 
     private int m_curCount =10;
+
+    private SkillTableData currentData = null;
 
     protected override void Awake()
     {
@@ -46,6 +54,11 @@ public class UIPopup_SkillSelect : UIPopup
             m_uiItemSkillInfo[i].Close();
         }
 
+        for(int i=0;i< SkillInfoList.Count;i++)
+        {
+            SkillInfoList[i].Close();
+        }
+
         //���� �����ߴ� ��ų�� ������ ������� �Ѵ�
         m_haveSkillList = StagePlayLogic.instance.m_Player.GetInGameSkill();
 
@@ -63,6 +76,9 @@ public class UIPopup_SkillSelect : UIPopup
         }
 
         ResetData();
+
+        EnterBtn.GetComponent<Image>().sprite = EnterBtnInActiveSprite;
+        EnterBtn.interactable = false;
     }
 
     public override void ResetData()
@@ -70,6 +86,7 @@ public class UIPopup_SkillSelect : UIPopup
         base.ResetData();
 
         //���� �����Ҽ� �ִ� ���ڸ�ŭ�� �����ְ� �������ش�
+        //스킬 받아오는 듯 -Jun 24-10-17
         List<SkillGroupData> _List =  TableControl.instance.m_skillTable.GetSkillGroupList(e_SkillType.InGameSkill);
 
         _List = _List.GetRandomList(4);
@@ -83,7 +100,7 @@ public class UIPopup_SkillSelect : UIPopup
                 {
                     //���߿� ��å���� ���׷��̵� �ؾߵȴ�
                     //이거 아무래도 스킬 맥스 레벨 표시 한것 같은데 ? -Jun 24-10-05
-                    if (_haveSkill.skilllv == 4)
+                    if (_haveSkill.skilllv == ConstData.SkillMaxLevel)
                         continue;
 
                     m_uiItemSkillInfo[i].Open(_List[i].m_skillList[_haveSkill.skilllv], OnSelect);
@@ -100,7 +117,37 @@ public class UIPopup_SkillSelect : UIPopup
             m_uiItemSkillInfo[i].Close();
         }
 
+        for (int i = 0; i < _List.Count; i++)
+        {
+            if (i < SkillInfoList.Count)
+            {
+                SkillTableData skill = m_haveSkillList.Find(x => x.group == _List[i].m_group);
+
+                if (skill is not null)
+                {
+                    if(skill.skilllv == ConstData.SkillMaxLevel)
+                    {
+                        continue;
+                    }
+
+                    SkillInfoList[i].Open(_List[i].m_skillList[skill.skilllv], OnSelect);
+                }
+                else
+                {
+                    SkillInfoList[i].Open(_List[i].m_skillList[0], OnSelect);
+                }
+            }
+        }
+
+        for (int i = _List.Count; i < SkillInfoList.Count; i++)
+        {
+            SkillInfoList[i].Close();
+        }
+
         SetText(m_tfBtn,string.Concat("x ",m_curCount));
+
+        EnterBtn.GetComponent<Image>().sprite = EnterBtnInActiveSprite;
+        EnterBtn.interactable = false;
     }
 
     private void OnClickReset()
@@ -116,7 +163,42 @@ public class UIPopup_SkillSelect : UIPopup
 
     private void OnSelect(SkillTableData _data)
     {
+        currentData = _data;
         //��ų ������ �˾� �ݴ´�
+        //SkillTableData _target = m_haveSkillList.Find(item => item.group == _data.group);
+        //int _index = 0;
+        //if (_target != null)
+        //    _index = _target.skilllv;
+        //Debug.Log($@"{_target is null} 이거 레벨 +  1 해줘야 겠는데");
+        SkillTableData nextSelectData = null;
+        if (_data.skilllv == 1)
+        {
+            nextSelectData = TableControl.instance.m_skillTable.GetRecord(_data.index + 1);
+        }
+        else if(_data.skilllv == ConstData.SkillMaxLevel)
+        {
+
+        }
+
+        ArrowUi.Init(nextSelectData);
+
+        for (int i = 0; i < _data.SkillOptionList.Count; i++)
+        {
+            var skillOption = TableControl.instance.m_skillOptionTable.GetSkillOptionData(nextSelectData.SkillOptionList[i]);
+            //BH.ResourceControl.instance.GetImage();
+        }
+
+        EnterBtn.GetComponent<Image>().sprite = EnterBtnActiveSprite;
+        EnterBtn.interactable = true;
+
+        //선택 된거면 이제 초록색으로 바꿔줘야함 -Jun 24-10-19
+        //StagePlayLogic.instance.m_Player.SetSkill(_data);
+        //StagePlayLogic.instance.SetPause(false);
+        //Close();
+    }
+
+    /*
+     *         //��ų ������ �˾� �ݴ´�
         SkillTableData _target = m_haveSkillList.Find(item => item.group == _data.group);
         int _index = 0;
         if (_target != null)
@@ -125,10 +207,7 @@ public class UIPopup_SkillSelect : UIPopup
         StagePlayLogic.instance.m_Player.SetSkill(_data);
         StagePlayLogic.instance.SetPause(false);
         Close();
-    }
-
-
-
+     */
 
     private List<int> RandomSkillOption(SkillTableData _data)
     {
@@ -136,13 +215,10 @@ public class UIPopup_SkillSelect : UIPopup
         List<int> _selectOptionList = new List<int>();
         for(int i = 0 ; i < _idxList.Count ; i++)
         {
-            _selectOptionList.Add(_data.skillOptionLiist[_idxList[i]]);
+            _selectOptionList.Add(_data.SkillOptionList[_idxList[i]]);
         }
         return _selectOptionList;
     }
-
-
-
 
     /// <summary>
     /// Random 2 unique indexes from the skillOptionList
@@ -151,7 +227,7 @@ public class UIPopup_SkillSelect : UIPopup
     /// <returns></returns>
     private List<int> GetUniqueRandomIndexes(SkillTableData _data)
     {
-        if (_data.skillOptionLiist.Count > 2)
+        if (_data.SkillOptionList.Count > 2)
         {
             return new List<int>();
         }
@@ -161,12 +237,87 @@ public class UIPopup_SkillSelect : UIPopup
 
         while (uniqueIndexes.Count < 2)
         {
-            int randomIndex = random.Next(_data.skillOptionLiist.Count);
-            uniqueIndexes.Add(_data.skillOptionLiist[randomIndex]);
+            int randomIndex = random.Next(_data.SkillOptionList.Count);
+            uniqueIndexes.Add(_data.SkillOptionList[randomIndex]);
         }
 
         return new List<int>(uniqueIndexes);
     }
 
-    
+    public void OnClickSkillActivityBtn(int _index)
+    {
+        ArrowUi.OnClickSkillActivityBtn(_index);
+    }
+
+    public void OnClickEnterBtn()
+    {
+        StagePlayLogic.instance.m_Player.SetSkill(currentData);
+        StagePlayLogic.instance.SetPause(false);
+        Close();
+    }
+}
+
+public partial class UIPopup_SkillSelect : UIPopup
+{
+    [System.Serializable]
+    private class Arrow
+    {
+        [SerializeField] Sprite AllLineSprite;
+        [SerializeField] Sprite SelectSprite;
+        [SerializeField] Sprite LastArrowSprite;
+        [SerializeField] Image[] ArrowImageArr;
+        [SerializeField] TMP_Text ExplantionText;
+
+        SkillTableData currentData;
+
+        //8개 -Jun 24-10-19
+        int MaxSkillActivityBtnCount = 7;
+
+        public void Init(SkillTableData _data)
+        {
+            for (int i = 0; i < ArrowImageArr.Length; i++)
+            {
+                ArrowImageArr[i].sprite = AllLineSprite;
+            }
+
+            ArrowImageArr[ArrowImageArr.Length - 1].sprite = LastArrowSprite;
+            ExplantionText.text = "";
+
+            currentData = _data;
+        }
+
+        public void SetNormal()
+        {
+
+        }
+
+        public void SetTop()
+        {
+
+        }
+
+        public void SetBottom()
+        {
+
+        }
+
+        public void OnClickSkillActivityBtn(int _index)
+        {
+            //ArrowUi.SetBottom();
+            int groupIndex = _index / 2;
+
+            if (_index == MaxSkillActivityBtnCount)
+            {
+
+            }
+
+            ExplantionText.text = $@"{TableControl.instance.m_skillOptionTable.GetSkillOptionData(currentData.SkillOptionList[_index]).Comment}
+{TableControl.instance.m_skillOptionTable.GetSkillOptionData(currentData.SkillOptionList[_index + 1]).Comment}";
+        }
+
+        public void Close()
+        {
+
+        }
+    }
 }

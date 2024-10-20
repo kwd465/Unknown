@@ -69,5 +69,4 @@ public class UIItem_SkillInfo : UIBase
     {
         m_action?.Invoke(m_data);
     }
-
 }

@@ -79,7 +79,6 @@ public class SkillEffectData
 [System.Serializable]
 public class SkillTableData : RecordBase
 {
-
     public e_SkillType skillType;
     public e_SkillSubType skillSubType;
     public e_SkillAreaType skillAreaType;
@@ -100,7 +99,7 @@ public class SkillTableData : RecordBase
 
     public List<SkillEffectData> skillEffectDataList;
 
-    public List<int> skillOptionLiist;
+    public List<int> SkillOptionList;
 
     public override void LoadExcel(Dictionary<string, string> _data)
     {
@@ -146,16 +145,17 @@ public class SkillTableData : RecordBase
         }
 
         string _skillOption = FileUtil.Get<string>(_data, "skillOption");
+        SkillOptionList = new List<int>();
+
         if(string.IsNullOrEmpty(_skillOption) == false)
         {
-            skillOptionLiist = new List<int>();
             string[] _optionList = _skillOption.Split(',');
             foreach (var option in _optionList)
             {
-                skillOptionLiist.Add(int.Parse(option));
+                SkillOptionList.Add(int.Parse(option));
+                Debug.Log(@$"skill option add {option} {skillName} {SkillOptionList.Count}");
             }
         }
-
     }
 }
 
