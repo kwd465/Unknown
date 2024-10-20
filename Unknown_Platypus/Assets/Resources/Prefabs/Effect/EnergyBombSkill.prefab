@@ -4884,7 +4884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6412cac8b8d9620438d15cf00485e283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IsNotDuplication: 0
+  m_isContainCheck: 1
 --- !u!1 &2470344647368005564
 GameObject:
   m_ObjectHideFlags: 0
@@ -4935,6 +4935,12 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
+  LowLevelEffect: {fileID: 7552772740388994725}
+  MaxLevelEffect: {fileID: 7552772740388994725}
+  m_count: 0
+  m_distance: 0
+  m_duration: 0
+  m_area: 0
   m_collisionChild: {fileID: 1061409025062297912}
 --- !u!1 &3087002317712173603
 GameObject:

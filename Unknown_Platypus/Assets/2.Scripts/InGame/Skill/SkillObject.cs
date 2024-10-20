@@ -189,6 +189,13 @@ public class SkillObject : MonoBehaviour
     public virtual void Close()
     {
         gameObject.SetActive(false);
+#if UNITY_EDITOR
+        if(NowSelectEffect == null)
+        {
+            Debug.LogWarning($@"{gameObject.name} skill effect 확인 필요 -Jun 24-10-12");
+        }
+#endif
+        NowSelectEffect?.gameObject.SetActive(false);
     }
 
     public virtual void UpdateLogic()

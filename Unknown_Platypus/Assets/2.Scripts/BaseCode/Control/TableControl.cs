@@ -84,7 +84,6 @@ public class TableControl : BHSingleton<TableControl>
 
     public string GetText(int _key)
     {
-
         StringTableData _data = null;
 
         if(m_stringBasicTable == null)
@@ -127,5 +126,4 @@ public class TableControl : BHSingleton<TableControl>
                 return _data.EN;
         }
     }
-
 }
