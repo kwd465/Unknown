@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using UnityEditor;
 
 public partial class UIPopup_SkillSelect : UIPopup
 {
@@ -275,6 +276,13 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         public void Init(SkillTableData _data)
         {
+            SetNormal();            
+
+            currentData = _data;
+        }
+
+        public void SetNormal()
+        {
             for (int i = 0; i < ArrowImageArr.Length; i++)
             {
                 ArrowImageArr[i].sprite = AllLineSprite;
@@ -282,33 +290,55 @@ public partial class UIPopup_SkillSelect : UIPopup
 
             ArrowImageArr[ArrowImageArr.Length - 1].sprite = LastArrowSprite;
             ExplantionText.text = "";
-
-            currentData = _data;
         }
 
-        public void SetNormal()
+        public void SetTop(int _groupIndex)
         {
-
+            ArrowImageArr[_groupIndex].sprite = SelectSprite;
+            ArrowImageArr[_groupIndex].rectTransform.rotation = Quaternion.Euler(0, 0, 0);
         }
 
-        public void SetTop()
+        public void SetBottom(int _groupIndex)
         {
-
-        }
-
-        public void SetBottom()
-        {
-
+            ArrowImageArr[_groupIndex].sprite = SelectSprite;
+            ArrowImageArr[_groupIndex].rectTransform.rotation = Quaternion.Euler(180, 0, 0);
         }
 
         public void OnClickSkillActivityBtn(int _index)
         {
             //ArrowUi.SetBottom();
-            int groupIndex = _index / 2;
 
             if (_index == MaxSkillActivityBtnCount)
             {
 
+            }
+            else if (_index == 0)
+            {
+                SetNormal();
+            }
+            else
+            {
+                switch (_index)
+                {
+                    case 1:
+                        SetTop(0);
+                        break;
+                    case 2:
+                        SetBottom(0);
+                        break;
+                    case 3:
+                        SetTop(1);
+                        break;
+                    case 4:
+                        SetBottom(1);
+                        break;
+                    case 5:
+                        SetTop(2);
+                        break;
+                    case 6:
+                        SetBottom(2);
+                        break;
+                }
             }
 
             ExplantionText.text = $@"{TableControl.instance.m_skillOptionTable.GetSkillOptionData(currentData.SkillOptionList[_index]).Comment}
