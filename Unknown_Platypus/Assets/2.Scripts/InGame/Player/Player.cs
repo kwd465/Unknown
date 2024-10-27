@@ -197,6 +197,18 @@ public class Player : MonoBase
         }
     }
 
+    public bool IsSkillGeted(int _skillIndex)
+    {
+        //존재
+        if (m_skillList.Find(x => x.m_skillTable.index == _skillIndex) is not null)
+        {
+            return true;
+        }
+
+        // 비존재 -Jun  24-10-27
+        return false;
+    }
+
     private SkillObject MakeSkillEffect(SkillEffect _skillData, bool _isParent = false)
     {
         Effect _skill = null;
