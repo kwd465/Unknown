@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using BH;
 using Unity.VisualScripting;
+using UnityEditorInternal;
 
 [System.Serializable]
 public enum e_SkillType
@@ -169,13 +170,11 @@ public class SkillGroupData
         m_group = _group;
     }
 
-    
-
     public void Add(SkillTableData _data)
     {
+        Debug.Log($@"skill option {_data.SkillOptionList is null} {(_data.SkillOptionList is null ? "null" : @$"{_data.SkillOptionList.Count}")}");
         m_skillList.Add(_data);
     }
-
 }
 
 public class SkillTable : TTableBase<SkillTableData>
