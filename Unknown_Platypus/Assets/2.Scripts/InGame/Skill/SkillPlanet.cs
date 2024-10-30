@@ -45,8 +45,6 @@ public class SkillPlanet : SkillObject
             m_checkTime = 0;
             Close();
         }
-
-        Debug.Log(@$"운석 dir {_target} {m_dir} {angle} {targetList.Count}");
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

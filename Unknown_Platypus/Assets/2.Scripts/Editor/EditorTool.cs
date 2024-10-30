@@ -15,7 +15,6 @@ public class EditorTool : EditorWindow
         EditorWindow.GetWindow<EditorTool>(false, "GameCheat");
     }
 
-
     private void OnGUI()
     {
 

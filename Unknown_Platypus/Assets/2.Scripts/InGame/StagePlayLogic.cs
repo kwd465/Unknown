@@ -109,6 +109,9 @@ public class StagePlayLogic : BHSingleton<StagePlayLogic>
         m_stageFsm.SetState(eSTAGE_STATE.START);
         UIPopControl.instance.Init();
         m_BattleUI = UIPopControl.instance.Open<UIPopup_Battle>(UIDefine.UIpopBattle);
+
+        //스킬 선택 옵션 남아 있을 수 있으므로 초기화 -Jun 24-10-29
+        TableControl.instance.m_skillTable.ResetSkillSelectOptionList();
     }
 
     public override void UpdateLogic()

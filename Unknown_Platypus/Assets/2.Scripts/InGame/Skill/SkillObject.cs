@@ -110,7 +110,6 @@ public class SkillObject : MonoBehaviour
 
         NowSelectEffect = _data.m_skillTable.skilllv >= 5 ? MaxLevelEffect : LowLevelEffect;
         NowSelectEffect.gameObject.SetActive(true);
-        Debug.Log($@"skill init {_data.m_skillTable.skilllv} {MaxLevelEffect.gameObject.activeSelf} {LowLevelEffect.gameObject.activeSelf}");
 
         if (_target == null)
         {
