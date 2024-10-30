@@ -94,11 +94,7 @@ public class Player : MonoBase
 
         PlayerType = _type;
         transform.position = _pos;
-      
-
         
-
-
         m_skillList.Clear();
         m_damageList = new PoolObjectGroup<DamageEffect>(m_trDamage);
         m_EquipData = TableControl.instance.m_equipTable.GetRecord(10001);
@@ -173,22 +169,22 @@ public class Player : MonoBase
     }
 
     //��ų�� ȹ�������� ȣ��Ǵ� �Լ�
-    public void SetSkill(SkillTableData _skillData )
+    public void SetSkill(SkillTableData _skillData)
     {
         //��ų ȹ��
-        if(_skillData.skillSubType == e_SkillSubType.Auto )
+        if (_skillData.skillSubType == e_SkillSubType.Auto)
         {
-            if(_skillData.coolTime == 0)
+            if (_skillData.coolTime == 0)
             {
                 SkillObject _target = m_NoCoolSkillList.Find(item => item.SkillData.group == _skillData.group);
-                if(_target == null)
+                if (_target == null)
                     m_NoCoolSkillList.Add(MakeSkillEffect(new SkillEffect(_skillData, this)));
-                else 
-                    _target.Init(new SkillEffect(_skillData, this), GameUtil.GetTarget(_skillData, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this , m_inputVec);
+                else
+                    _target.Init(new SkillEffect(_skillData, this), GameUtil.GetTarget(_skillData, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this, m_inputVec);
             }
             else
             {
-                SkillEffect _target= m_skillList.Find(item => item.m_skillTable.group == _skillData.group);
+                SkillEffect _target = m_skillList.Find(item => item.m_skillTable.group == _skillData.group);
                 if (_target != null)
                     _target.SetUpdateData(_skillData);
                 else
@@ -197,12 +193,17 @@ public class Player : MonoBase
         }
     }
 
-    public bool IsSkillGeted(int _skillIndex)
+    public bool IsSkillGeted(int _groupIndex)
     {
         //존재
-        if (m_skillList.Find(x => x.m_skillTable.index == _skillIndex) is not null)
+        if (m_skillList.Find(x => x.m_skillTable.group == _groupIndex) is not null)
         {
             return true;
+        }
+
+        for(int i=0;i<m_skillList.Count;i++)
+        {
+            Debug.Log($@"{m_skillList[i].m_skillTable.index} {_groupIndex}");
         }
 
         // 비존재 -Jun  24-10-27

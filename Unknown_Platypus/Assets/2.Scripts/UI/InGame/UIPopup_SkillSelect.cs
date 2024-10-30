@@ -7,6 +7,8 @@ using TMPro;
 using System.Linq;
 using UnityEditor;
 using UnityEngine.InputSystem.Composites;
+using UnityEngine.AI;
+using Unity.VisualScripting;
 
 public partial class UIPopup_SkillSelect : UIPopup
 {
@@ -33,7 +35,7 @@ public partial class UIPopup_SkillSelect : UIPopup
     private int m_curCount =10;
     private int currentOptionIndex = -1;
 
-    private SkillTableData currentData = null;
+    private SkillTableData selectData = null;
 
     protected override void Awake()
     {
@@ -179,24 +181,29 @@ public partial class UIPopup_SkillSelect : UIPopup
         //if (_target != null)
         //    _index = _target.skilllv;
 
-        //SkillTableData nextSelectData = TableControl.instance.m_skillTable.GetRecord(_data.index + 1);
-        
-        if (StagePlayLogic.instance.m_Player.IsSkillGeted(_data.index))
-        {
-            currentData = TableControl.instance.m_skillTable.GetRecord(_data.index + 1);
-        }
-        else
-        {
-            currentData = TableControl.instance.m_skillTable.GetRecord(_data.index);
-        }
+        //if (StagePlayLogic.instance.m_Player.IsSkillGeted(_data.group))
+        //{
+        //    selectData = TableControl.instance.m_skillTable.GetRecord(_data.index + 1);
+        //}
+        //else
+        //{
+        //    selectData = TableControl.instance.m_skillTable.GetRecord(_data.index);
+        //}
 
+        //selectData = TableControl.instance.m_skillTable.GetRecord(_data.index);
+        selectData = _data;
+        Debug.Log($@"level check {selectData.skilllv}");
+        if (selectData.SelectSkillOptionList != null)
+            Debug.Log($@"{selectData.SelectSkillOptionList.Count}");
+        else
+            Debug.Log($@"null");
         SetActiveEnterBtn(false);
 
-        ArrowUi.Init(currentData);
+        ArrowUi.Init(selectData);
 
         for (int i = 0; i < LockImageArr.Length; i++)
         {
-            if (i >= currentData.skilllv)
+            if (i >= selectData.skilllv)
             {
                 LockImageArr[i].SetActive(true);
             }
@@ -204,6 +211,11 @@ public partial class UIPopup_SkillSelect : UIPopup
             {
                 LockImageArr[i].SetActive(false);
             }
+        }
+
+        for (int i = 0; i < selectData.SelectSkillOptionList.Count; i++)
+        {
+            OnClickSkillActivityBtn(selectData.SelectSkillOptionList[i]);
         }
 
         //나중에 아이콘 나오면 -Jun 24-10-26
@@ -279,14 +291,23 @@ public partial class UIPopup_SkillSelect : UIPopup
 
     public void OnClickEnterBtn()
     {
-        if (StagePlayLogic.instance.m_Player.IsSkillGeted(currentData.index))
+        if (StagePlayLogic.instance.m_Player.IsSkillGeted(selectData.group))
         {
+            //currentOptionIndex
+            if (selectData.SelectSkillOptionList == null || selectData.SelectSkillOptionList.Count == 0)
+            {
+                selectData.SelectSkillOptionList = new();
+            }
 
+            //홀수 == 0 , 짝수 == 2 -Jun 24-10-29
+            int caclIndex = currentOptionIndex % 2 == 1 ? 0 : 2;
+
+            selectData.SelectSkillOptionList.Add(selectData.SkillOptionList[caclIndex]);
+            //selectData.SelectSkillOptionList.Add(selectData.SkillOptionList[caclIndex]);
+            //selectData.SelectSkillOptionList.Add(selectData.SkillOptionList[caclIndex + 1]);
         }
-        else
-        {
-            StagePlayLogic.instance.m_Player.SetSkill(currentData);
-        }
+
+        StagePlayLogic.instance.m_Player.SetSkill(selectData);
         StagePlayLogic.instance.SetPause(false);
         Close();
     }
@@ -309,7 +330,7 @@ public partial class UIPopup_SkillSelect : UIPopup
         [SerializeField] Image[] ArrowImageArr;
         [SerializeField] TMP_Text ExplantionText;
 
-        SkillTableData currentData;
+        SkillTableData selectData;
 
         //8개 -Jun 24-10-19
         int MaxSkillActivityBtnCount = 7;
@@ -318,7 +339,7 @@ public partial class UIPopup_SkillSelect : UIPopup
         {
             SetNormal();
 
-            currentData = _data;
+            selectData = _data;
         }
 
         public void SetNormal()
@@ -387,16 +408,16 @@ public partial class UIPopup_SkillSelect : UIPopup
                 }
             }
 
-            SkillTableData getSkillData = TableControl.instance.m_skillTable.GetRecord(currentData.index);
+            SkillTableData getSkillData = TableControl.instance.m_skillTable.GetRecord(selectData.index);
 
-            if (currentData.SkillOptionList == null || currentData.SkillOptionList.Count == 0)
+            if (selectData.SkillOptionList == null || selectData.SkillOptionList.Count == 0)
             {
                 ExplantionText.text = "";
             }
             else
             {
-                ExplantionText.text = $@"{TableControl.instance.m_skillOptionTable.GetSkillOptionData(currentData.SkillOptionList[caclOptionIndex]).Comment}
-{TableControl.instance.m_skillOptionTable.GetSkillOptionData(currentData.SkillOptionList[caclOptionIndex + 1]).Comment}";
+                ExplantionText.text = $@"{TableControl.instance.m_skillOptionTable.GetSkillOptionData(selectData.SkillOptionList[caclOptionIndex]).Comment}
+{TableControl.instance.m_skillOptionTable.GetSkillOptionData(selectData.SkillOptionList[caclOptionIndex + 1]).Comment}";
             }
         }
 
