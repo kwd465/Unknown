@@ -78,5 +78,10 @@ public class EditorTool : EditorWindow
                 }
             }
         }
+
+        if (GUILayout.Button("경험치 획득 치트 10 획득"))
+        {
+            StagePlayLogic.instance.AddExp(10);
+        }
     }
 }

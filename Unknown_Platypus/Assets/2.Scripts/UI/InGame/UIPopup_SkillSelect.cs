@@ -80,9 +80,10 @@ public partial class UIPopup_SkillSelect : UIPopup
         }
 
         ArrowUi.SetNormal();
+
         for (int i = 0; i < LockImageArr.Length; i++)
         {
-            LockImageArr[i].SetActive(false);
+            LockImageArr[i].SetActive(true);
         }
 
         ResetData();
@@ -116,7 +117,7 @@ public partial class UIPopup_SkillSelect : UIPopup
                 }
                 else
                 {
-                    m_uiItemSkillInfo[i].Open(_List[i].m_skillList[0], OnSelect);
+                        m_uiItemSkillInfo[i].Open(_List[i].m_skillList[0], OnSelect);
                 }
             }
         }
@@ -440,19 +441,18 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         public void SetActive(bool _isActive)
         {
-            TopBlackImage.gameObject.SetActive(_isActive);
             TopLockIconImage.gameObject.SetActive(_isActive);
+            TopBlackImage.gameObject.SetActive(_isActive);
             TopClickBtn.interactable = !_isActive;
 
             //last 한개여서 top 에만 넣어놨음 -Jun 24-10-26
-            if (BottomBlackImage==null)
+            if (BottomBlackImage == null)
             {
                 return;
             }
 
-            BottomBlackImage.gameObject.SetActive(_isActive);
             BottomLockIconImage.gameObject.SetActive(_isActive);
-
+            BottomBlackImage.gameObject.SetActive(_isActive);
             BottomClickBtn.interactable = !_isActive;
         }
     }
