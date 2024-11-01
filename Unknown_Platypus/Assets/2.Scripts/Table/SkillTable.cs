@@ -101,7 +101,6 @@ public class SkillTableData : RecordBase
     public List<SkillEffectData> skillEffectDataList;
 
     public List<int> SkillOptionList;
-    public List<int> SelectSkillOptionList;
 
     public override void LoadExcel(Dictionary<string, string> _data)
     {
@@ -194,42 +193,12 @@ public class SkillTable : TTableBase<SkillTableData>
         return m_dicSkill[_type];
     }
 
-    public void ResetSkillSelectOptionList()
-    {
-        foreach (var data in m_dicSkill.Values)
-        {
-            for (int i = 0; i < data.Count; i++)
-            {
-                for (int j = 0; j < data[i].m_skillList.Count; j++)
-                {
-                    data[i].m_skillList[j].SelectSkillOptionList = new();
-                }
-            }
-        }
-    }
-
-    public void AddSkillSelectOptionList(SkillTableData _data, int _option)
-    {
-        if(_data ==null)
-        {
-            return;
-        }
-
-        if(_data.SelectSkillOptionList is null)
-        {
-            _data.SelectSkillOptionList = new();
-        }
-
-        _data.SelectSkillOptionList.Add(_option);
-    }
-
     public override void Load()
     {
         base.Load();
         m_dicSkill.Clear();
         foreach (var skill in getRecordList)
         {
-            
             if(m_dicSkill.ContainsKey( skill.skillType) == false)
                 m_dicSkill.Add(skill.skillType, new List<SkillGroupData>());
 

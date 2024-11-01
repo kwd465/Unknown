@@ -60,6 +60,11 @@ public class Player : MonoBase
     protected bool isAttack = false;
     public bool IsAttack => isAttack;
 
+    /// <summary>
+    /// key == skill group index , value == skill option Index -Jun 24-11-01
+    /// </summary>
+    private Dictionary<int, List<int>> SelectSkillOptionDict = new();
+
     public List<SkillTableData> GetInGameSkill()
     {
         List<SkillTableData> _temp = new List<SkillTableData>();
@@ -122,6 +127,8 @@ public class Player : MonoBase
         m_imgHp.fillAmount = 1f;
         m_imgAttack.fillAmount = 0f;
         m_Rooting?.SetArea(0.5f);
+
+        SelectSkillOptionDict.Clear();
     }
 
     public override void UpdateLogic()
@@ -201,13 +208,52 @@ public class Player : MonoBase
             return true;
         }
 
-        for(int i=0;i<m_skillList.Count;i++)
+        for (int i = 0; i < m_skillList.Count; i++)
         {
             Debug.Log($@"{m_skillList[i].m_skillTable.index} {_groupIndex}");
         }
 
         // 비존재 -Jun  24-10-27
         return false;
+    }
+
+    public bool IsExistSkillOption(int _groupIndex, int _skillOptionIndex)
+    {
+        if (SelectSkillOptionDict.TryGetValue(_groupIndex, out var list) is false)
+        {
+            return false;
+        }
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            if (list[i] == _skillOptionIndex)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void AddSkillOption(int _groupIndex , int _skillOptionIndex)
+    {
+        if (SelectSkillOptionDict.TryGetValue(_groupIndex, out var list) is false)
+        {
+            SelectSkillOptionDict.Add(_groupIndex, new());            
+        }
+
+        SelectSkillOptionDict[_groupIndex].Add(_skillOptionIndex);
+    }
+
+    public List<int> GetSkillOptionList(int _groupIndex)
+    {
+        if(SelectSkillOptionDict.TryGetValue(_groupIndex , out var list) is false)
+        {
+            SelectSkillOptionDict.Add(_groupIndex, new());
+            return null;
+        }
+
+        return list;
     }
 
     private SkillObject MakeSkillEffect(SkillEffect _skillData, bool _isParent = false)
