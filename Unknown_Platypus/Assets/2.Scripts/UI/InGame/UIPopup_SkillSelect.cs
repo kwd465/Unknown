@@ -9,11 +9,14 @@ using UnityEditor;
 using UnityEngine.InputSystem.Composites;
 using UnityEngine.AI;
 using Unity.VisualScripting;
+using System.Net.Sockets;
 
 public partial class UIPopup_SkillSelect : UIPopup
 {
     [SerializeField] Sprite EnterBtnActiveSprite;
     [SerializeField] Sprite EnterBtnInActiveSprite;
+    [SerializeField] Sprite ActiveSkillBorderSprite;
+    [SerializeField] Sprite PassiveSkillBorderSprite;
 
     [SerializeField] Image[] m_leftSkillSlot;
     [SerializeField] Image[] m_rightSkillSlot;
@@ -140,11 +143,11 @@ public partial class UIPopup_SkillSelect : UIPopup
                         continue;
                     }
 
-                    SkillInfoList[i].Open(_List[i].m_skillList[skill.skilllv], OnSelect);
+                    SkillInfoList[i].Open(_List[i].m_skillList[skill.skilllv], OnSelect , _List[i].m_skillList[skill.skilllv].skillSubType == e_SkillSubType.Passive ? PassiveSkillBorderSprite : ActiveSkillBorderSprite);
                 }
                 else
                 {
-                    SkillInfoList[i].Open(_List[i].m_skillList[0], OnSelect);
+                    SkillInfoList[i].Open(_List[i].m_skillList[0], OnSelect, _List[i].m_skillList[0].skillSubType == e_SkillSubType.Passive ? PassiveSkillBorderSprite : ActiveSkillBorderSprite);
                 }
             }
         }
@@ -176,48 +179,15 @@ public partial class UIPopup_SkillSelect : UIPopup
     /// <param name="_data">skill data</param>
     private void OnSelect(SkillTableData _data)
     {
+        /*
         //��ų ������ �˾� �ݴ´�
         //SkillTableData _target = m_haveSkillList.Find(item => item.group == _data.group);
         //int _index = 0;
         //if (_target != null)
         //    _index = _target.skilllv;
+        */
 
-        //if (StagePlayLogic.instance.m_Player.IsSkillGeted(_data.group))
-        //{
-        //    selectData = TableControl.instance.m_skillTable.GetRecord(_data.index + 1);
-        //}
-        //else
-        //{
-        //    selectData = TableControl.instance.m_skillTable.GetRecord(_data.index);
-        //}
-
-        //selectData = TableControl.instance.m_skillTable.GetRecord(_data.index);
-        selectData = _data;
-        Debug.Log($@"level check {selectData.skilllv}");
-        if (selectData.SelectSkillOptionList != null)
-            Debug.Log($@"{selectData.SelectSkillOptionList.Count}");
-        else
-            Debug.Log($@"null");
-        SetActiveEnterBtn(false);
-
-        ArrowUi.Init(selectData);
-
-        for (int i = 0; i < LockImageArr.Length; i++)
-        {
-            if (i >= selectData.skilllv)
-            {
-                LockImageArr[i].SetActive(true);
-            }
-            else
-            {
-                LockImageArr[i].SetActive(false);
-            }
-        }
-
-        for (int i = 0; i < selectData.SelectSkillOptionList.Count; i++)
-        {
-            OnClickSkillActivityBtn(selectData.SelectSkillOptionList[i]);
-        }
+        InitData(_data);
 
         //나중에 아이콘 나오면 -Jun 24-10-26
         //for (int i = 0; i < _data.SkillOptionList.Count; i++)
@@ -283,7 +253,17 @@ public partial class UIPopup_SkillSelect : UIPopup
     //스킬 선택하고 세부 내용 선택했을때 -Jun 24-10-26
     public void OnClickSkillActivityBtn(int _index)
     {
+        if (StagePlayLogic.instance.m_Player.IsExistSkillOption(selectData.group,_index))
+        {
+            return;
+        }
+
         ArrowUi.OnClickSkillActivityBtn(_index);
+
+        //if (selectData.skilllv != 1 && selectData.skilllv != ConstData.SkillMaxLevel)
+        //{
+        //    LockImageArr[selectData.skilllv - 1].SelectOne(_index % 2 == 0);
+        //}
 
         currentOptionIndex = _index;
 
@@ -292,23 +272,8 @@ public partial class UIPopup_SkillSelect : UIPopup
 
     public void OnClickEnterBtn()
     {
-        if (StagePlayLogic.instance.m_Player.IsSkillGeted(selectData.group))
-        {
-            //currentOptionIndex
-            if (selectData.SelectSkillOptionList == null || selectData.SelectSkillOptionList.Count == 0)
-            {
-                selectData.SelectSkillOptionList = new();
-            }
-
-            //홀수 == 0 , 짝수 == 2 -Jun 24-10-29
-            int caclIndex = currentOptionIndex % 2 == 1 ? 0 : 2;
-
-            selectData.SelectSkillOptionList.Add(selectData.SkillOptionList[caclIndex]);
-            //selectData.SelectSkillOptionList.Add(selectData.SkillOptionList[caclIndex]);
-            //selectData.SelectSkillOptionList.Add(selectData.SkillOptionList[caclIndex + 1]);
-        }
-
         StagePlayLogic.instance.m_Player.SetSkill(selectData);
+        StagePlayLogic.instance.m_Player.AddSkillOption(selectData.group, currentOptionIndex);
         StagePlayLogic.instance.SetPause(false);
         Close();
     }
@@ -317,6 +282,47 @@ public partial class UIPopup_SkillSelect : UIPopup
     {
         EnterBtn.GetComponent<Image>().sprite = _isActive ? EnterBtnActiveSprite : EnterBtnInActiveSprite;
         EnterBtn.interactable = _isActive;
+    }
+
+    private void InitData(SkillTableData _data)
+    {
+        selectData = _data;
+        Debug.Log($@"level check {selectData.skilllv}");
+        
+        SetActiveEnterBtn(false);
+
+        ArrowUi.Init(selectData);
+
+        for (int i = 0; i < LockImageArr.Length; i++)
+        {
+            if (i >= selectData.skilllv)
+            {
+                LockImageArr[i].SetActive(true);
+            }
+            else
+            {
+                LockImageArr[i].SetActive(false);
+            }
+        }
+
+        var skillOptionIndexList = StagePlayLogic.instance.m_Player.GetSkillOptionList(selectData.group);
+
+        if(skillOptionIndexList == null || skillOptionIndexList.Count == 0)
+        {
+            return;
+        }
+
+        //현재 선택 데이터는 내 스킬의 현 선택된 최대 레벨보다 +1 데이터 이고 그 이전 데이터를 선택하려 하므로 -2 -Jun 24-11-01
+        for (int i = 0; i < selectData.skilllv - 1; i++)
+        {
+            LockImageArr[i].SelectOne(skillOptionIndexList[i] % 2 == 0);
+        }
+
+        for (int i = 0; i < skillOptionIndexList.Count; i++)
+        {
+            OnClickSkillActivityBtn(skillOptionIndexList[i]);
+            Debug.Log($@"click 처리 {skillOptionIndexList[i]}");
+        }
     }
 }
 
@@ -438,7 +444,6 @@ public partial class UIPopup_SkillSelect : UIPopup
         [SerializeField] Image BottomBlackImage;
         [SerializeField] Image BottomLockIconImage;
 
-
         public void SetActive(bool _isActive)
         {
             TopLockIconImage.gameObject.SetActive(_isActive);
@@ -454,6 +459,23 @@ public partial class UIPopup_SkillSelect : UIPopup
             BottomLockIconImage.gameObject.SetActive(_isActive);
             BottomBlackImage.gameObject.SetActive(_isActive);
             BottomClickBtn.interactable = !_isActive;
+        }
+
+        public void SelectOne(bool _isTop)
+        {
+            //첫번째와 , 마지막 한개여서 top 에만 넣어놨음 -Jun 24-10-26
+            if (BottomBlackImage == null)
+            {
+                return;
+            }
+
+            TopLockIconImage.gameObject.SetActive(_isTop);
+            TopBlackImage.gameObject.SetActive(_isTop );
+            TopClickBtn.interactable = !_isTop;
+
+            BottomLockIconImage.gameObject.SetActive(_isTop is false);
+            BottomBlackImage.gameObject.SetActive(_isTop is false);
+            BottomClickBtn.interactable = !_isTop is false;
         }
     }
 }

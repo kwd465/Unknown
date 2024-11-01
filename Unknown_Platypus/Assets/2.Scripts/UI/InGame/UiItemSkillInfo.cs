@@ -8,17 +8,19 @@ public class UiItemSkillInfo : UIBase
 {
     [SerializeField] Image[] StarImageArr;
     [SerializeField] Image IconImage;
+    [SerializeField] Image BorderImage;
 
     SkillTableData currentData;
     Action<SkillTableData> DataAction = null;
 
-    public void Open(SkillTableData _data, Action<SkillTableData> _callBack)
+    public void Open(SkillTableData _data, Action<SkillTableData> _callBack , Sprite _borderSprite)
     {
         base.Open();
 
         currentData = _data;
         DataAction = _callBack;
-        
+        BorderImage.sprite = _borderSprite;
+
         SetUi();
         Debug.Log("open");
     }
