@@ -54,6 +54,11 @@ public class UIItem_SkillInfo : UIBase
         SetImgActive(m_goNew, m_data.skilllv == 1);
         SetImgActive(m_goMaster, m_data.skilllv == ConstData.SkillMaxLevel);
 
+        if(m_data.skilllv == ConstData.SkillMaxLevel)
+        {
+            Debug.Log("ceck");
+        }
+
         for (int i = 0; i < m_data.skilllv; i++)
         {
             SetImgActive(m_goStars[i], true);

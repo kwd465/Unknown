@@ -22,7 +22,6 @@ public class UiItemSkillInfo : UIBase
         BorderImage.sprite = _borderSprite;
 
         SetUi();
-        Debug.Log("open");
     }
 
     public void SetUi()
