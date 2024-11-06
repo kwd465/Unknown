@@ -253,12 +253,12 @@ public partial class UIPopup_SkillSelect : UIPopup
     //스킬 선택하고 세부 내용 선택했을때 -Jun 24-10-26
     public void OnClickSkillActivityBtn(int _index)
     {
-        if (StagePlayLogic.instance.m_Player.IsExistSkillOption(selectData.group,_index))
+        ArrowUi.OnClickSkillActivityBtn(_index);
+
+        if (StagePlayLogic.instance.m_Player.IsExistSkillOption(selectData.group, _index))
         {
             return;
         }
-
-        ArrowUi.OnClickSkillActivityBtn(_index);
 
         //if (selectData.skilllv != 1 && selectData.skilllv != ConstData.SkillMaxLevel)
         //{
@@ -316,7 +316,9 @@ public partial class UIPopup_SkillSelect : UIPopup
         for (int i = 0; i < selectData.skilllv - 1; i++)
         {
             LockImageArr[i].SelectOne(skillOptionIndexList[i] % 2 == 0);
+            //ArrowUi.SetTop();
         }
+
 
         for (int i = 0; i < skillOptionIndexList.Count; i++)
         {
