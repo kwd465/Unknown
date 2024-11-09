@@ -26,7 +26,7 @@ public partial class UIPopup_SkillSelect : UIPopup
     [SerializeField] Button m_btnReset;
     [SerializeField] Button EnterBtn;
 
-    [SerializeField] List<UIItem_SkillInfo> m_uiItemSkillInfo;
+    [SerializeField] List<UIItem_SkillInfo> m_uiItemSkillInfo; // 현재 미사용 -Jun 24-11-09
 
     [SerializeField] List<UiItemSkillInfo> SkillInfoList;
     [SerializeField] Arrow ArrowUi;
@@ -188,32 +188,12 @@ public partial class UIPopup_SkillSelect : UIPopup
         */
 
         InitData(_data);
-
-        //나중에 아이콘 나오면 -Jun 24-10-26
-        //for (int i = 0; i < _data.SkillOptionList.Count; i++)
-        //{
-        //    var skillOption = TableControl.instance.m_skillOptionTable.GetSkillOptionData(nextSelectData.SkillOptionList[i]);
-
-        //    BH.ResourceControl.instance.GetImage();
-        //}
-
+        ArrowUi.ExplantionTextSetNormal();
         //내가 오기전 옛날 코드 -Jun 24-10-19
         //StagePlayLogic.instance.m_Player.SetSkill(_data);
         //StagePlayLogic.instance.SetPause(false);
         //Close();
     }
-
-    /*
-     *         //��ų ������ �˾� �ݴ´�
-        SkillTableData _target = m_haveSkillList.Find(item => item.group == _data.group);
-        int _index = 0;
-        if (_target != null)
-            _index = _target.skilllv;
-
-        StagePlayLogic.instance.m_Player.SetSkill(_data);
-        StagePlayLogic.instance.SetPause(false);
-        Close();
-     */
 
     private List<int> RandomSkillOption(SkillTableData _data)
     {
@@ -259,11 +239,6 @@ public partial class UIPopup_SkillSelect : UIPopup
         {
             return;
         }
-
-        //if (selectData.skilllv != 1 && selectData.skilllv != ConstData.SkillMaxLevel)
-        //{
-        //    LockImageArr[selectData.skilllv - 1].SelectOne(_index % 2 == 0);
-        //}
 
         currentOptionIndex = _index;
 
@@ -315,7 +290,14 @@ public partial class UIPopup_SkillSelect : UIPopup
         //현재 선택 데이터는 내 스킬의 현 선택된 최대 레벨보다 +1 데이터 이고 그 이전 데이터를 선택하려 하므로 -2 -Jun 24-11-01
         for (int i = 0; i < selectData.skilllv - 1; i++)
         {
-            LockImageArr[i].SelectOne(skillOptionIndexList[i] % 2 == 0);
+            if(i ==0 )
+            {
+                LockImageArr[i].SelectOne(skillOptionIndexList[i] % 2 == 0, BH.ResourceControl.instance.GetImage(selectData.skillicon));
+            }
+            else
+            {
+                LockImageArr[i].SelectOne(skillOptionIndexList[i] % 2 == 0, null);
+            }
             //ArrowUi.SetTop();
         }
 
@@ -323,7 +305,6 @@ public partial class UIPopup_SkillSelect : UIPopup
         for (int i = 0; i < skillOptionIndexList.Count; i++)
         {
             OnClickSkillActivityBtn(skillOptionIndexList[i]);
-            Debug.Log($@"click 처리 {skillOptionIndexList[i]}");
         }
     }
 }
@@ -343,6 +324,11 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         //8개 -Jun 24-10-19
         int MaxSkillActivityBtnCount = 7;
+
+        public void ExplantionTextSetNormal()
+        {
+            ExplantionText.text = "";
+        }
 
         public void Init(SkillTableData _data)
         {
@@ -445,12 +431,15 @@ public partial class UIPopup_SkillSelect : UIPopup
         [SerializeField] Image TopLockIconImage;
         [SerializeField] Image BottomBlackImage;
         [SerializeField] Image BottomLockIconImage;
+        [SerializeField] Image TopIconImage;
+        [SerializeField] Image BottomIconImage;
 
         public void SetActive(bool _isActive)
         {
             TopLockIconImage.gameObject.SetActive(_isActive);
             TopBlackImage.gameObject.SetActive(_isActive);
             TopClickBtn.interactable = !_isActive;
+            TopIconImage.gameObject.SetActive(!_isActive);
 
             //last 한개여서 top 에만 넣어놨음 -Jun 24-10-26
             if (BottomBlackImage == null)
@@ -460,10 +449,11 @@ public partial class UIPopup_SkillSelect : UIPopup
 
             BottomLockIconImage.gameObject.SetActive(_isActive);
             BottomBlackImage.gameObject.SetActive(_isActive);
+            BottomIconImage.gameObject.SetActive(!_isActive);
             BottomClickBtn.interactable = !_isActive;
         }
 
-        public void SelectOne(bool _isTop)
+        public void SelectOne(bool _isTop , Sprite _iconSprite)
         {
             //첫번째와 , 마지막 한개여서 top 에만 넣어놨음 -Jun 24-10-26
             if (BottomBlackImage == null)
@@ -473,10 +463,14 @@ public partial class UIPopup_SkillSelect : UIPopup
 
             TopLockIconImage.gameObject.SetActive(_isTop);
             TopBlackImage.gameObject.SetActive(_isTop );
+            TopIconImage.gameObject.SetActive(_isTop is false);
+            TopIconImage.sprite = _iconSprite == null ? TopIconImage.sprite : _iconSprite;
             TopClickBtn.interactable = !_isTop;
 
             BottomLockIconImage.gameObject.SetActive(_isTop is false);
             BottomBlackImage.gameObject.SetActive(_isTop is false);
+            BottomIconImage.gameObject.SetActive(_isTop);
+            BottomIconImage.sprite = _iconSprite == null ? TopIconImage.sprite : _iconSprite;
             BottomClickBtn.interactable = !_isTop is false;
         }
     }
