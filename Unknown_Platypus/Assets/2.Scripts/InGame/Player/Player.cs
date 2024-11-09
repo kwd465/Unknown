@@ -208,11 +208,6 @@ public class Player : MonoBase
             return true;
         }
 
-        for (int i = 0; i < m_skillList.Count; i++)
-        {
-            Debug.Log($@"{m_skillList[i].m_skillTable.index} {_groupIndex}");
-        }
-
         // 비존재 -Jun  24-10-27
         return false;
     }

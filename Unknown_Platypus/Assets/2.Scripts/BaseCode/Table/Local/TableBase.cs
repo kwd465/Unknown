@@ -160,4 +160,3 @@ public class TTableBase<T> : TableBase where T : RecordBase, new()
         return m_recordList.IsHasRecord(_index);
     }
 }
-

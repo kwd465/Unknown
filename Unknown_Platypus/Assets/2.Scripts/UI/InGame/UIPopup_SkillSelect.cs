@@ -86,7 +86,14 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         for (int i = 0; i < LockImageArr.Length; i++)
         {
-            LockImageArr[i].SetActive(true);
+            if(i ==0 )
+            {
+                LockImageArr[i].SetActive(true);
+            }
+            else
+            {
+                LockImageArr[i].SetActive(true);
+            }
         }
 
         ResetData();
@@ -262,7 +269,6 @@ public partial class UIPopup_SkillSelect : UIPopup
     private void InitData(SkillTableData _data)
     {
         selectData = _data;
-        Debug.Log($@"level check {selectData.skilllv}");
         
         SetActiveEnterBtn(false);
 
@@ -282,7 +288,10 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         var skillOptionIndexList = StagePlayLogic.instance.m_Player.GetSkillOptionList(selectData.group);
 
-        if(skillOptionIndexList == null || skillOptionIndexList.Count == 0)
+        //첫번쨰 꺼는 스킬 아이콘 그대로 -Jun 24-11-09
+        LockImageArr[0].OnlyFirst(BH.ResourceControl.instance.GetImage(selectData.skillicon)); //.SelectOne(true, BH.ResourceControl.instance.GetImage(selectData.skillicon), null);
+
+        if (skillOptionIndexList == null || skillOptionIndexList.Count == 0)
         {
             return;
         }
@@ -290,17 +299,12 @@ public partial class UIPopup_SkillSelect : UIPopup
         //현재 선택 데이터는 내 스킬의 현 선택된 최대 레벨보다 +1 데이터 이고 그 이전 데이터를 선택하려 하므로 -2 -Jun 24-11-01
         for (int i = 0; i < selectData.skilllv - 1; i++)
         {
-            if(i ==0 )
-            {
-                LockImageArr[i].SelectOne(skillOptionIndexList[i] % 2 == 0, BH.ResourceControl.instance.GetImage(selectData.skillicon));
-            }
-            else
-            {
-                LockImageArr[i].SelectOne(skillOptionIndexList[i] % 2 == 0, null);
-            }
+            LockImageArr[i].SelectOne(skillOptionIndexList[i] % 2 == 0, null, null);
+
             //ArrowUi.SetTop();
         }
 
+        
 
         for (int i = 0; i < skillOptionIndexList.Count; i++)
         {
@@ -440,7 +444,7 @@ public partial class UIPopup_SkillSelect : UIPopup
             TopBlackImage.gameObject.SetActive(_isActive);
             TopClickBtn.interactable = !_isActive;
             TopIconImage.gameObject.SetActive(!_isActive);
-
+            
             //last 한개여서 top 에만 넣어놨음 -Jun 24-10-26
             if (BottomBlackImage == null)
             {
@@ -453,25 +457,34 @@ public partial class UIPopup_SkillSelect : UIPopup
             BottomClickBtn.interactable = !_isActive;
         }
 
-        public void SelectOne(bool _isTop , Sprite _iconSprite)
+        public void OnlyFirst(Sprite _icon)
+        {
+            TopIconImage.sprite = _icon == null ? TopIconImage.sprite : _icon;
+        }
+
+        public void SelectOne(bool _isTop, Sprite _topIconImage, Sprite _bottomIconImage)
         {
             //첫번째와 , 마지막 한개여서 top 에만 넣어놨음 -Jun 24-10-26
+            //첫번쨰 마지막은 선택 가능하게
             if (BottomBlackImage == null)
             {
+                TopClickBtn.interactable = false;
+                TopLockIconImage.gameObject.SetActive(false);
+                TopBlackImage.gameObject.SetActive(false);
                 return;
             }
 
             TopLockIconImage.gameObject.SetActive(_isTop);
-            TopBlackImage.gameObject.SetActive(_isTop );
+            TopBlackImage.gameObject.SetActive(_isTop);
             TopIconImage.gameObject.SetActive(_isTop is false);
-            TopIconImage.sprite = _iconSprite == null ? TopIconImage.sprite : _iconSprite;
-            TopClickBtn.interactable = !_isTop;
+            TopIconImage.sprite = _topIconImage == null ? TopIconImage.sprite : _topIconImage;
+            TopClickBtn.interactable = false;
 
             BottomLockIconImage.gameObject.SetActive(_isTop is false);
             BottomBlackImage.gameObject.SetActive(_isTop is false);
             BottomIconImage.gameObject.SetActive(_isTop);
-            BottomIconImage.sprite = _iconSprite == null ? TopIconImage.sprite : _iconSprite;
-            BottomClickBtn.interactable = !_isTop is false;
+            BottomIconImage.sprite = _topIconImage == null ? BottomIconImage.sprite : _topIconImage;
+            BottomClickBtn.interactable = false;
         }
     }
 }
