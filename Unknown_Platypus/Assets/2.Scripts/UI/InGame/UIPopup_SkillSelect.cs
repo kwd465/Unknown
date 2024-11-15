@@ -29,6 +29,7 @@ public partial class UIPopup_SkillSelect : UIPopup
     [SerializeField] List<UIItem_SkillInfo> m_uiItemSkillInfo; // 현재 미사용 -Jun 24-11-09
 
     [SerializeField] List<UiItemSkillInfo> SkillInfoList;
+    [Header("Arrow UI")]
     [SerializeField] Arrow ArrowUi;
     [SerializeField] LockImage[] LockImageArr;
 
