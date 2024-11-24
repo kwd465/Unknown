@@ -13,11 +13,16 @@ using System.Net.Sockets;
 
 public partial class UIPopup_SkillSelect : UIPopup
 {
+    [Header("Sprite")]
     [SerializeField] Sprite EnterBtnActiveSprite;
     [SerializeField] Sprite EnterBtnInActiveSprite;
     [SerializeField] Sprite ActiveSkillBorderSprite;
     [SerializeField] Sprite PassiveSkillBorderSprite;
+    [SerializeField] Sprite BtnCanClickSprite;
+    [SerializeField] Sprite BtnCanNotClickSprite;
 
+    [Header("Image")]
+    [SerializeField] Image InfoSelectImage; 
     [SerializeField] Image[] m_leftSkillSlot;
     [SerializeField] Image[] m_rightSkillSlot;
 
@@ -26,7 +31,7 @@ public partial class UIPopup_SkillSelect : UIPopup
     [SerializeField] Button m_btnReset;
     [SerializeField] Button EnterBtn;
 
-    [SerializeField] List<UIItem_SkillInfo> m_uiItemSkillInfo; // 현재 미사용 -Jun 24-11-09
+    //[SerializeField] List<UIItem_SkillInfo> m_uiItemSkillInfo; // 현재 미사용 -Jun 24-11-09
 
     [SerializeField] List<UiItemSkillInfo> SkillInfoList;
     [Header("Arrow UI")]
@@ -57,12 +62,11 @@ public partial class UIPopup_SkillSelect : UIPopup
     {
         base.Open();
         m_curCount = 10;
-        for (int i = 0; i < m_uiItemSkillInfo.Count; i++)
-        {
-            m_uiItemSkillInfo[i].Close();
-        }
 
-        for(int i=0;i< SkillInfoList.Count;i++)
+        m_btnReset.interactable = true;
+        m_btnReset.image.sprite = BtnCanClickSprite;
+
+        for (int i=0;i< SkillInfoList.Count;i++)
         {
             SkillInfoList[i].Close();
         }
@@ -112,31 +116,31 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         _List = _List.GetRandomList(4);
 
-        for (int i = 0; i < _List.Count; i++)
-        {
-            if(i < m_uiItemSkillInfo.Count)
-            {
-                SkillTableData _haveSkill = m_haveSkillList.Find(item => item.group == _List[i].m_group);
-                if (_haveSkill != null)
-                {
-                    //���߿� ��å���� ���׷��̵� �ؾߵȴ�
-                    //이거 아무래도 스킬 맥스 레벨 표시 한것 같은데 ? -Jun 24-10-05
-                    if (_haveSkill.skilllv == ConstData.SkillMaxLevel)
-                        continue;
+        //for (int i = 0; i < _List.Count; i++)
+        //{
+        //    if(i < m_uiItemSkillInfo.Count)
+        //    {
+        //        SkillTableData _haveSkill = m_haveSkillList.Find(item => item.group == _List[i].m_group);
+        //        if (_haveSkill != null)
+        //        {
+        //            //���߿� ��å���� ���׷��̵� �ؾߵȴ�
+        //            //이거 아무래도 스킬 맥스 레벨 표시 한것 같은데 ? -Jun 24-10-05
+        //            if (_haveSkill.skilllv == ConstData.SkillMaxLevel)
+        //                continue;
 
-                    m_uiItemSkillInfo[i].Open(_List[i].m_skillList[_haveSkill.skilllv], OnSelect);
-                }
-                else
-                {
-                        m_uiItemSkillInfo[i].Open(_List[i].m_skillList[0], OnSelect);
-                }
-            }
-        }
+        //            m_uiItemSkillInfo[i].Open(_List[i].m_skillList[_haveSkill.skilllv], OnSelect);
+        //        }
+        //        else
+        //        {
+        //                m_uiItemSkillInfo[i].Open(_List[i].m_skillList[0], OnSelect);
+        //        }
+        //    }
+        //}
 
-        for(int i = _List.Count; i < m_uiItemSkillInfo.Count; i++)
-        {
-            m_uiItemSkillInfo[i].Close();
-        }
+        //for(int i = _List.Count; i < m_uiItemSkillInfo.Count; i++)
+        //{
+        //    m_uiItemSkillInfo[i].Close();
+        //}
 
         for (int i = 0; i < _List.Count; i++)
         {
@@ -167,6 +171,7 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         SetText(m_tfBtn,string.Concat("x ",m_curCount));
 
+        InfoSelectImage.gameObject.SetActive(false);
         SetActiveEnterBtn(false);
     }
 
@@ -174,18 +179,28 @@ public partial class UIPopup_SkillSelect : UIPopup
     {
         if(m_curCount <= 0)
         {
+
             return;
         }
+
+        m_btnReset.interactable = true;
+        m_btnReset.image.sprite = BtnCanClickSprite;
         //Ƚ��? ��ȭ ������ �������ش�
         m_curCount -= 1;
         ResetData();
+
+        if(m_curCount == 0)
+        {
+            m_btnReset.interactable = false;
+            m_btnReset.image.sprite = BtnCanNotClickSprite;
+        }
     }
 
     /// <summary>
     /// 스킬 버튼  클릭시 -Jun 24-10-26
     /// </summary>
     /// <param name="_data">skill data</param>
-    private void OnSelect(SkillTableData _data)
+    private void OnSelect(SkillTableData _data , RectTransform _infoRect)
     {
         /*
         //��ų ������ �˾� �ݴ´�
@@ -197,6 +212,11 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         InitData(_data);
         ArrowUi.ExplantionTextSetNormal();
+
+        InfoSelectImage.gameObject.SetActive(true);
+        InfoSelectImage.rectTransform.SetParent(_infoRect);
+        InfoSelectImage.rectTransform.localPosition = Vector3.zero;
+        
         //내가 오기전 옛날 코드 -Jun 24-10-19
         //StagePlayLogic.instance.m_Player.SetSkill(_data);
         //StagePlayLogic.instance.SetPause(false);
@@ -305,8 +325,6 @@ public partial class UIPopup_SkillSelect : UIPopup
             //ArrowUi.SetTop();
         }
 
-        
-
         for (int i = 0; i < skillOptionIndexList.Count; i++)
         {
             OnClickSkillActivityBtn(skillOptionIndexList[i]);
@@ -321,6 +339,7 @@ public partial class UIPopup_SkillSelect : UIPopup
     {
         [SerializeField] Sprite AllLineSprite;
         [SerializeField] Sprite SelectSprite;
+        [SerializeField] Sprite LastArrowInActiveSprite;
         [SerializeField] Sprite LastArrowSprite;
         [SerializeField] Image[] ArrowImageArr;
         [SerializeField] TMP_Text ExplantionText;
@@ -337,9 +356,8 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         public void Init(SkillTableData _data)
         {
-            SetNormal();
-
             selectData = _data;
+            SetNormal();
         }
 
         public void SetNormal()
@@ -349,7 +367,15 @@ public partial class UIPopup_SkillSelect : UIPopup
                 ArrowImageArr[i].sprite = AllLineSprite;
             }
 
-            ArrowImageArr[ArrowImageArr.Length - 1].sprite = LastArrowSprite;
+            if (selectData is not null)
+            {
+                ArrowImageArr[ArrowImageArr.Length - 1].sprite = selectData.skilllv >= ConstData.SkillMaxLevel - 1 ? LastArrowSprite : LastArrowInActiveSprite;
+            }
+            else
+            {
+                ArrowImageArr[ArrowImageArr.Length - 1].sprite = LastArrowInActiveSprite;
+            }
+
             ExplantionText.text = "";
         }
 

@@ -9,17 +9,18 @@ public class UiItemSkillInfo : UIBase
     [SerializeField] Image[] StarImageArr;
     [SerializeField] Image IconImage;
     [SerializeField] Image BorderImage;
+    [SerializeField] Image IconBackImage;
 
     SkillTableData currentData;
-    Action<SkillTableData> DataAction = null;
+    Action<SkillTableData, RectTransform> DataAction = null;
 
-    public void Open(SkillTableData _data, Action<SkillTableData> _callBack , Sprite _borderSprite)
+    public void Open(SkillTableData _data, Action<SkillTableData , RectTransform> _callBack , Sprite _borderSprite)
     {
         base.Open();
 
         currentData = _data;
         DataAction = _callBack;
-        BorderImage.sprite = _borderSprite;
+        IconBackImage.sprite = _borderSprite;
 
         SetUi();
     }
@@ -36,6 +37,6 @@ public class UiItemSkillInfo : UIBase
 
     public void OnClickSkillBtn()
     {
-        DataAction?.Invoke(currentData);
+        DataAction?.Invoke(currentData , IconBackImage.GetComponent<RectTransform>());
     }
 }
