@@ -311,6 +311,7 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         //첫번쨰 꺼는 스킬 아이콘 그대로 -Jun 24-11-09
         LockImageArr[0].OnlyFirst(BH.ResourceControl.instance.GetImage(selectData.skillicon)); //.SelectOne(true, BH.ResourceControl.instance.GetImage(selectData.skillicon), null);
+        LockImageArr[LockImageArr.Length - 1].OnlyLastInit();
 
         if (skillOptionIndexList == null || skillOptionIndexList.Count == 0)
         {
@@ -489,6 +490,14 @@ public partial class UIPopup_SkillSelect : UIPopup
             TopIconImage.sprite = _icon == null ? TopIconImage.sprite : _icon;
         }
 
+        public void OnlyLastInit()
+        {
+            TopClickBtn.interactable = false;
+            TopLockIconImage.gameObject.SetActive(true);
+            TopBlackImage.gameObject.SetActive(true);
+            TopIconImage.gameObject.SetActive(true);
+        }
+
         public void SelectOne(bool _isTop, Sprite _topIconImage, Sprite _bottomIconImage)
         {
             //첫번째와 , 마지막 한개여서 top 에만 넣어놨음 -Jun 24-10-26
@@ -501,15 +510,15 @@ public partial class UIPopup_SkillSelect : UIPopup
                 return;
             }
 
-            TopLockIconImage.gameObject.SetActive(_isTop);
+            TopLockIconImage.gameObject.SetActive(false);
+            TopIconImage.gameObject.SetActive(true);
             TopBlackImage.gameObject.SetActive(_isTop);
-            TopIconImage.gameObject.SetActive(_isTop is false);
             TopIconImage.sprite = _topIconImage == null ? TopIconImage.sprite : _topIconImage;
             TopClickBtn.interactable = false;
 
-            BottomLockIconImage.gameObject.SetActive(_isTop is false);
+            BottomLockIconImage.gameObject.SetActive(false);
+            BottomIconImage.gameObject.SetActive(true);
             BottomBlackImage.gameObject.SetActive(_isTop is false);
-            BottomIconImage.gameObject.SetActive(_isTop);
             BottomIconImage.sprite = _topIconImage == null ? BottomIconImage.sprite : _topIconImage;
             BottomClickBtn.interactable = false;
         }
