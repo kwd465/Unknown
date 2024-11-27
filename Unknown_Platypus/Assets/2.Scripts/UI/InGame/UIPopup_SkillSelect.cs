@@ -10,6 +10,7 @@ using UnityEngine.InputSystem.Composites;
 using UnityEngine.AI;
 using Unity.VisualScripting;
 using System.Net.Sockets;
+using Coffee.UIExtensions;
 
 public partial class UIPopup_SkillSelect : UIPopup
 {
@@ -30,6 +31,7 @@ public partial class UIPopup_SkillSelect : UIPopup
 
     [SerializeField] Button m_btnReset;
     [SerializeField] Button EnterBtn;
+    [SerializeField] Button[] InfoBtnArr;
 
     //[SerializeField] List<UIItem_SkillInfo> m_uiItemSkillInfo; // 현재 미사용 -Jun 24-11-09
 
@@ -37,6 +39,11 @@ public partial class UIPopup_SkillSelect : UIPopup
     [Header("Arrow UI")]
     [SerializeField] Arrow ArrowUi;
     [SerializeField] LockImage[] LockImageArr;
+
+    [Header("Effect")]
+    [SerializeField] UIParticle SkillInfoSelectEffect;
+    [SerializeField] UIParticle LastEffectBack;
+    [SerializeField] UIParticle LastEffectFront;
 
     private List<SkillTableData> m_haveSkillList = new List<SkillTableData>();
     private readonly int MaxSkillActivityBtnCount = 7;
@@ -173,6 +180,10 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         InfoSelectImage.gameObject.SetActive(false);
         SetActiveEnterBtn(false);
+
+        SkillInfoSelectEffect.gameObject.SetActive(false);
+        LastEffectBack.Play();
+        LastEffectFront.Play();
     }
 
     private void OnClickReset()
@@ -269,6 +280,10 @@ public partial class UIPopup_SkillSelect : UIPopup
         }
 
         currentOptionIndex = _index;
+
+        SkillInfoSelectEffect.gameObject.SetActive(true);
+        SkillInfoSelectEffect.Play();
+        SkillInfoSelectEffect.GetComponent<RectTransform>().position = InfoBtnArr[_index].GetComponent<RectTransform>().position;
 
         SetActiveEnterBtn(true);
     }
@@ -378,12 +393,14 @@ public partial class UIPopup_SkillSelect : UIPopup
             }
 
             ExplantionText.text = "";
+
         }
 
         public void SetTop(int _groupIndex)
         {
             ArrowImageArr[_groupIndex].sprite = SelectSprite;
             ArrowImageArr[_groupIndex].rectTransform.rotation = Quaternion.Euler(0, 0, 0);
+
         }
 
         public void SetBottom(int _groupIndex)
@@ -483,6 +500,8 @@ public partial class UIPopup_SkillSelect : UIPopup
             BottomBlackImage.gameObject.SetActive(_isActive);
             BottomIconImage.gameObject.SetActive(!_isActive);
             BottomClickBtn.interactable = !_isActive;
+
+
         }
 
         public void OnlyFirst(Sprite _icon)
