@@ -309,7 +309,7 @@ public partial class UIPopup_SkillSelect : UIPopup
         SetActiveEnterBtn(false);
 
         ArrowUi.Init(selectData);
-
+        Debug.Log($@"chec k {selectData.skilllv} {LockImageArr.Length}");
         for (int i = 0; i < LockImageArr.Length; i++)
         {
             if (i >= selectData.skilllv)
@@ -385,7 +385,7 @@ public partial class UIPopup_SkillSelect : UIPopup
 
             if (selectData is not null)
             {
-                ArrowImageArr[ArrowImageArr.Length - 1].sprite = selectData.skilllv >= ConstData.SkillMaxLevel - 1 ? LastArrowSprite : LastArrowInActiveSprite;
+                ArrowImageArr[ArrowImageArr.Length - 1].sprite = selectData.skilllv >= ConstData.SkillMaxLevel ? LastArrowSprite : LastArrowInActiveSprite;
             }
             else
             {
