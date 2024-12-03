@@ -42,8 +42,10 @@ public partial class UIPopup_SkillSelect : UIPopup
 
     [Header("Effect")]
     [SerializeField] UIParticle SkillInfoSelectEffect;
+    [SerializeField] UIParticle SkillInfoSelectEnterEffect;
     [SerializeField] UIParticle LastEffectBack;
     [SerializeField] UIParticle LastEffectFront;
+    [SerializeField] UIParticle LevelUpEffect;
 
     private List<SkillTableData> m_haveSkillList = new List<SkillTableData>();
     private readonly int MaxSkillActivityBtnCount = 7;
@@ -73,7 +75,7 @@ public partial class UIPopup_SkillSelect : UIPopup
         m_btnReset.interactable = true;
         m_btnReset.image.sprite = BtnCanClickSprite;
 
-        for (int i=0;i< SkillInfoList.Count;i++)
+        for (int i = 0; i < SkillInfoList.Count; i++)
         {
             SkillInfoList[i].Close();
         }
@@ -98,7 +100,7 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         for (int i = 0; i < LockImageArr.Length; i++)
         {
-            if(i ==0 )
+            if (i == 0)
             {
                 LockImageArr[i].SetActive(true);
             }
@@ -111,6 +113,9 @@ public partial class UIPopup_SkillSelect : UIPopup
         ResetData();
 
         SetActiveEnterBtn(false);
+
+        LevelUpEffect.gameObject.SetActive(false);
+        SkillInfoSelectEnterEffect.gameObject.SetActive(false);
     }
 
     public override void ResetData()
@@ -122,32 +127,6 @@ public partial class UIPopup_SkillSelect : UIPopup
         List<SkillGroupData> _List =  TableControl.instance.m_skillTable.GetSkillGroupList(e_SkillType.InGameSkill);
 
         _List = _List.GetRandomList(4);
-
-        //for (int i = 0; i < _List.Count; i++)
-        //{
-        //    if(i < m_uiItemSkillInfo.Count)
-        //    {
-        //        SkillTableData _haveSkill = m_haveSkillList.Find(item => item.group == _List[i].m_group);
-        //        if (_haveSkill != null)
-        //        {
-        //            //���߿� ��å���� ���׷��̵� �ؾߵȴ�
-        //            //이거 아무래도 스킬 맥스 레벨 표시 한것 같은데 ? -Jun 24-10-05
-        //            if (_haveSkill.skilllv == ConstData.SkillMaxLevel)
-        //                continue;
-
-        //            m_uiItemSkillInfo[i].Open(_List[i].m_skillList[_haveSkill.skilllv], OnSelect);
-        //        }
-        //        else
-        //        {
-        //                m_uiItemSkillInfo[i].Open(_List[i].m_skillList[0], OnSelect);
-        //        }
-        //    }
-        //}
-
-        //for(int i = _List.Count; i < m_uiItemSkillInfo.Count; i++)
-        //{
-        //    m_uiItemSkillInfo[i].Close();
-        //}
 
         for (int i = 0; i < _List.Count; i++)
         {
@@ -281,18 +260,35 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         currentOptionIndex = _index;
 
-        SkillInfoSelectEffect.gameObject.SetActive(true);
-        SkillInfoSelectEffect.Play();
-        SkillInfoSelectEffect.GetComponent<RectTransform>().position = InfoBtnArr[_index].GetComponent<RectTransform>().position;
+        if(selectData.skilllv != ConstData.SkillMaxLevel)
+        {
+            SkillInfoSelectEffect.gameObject.SetActive(true);
+            SkillInfoSelectEffect.Play();
+            SkillInfoSelectEffect.GetComponent<RectTransform>().position = InfoBtnArr[_index].GetComponent<RectTransform>().position;
+        }
+
+        SkillInfoSelectEnterEffect.GetComponent<RectTransform>().position = InfoBtnArr[_index].GetComponent<RectTransform>().position;
 
         SetActiveEnterBtn(true);
     }
 
     public void OnClickEnterBtn()
     {
+        StartCoroutine(CoClose());
+    }
+
+    private IEnumerator CoClose()
+    {
+        LevelUpEffect.gameObject.SetActive(true);
+        SkillInfoSelectEnterEffect.gameObject.SetActive(true);
+        SetActiveEnterBtn(false);
+
+        yield return new WaitForSecondsRealtime(0.6f);
+
         StagePlayLogic.instance.m_Player.SetSkill(selectData);
         StagePlayLogic.instance.m_Player.AddSkillOption(selectData.group, currentOptionIndex);
         StagePlayLogic.instance.SetPause(false);
+
         Close();
     }
 
@@ -309,7 +305,11 @@ public partial class UIPopup_SkillSelect : UIPopup
         SetActiveEnterBtn(false);
 
         ArrowUi.Init(selectData);
-        Debug.Log($@"chec k {selectData.skilllv} {LockImageArr.Length}");
+
+        //첫번쨰 꺼는 스킬 아이콘 그대로 -Jun 24-11-09
+        LockImageArr[0].OnlyFirst(BH.ResourceControl.instance.GetImage(selectData.skillicon)); //.SelectOne(true, BH.ResourceControl.instance.GetImage(selectData.skillicon), null);
+        LockImageArr[LockImageArr.Length - 1].OnlyLastInit();
+
         for (int i = 0; i < LockImageArr.Length; i++)
         {
             if (i >= selectData.skilllv)
@@ -323,10 +323,6 @@ public partial class UIPopup_SkillSelect : UIPopup
         }
 
         var skillOptionIndexList = StagePlayLogic.instance.m_Player.GetSkillOptionList(selectData.group);
-
-        //첫번쨰 꺼는 스킬 아이콘 그대로 -Jun 24-11-09
-        LockImageArr[0].OnlyFirst(BH.ResourceControl.instance.GetImage(selectData.skillicon)); //.SelectOne(true, BH.ResourceControl.instance.GetImage(selectData.skillicon), null);
-        LockImageArr[LockImageArr.Length - 1].OnlyLastInit();
 
         if (skillOptionIndexList == null || skillOptionIndexList.Count == 0)
         {
@@ -493,6 +489,8 @@ public partial class UIPopup_SkillSelect : UIPopup
             //last 한개여서 top 에만 넣어놨음 -Jun 24-10-26
             if (BottomBlackImage == null)
             {
+                Debug.Log(@$"{TopLockIconImage.gameObject.name} {TopClickBtn.gameObject.name} {_isActive}");
+
                 return;
             }
 
