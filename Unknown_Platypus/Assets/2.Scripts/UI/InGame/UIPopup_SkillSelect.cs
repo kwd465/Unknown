@@ -136,16 +136,16 @@ public partial class UIPopup_SkillSelect : UIPopup
 
                 if (skill is not null)
                 {
-                    if(skill.skilllv == ConstData.SkillMaxLevel)
+                    if (skill.skilllv == ConstData.SkillMaxLevel)
                     {
                         continue;
                     }
 
-                    SkillInfoList[i].Open(_List[i].m_skillList[skill.skilllv], OnSelect , _List[i].m_skillList[skill.skilllv].skillSubType == e_SkillSubType.Passive ? PassiveSkillBorderSprite : ActiveSkillBorderSprite);
+                    SkillInfoList[i].Open(_List[i].m_skillList[skill.skilllv], OnSelect, SelectStar, _List[i].m_skillList[skill.skilllv].skillSubType == e_SkillSubType.Passive ? PassiveSkillBorderSprite : ActiveSkillBorderSprite);
                 }
                 else
                 {
-                    SkillInfoList[i].Open(_List[i].m_skillList[0], OnSelect, _List[i].m_skillList[0].skillSubType == e_SkillSubType.Passive ? PassiveSkillBorderSprite : ActiveSkillBorderSprite);
+                    SkillInfoList[i].Open(_List[i].m_skillList[0], OnSelect, SelectStar, _List[i].m_skillList[0].skillSubType == e_SkillSubType.Passive ? PassiveSkillBorderSprite : ActiveSkillBorderSprite);
                 }
             }
         }
@@ -211,6 +211,14 @@ public partial class UIPopup_SkillSelect : UIPopup
         //StagePlayLogic.instance.m_Player.SetSkill(_data);
         //StagePlayLogic.instance.SetPause(false);
         //Close();
+    }
+
+    private void SelectStar(RectTransform _starRect)
+    {
+        LevelUpEffect.transform.SetParent(_starRect);
+        LevelUpEffect.rectTransform.SetAsLastSibling();
+        LevelUpEffect.rectTransform.localPosition = Vector2.zero;
+        LevelUpEffect.gameObject.SetActive(false);
     }
 
     private List<int> RandomSkillOption(SkillTableData _data)
