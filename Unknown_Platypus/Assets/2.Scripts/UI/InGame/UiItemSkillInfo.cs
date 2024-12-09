@@ -44,7 +44,7 @@ public class UiItemSkillInfo : UIBase
         for (int i = 0; i < StarImageArr.Length; i++)
         {
             SetImgActive(StarImageArr[i], i < currentData.skilllv ? true : false);
-            StarImageArr[i].color = new Color(1,1,1,0);
+            StarImageArr[i].color = new Color(1,1,1,1);
         }
 
         SetIcon(IconImage, currentData.skillicon);
