@@ -16,12 +16,12 @@ public class UiItemSkillInfo : UIBase
     Image nowActiveLevelStar;
 
     SkillTableData currentData;
-    Action<SkillTableData, RectTransform> DataAction = null;
+    Action<SkillTableData, UiItemSkillInfo, RectTransform> DataAction = null;
     Action<RectTransform> StarCallBack = null;
 
     Coroutine starCoroutine = null;
 
-    public void Open(SkillTableData _data, Action<SkillTableData , RectTransform> _callBack , Action<RectTransform> _starCallBack , Sprite _borderSprite)
+    public void Open(SkillTableData _data, Action<SkillTableData , UiItemSkillInfo, RectTransform> _callBack , Action<RectTransform> _starCallBack , Sprite _borderSprite)
     {
         base.Open();
 
@@ -52,9 +52,24 @@ public class UiItemSkillInfo : UIBase
         starCoroutine = StartCoroutine(CoStarFade());
     }
 
+    public void SetStarLevelUp()
+    {
+        if (starCoroutine != null)
+        {
+            StopCoroutine(starCoroutine);
+        }
+        starCoroutine = null;
+
+        for (int i = 0; i < StarImageArr.Length; i++)
+        {
+            nowActiveLevelStar.gameObject.SetActive(true);
+            nowActiveLevelStar.color= new Color(1, 1, 1, 1);
+        }
+    }
+
     public void OnClickSkillBtn()
     {
-        DataAction?.Invoke(currentData , IconBackImage.GetComponent<RectTransform>());
+        DataAction?.Invoke(currentData,this , IconBackImage.GetComponent<RectTransform>());
         StarCallBack?.Invoke(nowActiveLevelStar.rectTransform);
     }
 
@@ -71,11 +86,11 @@ public class UiItemSkillInfo : UIBase
             
             if (nowActiveLevelStar.color.a <= 0.9f && isFadeIn)
             {
-                nowActiveLevelStar.color = new Color(1, 1, 1, nowActiveLevelStar.color.a + 0.01f);
+                nowActiveLevelStar.color = new Color(1, 1, 1, nowActiveLevelStar.color.a + 0.02f);
             }
             else
             {
-                nowActiveLevelStar.color = new Color(1, 1, 1, nowActiveLevelStar.color.a - 0.01f);
+                nowActiveLevelStar.color = new Color(1, 1, 1, nowActiveLevelStar.color.a - 0.02f);
             }
 
             if(nowActiveLevelStar.color.a <= 0)

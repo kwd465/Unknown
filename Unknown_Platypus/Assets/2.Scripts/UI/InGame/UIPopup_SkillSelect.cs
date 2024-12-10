@@ -41,11 +41,14 @@ public partial class UIPopup_SkillSelect : UIPopup
     [SerializeField] LockImage[] LockImageArr;
 
     [Header("Effect")]
+    [SerializeField] UIParticle[] SkillInfoBlinkEffectArr; // 0 위 1 아래 1개만 있으면 0 -Jun 24-12-10
     [SerializeField] UIParticle SkillInfoSelectEffect;
     [SerializeField] UIParticle SkillInfoSelectEnterEffect;
     [SerializeField] UIParticle LastEffectBack;
     [SerializeField] UIParticle LastEffectFront;
     [SerializeField] UIParticle LevelUpEffect;
+
+    [SerializeField] float CloseTime = 1;
 
     private List<SkillTableData> m_haveSkillList = new List<SkillTableData>();
     private readonly int MaxSkillActivityBtnCount = 7;
@@ -54,6 +57,7 @@ public partial class UIPopup_SkillSelect : UIPopup
     private int currentOptionIndex = -1;
 
     private SkillTableData selectData = null;
+    UiItemSkillInfo selectSkillInfo = null;
 
     protected override void Awake()
     {
@@ -114,8 +118,7 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         SetActiveEnterBtn(false);
 
-        LevelUpEffect.gameObject.SetActive(false);
-        SkillInfoSelectEnterEffect.gameObject.SetActive(false);
+        EffectInit();
     }
 
     public override void ResetData()
@@ -155,14 +158,14 @@ public partial class UIPopup_SkillSelect : UIPopup
             SkillInfoList[i].Close();
         }
 
+        selectSkillInfo = null;
+
         SetText(m_tfBtn,string.Concat("x ",m_curCount));
 
         InfoSelectImage.gameObject.SetActive(false);
         SetActiveEnterBtn(false);
 
-        SkillInfoSelectEffect.gameObject.SetActive(false);
-        LastEffectBack.Play();
-        LastEffectFront.Play();
+        EffectInit();
     }
 
     private void OnClickReset()
@@ -189,7 +192,7 @@ public partial class UIPopup_SkillSelect : UIPopup
     /// 스킬 버튼  클릭시 -Jun 24-10-26
     /// </summary>
     /// <param name="_data">skill data</param>
-    private void OnSelect(SkillTableData _data , RectTransform _infoRect)
+    private void OnSelect(SkillTableData _data , UiItemSkillInfo _info , RectTransform _backIconRect)
     {
         /*
         //��ų ������ �˾� �ݴ´�
@@ -199,11 +202,12 @@ public partial class UIPopup_SkillSelect : UIPopup
         //    _index = _target.skilllv;
         */
 
+        selectSkillInfo= _info;
         InitData(_data);
         ArrowUi.ExplantionTextSetNormal();
 
         InfoSelectImage.gameObject.SetActive(true);
-        InfoSelectImage.rectTransform.SetParent(_infoRect);
+        InfoSelectImage.rectTransform.SetParent(_backIconRect);
         InfoSelectImage.rectTransform.localPosition = Vector3.zero;
         
         //내가 오기전 옛날 코드 -Jun 24-10-19
@@ -255,6 +259,21 @@ public partial class UIPopup_SkillSelect : UIPopup
         return new List<int>(uniqueIndexes);
     }
 
+    private void EffectInit()
+    {
+        SkillInfoBlinkEffectArr[0].gameObject.SetActive(false);
+        SkillInfoBlinkEffectArr[1].gameObject.SetActive(false);
+        SkillInfoSelectEffect.gameObject.SetActive(false);
+        SkillInfoSelectEnterEffect.gameObject.SetActive(false);
+        LastEffectBack.gameObject.gameObject.SetActive(true);
+        LastEffectBack.Play();
+        LastEffectFront.gameObject.SetActive(true);
+        LastEffectFront.Play();
+        LevelUpEffect.gameObject.SetActive(false);
+
+        Debug.Log("in active effect");
+    }
+
     //스킬 선택하고 세부 내용 선택했을때 -Jun 24-10-26
     public void OnClickSkillActivityBtn(int _index)
     {
@@ -288,9 +307,11 @@ public partial class UIPopup_SkillSelect : UIPopup
     {
         LevelUpEffect.gameObject.SetActive(true);
         SkillInfoSelectEnterEffect.gameObject.SetActive(true);
+        selectSkillInfo.SetStarLevelUp();
         SetActiveEnterBtn(false);
 
-        yield return new WaitForSecondsRealtime(0.6f);
+        yield return new WaitForSecondsRealtime(CloseTime);
+
 
         StagePlayLogic.instance.m_Player.SetSkill(selectData);
         StagePlayLogic.instance.m_Player.AddSkillOption(selectData.group, currentOptionIndex);
@@ -329,6 +350,39 @@ public partial class UIPopup_SkillSelect : UIPopup
             }
         }
 
+        if (selectData.skilllv == 1)
+        {
+            SkillInfoBlinkEffectArr[0].gameObject.SetActive(true);
+            SkillInfoBlinkEffectArr[0].Play();
+            SkillInfoBlinkEffectArr[0].GetComponent<RectTransform>().position = InfoBtnArr[0].GetComponent<RectTransform>().position;
+
+            SkillInfoBlinkEffectArr[1].gameObject.SetActive(false);
+        }
+        else if (selectData.skilllv != ConstData.SkillMaxLevel)
+        {
+            int index = 0;
+            switch (_data.skilllv)
+            {
+                case 2:
+                    index = 1;
+                    break;
+                case 3:
+                    index = 3;
+                    break;
+                case 4:
+                    index = 5;
+                    break;
+            }
+
+            SkillInfoBlinkEffectArr[0].gameObject.SetActive(true);
+            SkillInfoBlinkEffectArr[0].Play();
+            SkillInfoBlinkEffectArr[0].GetComponent<RectTransform>().position = InfoBtnArr[index].GetComponent<RectTransform>().position;
+
+            SkillInfoBlinkEffectArr[1].gameObject.SetActive(true);
+            SkillInfoBlinkEffectArr[1].Play();
+            SkillInfoBlinkEffectArr[1].GetComponent<RectTransform>().position = InfoBtnArr[index + 1].GetComponent<RectTransform>().position;
+        }
+
         var skillOptionIndexList = StagePlayLogic.instance.m_Player.GetSkillOptionList(selectData.group);
 
         if (skillOptionIndexList == null || skillOptionIndexList.Count == 0)
@@ -348,6 +402,8 @@ public partial class UIPopup_SkillSelect : UIPopup
         {
             OnClickSkillActivityBtn(skillOptionIndexList[i]);
         }
+
+        //SkillInfoSelectEffect.gameObject.SetActive(false);
     }
 }
 
