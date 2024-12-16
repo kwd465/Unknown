@@ -296,6 +296,11 @@ public partial class UIPopup_SkillSelect : UIPopup
             SkillInfoSelectEffect.GetComponent<RectTransform>().position = InfoBtnArr[_index].GetComponent<RectTransform>().position;
         }
 
+        SkillInfoBlinkEffectArr[0].gameObject.SetActive(false);
+        SkillInfoBlinkEffectArr[0].Stop();
+        SkillInfoBlinkEffectArr[1].gameObject.SetActive(false);
+        SkillInfoBlinkEffectArr[1].Stop();
+
         SkillInfoSelectEnterEffect.GetComponent<RectTransform>().position = InfoBtnArr[_index].GetComponent<RectTransform>().position;
 
         SetActiveEnterBtn(true);
