@@ -158,6 +158,11 @@ public partial class UIPopup_SkillSelect : UIPopup
             SkillInfoList[i].Close();
         }
 
+        for (int i = 0; i < LockImageArr.Length; i++)
+        {
+            LockImageArr[i].SetActive(true);
+        }
+
         selectSkillInfo = null;
 
         SetText(m_tfBtn,string.Concat("x ",m_curCount));
@@ -270,8 +275,6 @@ public partial class UIPopup_SkillSelect : UIPopup
         LastEffectFront.gameObject.SetActive(true);
         LastEffectFront.Play();
         LevelUpEffect.gameObject.SetActive(false);
-
-        Debug.Log("in active effect");
     }
 
     //스킬 선택하고 세부 내용 선택했을때 -Jun 24-10-26
@@ -333,6 +336,7 @@ public partial class UIPopup_SkillSelect : UIPopup
         SetActiveEnterBtn(false);
 
         ArrowUi.Init(selectData);
+        EffectInit();
 
         //첫번쨰 꺼는 스킬 아이콘 그대로 -Jun 24-11-09
         LockImageArr[0].OnlyFirst(BH.ResourceControl.instance.GetImage(selectData.skillicon)); //.SelectOne(true, BH.ResourceControl.instance.GetImage(selectData.skillicon), null);
@@ -561,8 +565,6 @@ public partial class UIPopup_SkillSelect : UIPopup
             BottomBlackImage.gameObject.SetActive(_isActive);
             BottomIconImage.gameObject.SetActive(!_isActive);
             BottomClickBtn.interactable = !_isActive;
-
-
         }
 
         public void OnlyFirst(Sprite _icon)
