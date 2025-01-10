@@ -53,6 +53,7 @@ SpriteAtlas:
     packedSpriteRenderDataKeys:
     - 4575ee0084c3c466ebd93fc870b2e07c: 21300000
     - 47b40e5043f03461083413cd041e34f6: 21300000
+    - 8201da01c67753241955b9ba33686115: 21300000
     - 59dceeb1278244b429441fc1a4d16dc7: 21300000
     - 28d224327b9d04da9b4c3294fadd3f2e: 21300000
     - 1b4ab323c3684824c8c12d284b4688de: 21300000
@@ -66,9 +67,11 @@ SpriteAtlas:
     - 9fa0a81764ce54078bf8ed2a101177a1: 21300000
     - 2310278994f694cfab07227a0610b67f: 21300000
     - 582b1299f0c844ab4a1f067d96068d1f: 21300000
+    - ac9024a951d24f149b92c13b6af84d3c: 21300000
     - b654673a0d2064048a8b830cbf0f90fd: 21300000
     - b032d73b00a8a45ee91a6b8ab0138dc9: 21300000
     - 2a3b46ecbdd584408a9ad6c5e85a9c77: 21300000
+    - 7ce477dd2da90c946afdefa1e2bf0b69: 21300000
     - 2233ab3ecfa2a4021ad77dfe8e6bcb76: 21300000
     - 089afe5e34f7446f8a4806048b4d4742: 21300000
     - 9f414d9ea0cb84efdb59f2b3fe62fa34: 21300000
@@ -76,6 +79,7 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: 4575ee0084c3c466ebd93fc870b2e07c, type: 3}
   - {fileID: 21300000, guid: 47b40e5043f03461083413cd041e34f6, type: 3}
+  - {fileID: 21300000, guid: 8201da01c67753241955b9ba33686115, type: 3}
   - {fileID: 21300000, guid: 59dceeb1278244b429441fc1a4d16dc7, type: 3}
   - {fileID: 21300000, guid: 28d224327b9d04da9b4c3294fadd3f2e, type: 3}
   - {fileID: 21300000, guid: 1b4ab323c3684824c8c12d284b4688de, type: 3}
@@ -89,15 +93,18 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 9fa0a81764ce54078bf8ed2a101177a1, type: 3}
   - {fileID: 21300000, guid: 2310278994f694cfab07227a0610b67f, type: 3}
   - {fileID: 21300000, guid: 582b1299f0c844ab4a1f067d96068d1f, type: 3}
+  - {fileID: 21300000, guid: ac9024a951d24f149b92c13b6af84d3c, type: 3}
   - {fileID: 21300000, guid: b654673a0d2064048a8b830cbf0f90fd, type: 3}
   - {fileID: 21300000, guid: b032d73b00a8a45ee91a6b8ab0138dc9, type: 3}
   - {fileID: 21300000, guid: 2a3b46ecbdd584408a9ad6c5e85a9c77, type: 3}
+  - {fileID: 21300000, guid: 7ce477dd2da90c946afdefa1e2bf0b69, type: 3}
   - {fileID: 21300000, guid: 2233ab3ecfa2a4021ad77dfe8e6bcb76, type: 3}
   - {fileID: 21300000, guid: 089afe5e34f7446f8a4806048b4d4742, type: 3}
   - {fileID: 21300000, guid: 9f414d9ea0cb84efdb59f2b3fe62fa34, type: 3}
   m_PackedSpriteNamesToIndex:
   - Skill_16
   - Skill_08
+  - Skill_19
   - exp_2
   - Skill_18
   - exp_1
@@ -111,9 +118,11 @@ SpriteAtlas:
   - Skill_04
   - Skill_05
   - Skill_17
+  - S_09
   - Skill_09
   - Skill_11
   - Skill_15
+  - Skill_20
   - Skill_03
   - Skill_13
   - Skill_14

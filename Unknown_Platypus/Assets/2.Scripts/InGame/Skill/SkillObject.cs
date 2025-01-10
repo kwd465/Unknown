@@ -76,10 +76,11 @@ public class SkillObject : MonoBehaviour
 
     protected Vector3 m_dir;
 
-    public int m_count;
-    public float m_distance;
-    public float m_duration;
-    public float m_area;
+    public int m_count { get; set; }
+    public int HitCount { get; set; }
+    public float m_distance { get; set; }
+    public float m_duration { get; set; }
+    public float m_area { get; set; }
 
     public virtual void RefreshSkill(SkillEffect _data)
     {
@@ -180,6 +181,7 @@ public class SkillObject : MonoBehaviour
     public virtual void Apply()
     {
         m_count = (int)SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.count);
+        HitCount = (int)SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.skillHitCount);
         m_distance = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.distance);
         m_duration = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.duration);
         m_area = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.area);

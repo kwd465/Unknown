@@ -25,6 +25,7 @@ public enum SKILLOPTION_TYPE
     resetCoolTime,
     piercingDamage,
     debuff_movespeed,
+    skillHitCount,
 }
 
 [System.Serializable]
@@ -146,6 +147,8 @@ public class SkillEffect
                 return m_skillTable.skillArea * (1+ _value);
             case SKILLOPTION_TYPE.speed:
                 return _value;
+            case SKILLOPTION_TYPE.skillHitCount:
+                return m_skillTable.skillHitCount + _value;
             default:
                 return _value;
         }
