@@ -561,8 +561,6 @@ public partial class UIPopup_SkillSelect : UIPopup
             //last 한개여서 top 에만 넣어놨음 -Jun 24-10-26
             if (BottomBlackImage == null)
             {
-                Debug.Log(@$"{TopLockIconImage.gameObject.name} {TopClickBtn.gameObject.name} {_isActive}");
-
                 return;
             }
 

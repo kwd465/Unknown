@@ -6,6 +6,7 @@ using UnityEngine;
 public class SkillPulseBeam : SkillObject
 {
     [SerializeField] SkillCollisionChild beam;
+    [SerializeField] float activeFalseWaitingTime;
     private int state;
     private int count;
     private float elapsedTime;
@@ -20,7 +21,10 @@ public class SkillPulseBeam : SkillObject
 
     public override void Apply()
     {
+        base.Apply();
+
         count = 0;
+        beam.gameObject.SetActive(false);
         gameObject.SetActive(true);
         state = 0;
         elapsedTime = 0;
@@ -30,7 +34,6 @@ public class SkillPulseBeam : SkillObject
 
     public override void UpdateLogic()
     {
-
         elapsedTime += Time.fixedDeltaTime;
 
         if (elapsedTime > 1)
@@ -41,23 +44,17 @@ public class SkillPulseBeam : SkillObject
             return;
         }
 
-        if (count == 0)
-            return;
-
-        if (elapsedTime >= m_duration)
+        if (count < HitCount)
         {
-            if (count >= m_count)
-            {
-                gameObject.SetActive(false);
-                return;
-            }
-            else
-            {
-                count++;
-                elapsedTime = 0;
-                SpawnBeam();
-            }
+            return;
         }
+
+        if(elapsedTime < activeFalseWaitingTime)
+        {
+            return;
+        }
+
+        gameObject.SetActive(false);
     }
 
     void SpawnBeam()
@@ -65,8 +62,9 @@ public class SkillPulseBeam : SkillObject
         beam.gameObject.SetActive(false);
         beam.gameObject.SetActive(true);
         beam.targetList.Clear();
-        beam.SetColliderActive(true);
+        beam.SetColliderActive(true);         
         beam.transform.position = (Vector2)transform.position + Random.insideUnitCircle * m_skillData.m_skillTable.skillArea * 2;
+        Debug.Log($@"random distance {m_skillData.m_skillTable.skillArea} {elapsedTime} {count} {HitCount} {m_skillData.m_skillTable.duration} {m_duration} {m_skillData.m_skillTable.skillHitCount}");
     }
 
 

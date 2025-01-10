@@ -48990,11 +48990,8 @@ MonoBehaviour:
   isSetParentHit: 0
   LowLevelEffect: {fileID: 1282199384577778676}
   MaxLevelEffect: {fileID: 1282199384577778676}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
   beam: {fileID: 8483527998309136360}
+  activeFalseWaitingTime: 0.5
 --- !u!1 &9066337425223411005
 GameObject:
   m_ObjectHideFlags: 0
