@@ -1,6 +1,7 @@
 ﻿using BH;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class SkillPulseBeam : SkillObject
@@ -10,6 +11,7 @@ public class SkillPulseBeam : SkillObject
     private int state;
     private int count;
     private float elapsedTime;
+    private float allElapsedTime;
     private List<Player> targetList = new List<Player>();
 
     private void Awake()
@@ -35,12 +37,19 @@ public class SkillPulseBeam : SkillObject
     public override void UpdateLogic()
     {
         elapsedTime += Time.fixedDeltaTime;
+        allElapsedTime += Time.fixedDeltaTime;
 
         if (elapsedTime > 1)
         {
             count++;
             elapsedTime = 0;
             SpawnBeam();
+            return;
+        }
+
+        if(allElapsedTime > m_duration && gameObject.activeInHierarchy)
+        {
+            Close();
             return;
         }
 
