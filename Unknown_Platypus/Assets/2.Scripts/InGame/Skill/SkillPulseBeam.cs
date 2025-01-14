@@ -31,6 +31,7 @@ public class SkillPulseBeam : SkillObject
         gameObject.SetActive(true);
         state = 0;
         elapsedTime = 0;
+        allElapsedTime = 0;
         targetList.Clear();
         transform.position = (Vector2)m_owner.transform.position + (Random.insideUnitCircle * m_distance);
         attackPerTime = m_skillData.m_skillTable.duration / m_skillData.m_skillTable.skillHitCount;
@@ -65,7 +66,7 @@ public class SkillPulseBeam : SkillObject
             return;
         }
 
-        gameObject.SetActive(false);
+        Close();
     }
 
     void SpawnBeam()
