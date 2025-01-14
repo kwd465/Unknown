@@ -12,6 +12,7 @@ public class SkillPulseBeam : SkillObject
     private int count;
     private float elapsedTime;
     private float allElapsedTime;
+    private float attackPerTime;
     private List<Player> targetList = new List<Player>();
 
     private void Awake()
@@ -32,6 +33,7 @@ public class SkillPulseBeam : SkillObject
         elapsedTime = 0;
         targetList.Clear();
         transform.position = (Vector2)m_owner.transform.position + (Random.insideUnitCircle * m_distance);
+        attackPerTime = m_skillData.m_skillTable.duration / m_skillData.m_skillTable.skillHitCount;
     }
 
     public override void UpdateLogic()
@@ -39,7 +41,7 @@ public class SkillPulseBeam : SkillObject
         elapsedTime += Time.fixedDeltaTime;
         allElapsedTime += Time.fixedDeltaTime;
 
-        if (elapsedTime > 1)
+        if (elapsedTime > attackPerTime)
         {
             count++;
             elapsedTime = 0;
@@ -73,7 +75,6 @@ public class SkillPulseBeam : SkillObject
         beam.targetList.Clear();
         beam.SetColliderActive(true);         
         beam.transform.position = (Vector2)transform.position + Random.insideUnitCircle * m_skillData.m_skillTable.skillArea * 2;
-        Debug.Log($@"random distance {m_skillData.m_skillTable.skillArea} {elapsedTime} {count} {HitCount} {m_skillData.m_skillTable.duration} {m_duration} {m_skillData.m_skillTable.skillHitCount}");
     }
 
 
@@ -81,5 +82,4 @@ public class SkillPulseBeam : SkillObject
     {
         BattleControl.instance.ApplySkill(m_skillData, m_owner, collision.GetComponent<Player>());
     }
-
 }
