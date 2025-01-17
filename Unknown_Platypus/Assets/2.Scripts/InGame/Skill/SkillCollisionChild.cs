@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class SkillCollisionChild : MonoBehaviour
 {
-
     [SerializeField]
     private bool m_isContainCheck = true;
 

@@ -10112,12 +10112,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 4527856031117694922}
-  MaxLevelEffect: {fileID: 4527856031117694922}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 908831936262642738}
+  MaxLevelEffectObj: {fileID: 908831936262642738}
   planets:
   - {fileID: 4883318910775343246}
   - {fileID: 5367064646348529881}

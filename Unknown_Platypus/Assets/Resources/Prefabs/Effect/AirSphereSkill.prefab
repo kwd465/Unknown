@@ -83180,12 +83180,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 3771869920076793517}
-  MaxLevelEffect: {fileID: 3771869920076793517}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 3733874156631178967}
+  MaxLevelEffectObj: {fileID: 3733874156631178967}
   sphere:
   - {fileID: 2203832605206630720}
   - {fileID: 1950902487787112717}

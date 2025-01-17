@@ -63,13 +63,12 @@ public class SkillObject : MonoBehaviour
     protected int m_skillCount;
     protected bool m_isSkillDie;
 
-    [Header("스킬 공격 이펙트")]
-    public ParticleSystem LowLevelEffect;
-    public ParticleSystem MaxLevelEffect;
-    private ParticleSystem NowSelectEffect;
+    [Header("스킬 공격 이펙트 오브젝트")]
+    public GameObject LowLevelEffectObj;
+    public GameObject MaxLevelEffectObj;
+    private GameObject NowSelectEffectObj;
 
     protected List<Player> m_taretList = new List<Player>();
-
 
     public SkillEffect SkillEffect { get { return m_skillData; } }
     public SkillTableData SkillData { get { return m_skillData.m_skillTable; } }
@@ -81,6 +80,8 @@ public class SkillObject : MonoBehaviour
     public float m_distance { get; set; }
     public float m_duration { get; set; }
     public float m_area { get; set; }
+
+    public System.Action SkillEndAction = null;
 
     public virtual void RefreshSkill(SkillEffect _data)
     {
@@ -106,11 +107,11 @@ public class SkillObject : MonoBehaviour
         if (m_effect != null)
             m_DamTick = m_effect.ActiveTime / m_skillCount;
 
-        MaxLevelEffect.gameObject.SetActive(false);
-        LowLevelEffect.gameObject.SetActive(false);
+        MaxLevelEffectObj.gameObject.SetActive(false);
+        LowLevelEffectObj.gameObject.SetActive(false);
 
-        NowSelectEffect = _data.m_skillTable.skilllv >= 5 ? MaxLevelEffect : LowLevelEffect;
-        NowSelectEffect.gameObject.SetActive(true);
+        NowSelectEffectObj = _data.m_skillTable.skilllv >= 5 ? MaxLevelEffectObj : LowLevelEffectObj;
+        NowSelectEffectObj.gameObject.SetActive(true);
 
         if (_target == null)
         {
@@ -120,8 +121,7 @@ public class SkillObject : MonoBehaviour
         for (int i = 0; i < m_taretList.Count; i++)
             Apply(m_taretList[i]);
 
-
-
+        SkillEndAction = null;
     }
 
     public virtual void Init(SkillEffect _data, List<Player> _targets, Player _owner, Vector3 _dir)
@@ -190,13 +190,14 @@ public class SkillObject : MonoBehaviour
     public virtual void Close()
     {
         gameObject.SetActive(false);
+        SkillEndAction?.Invoke();
 #if UNITY_EDITOR
-        if(NowSelectEffect == null)
+        if (NowSelectEffectObj == null)
         {
             Debug.LogWarning($@"{gameObject.name} skill effect 확인 필요 -Jun 24-10-12");
         }
 #endif
-        NowSelectEffect?.gameObject.SetActive(false);
+        NowSelectEffectObj?.gameObject.SetActive(false);
     }
 
     public virtual void UpdateLogic()

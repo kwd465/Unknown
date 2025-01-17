@@ -50,12 +50,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 4686556261995075290}
-  MaxLevelEffect: {fileID: 4686556261995075290}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 511772526987280862}
+  MaxLevelEffectObj: {fileID: 511772526987280862}
   m_collisionChild: {fileID: 3585980402738314033}
 --- !u!1 &1210975906474089629
 GameObject:

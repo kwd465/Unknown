@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class SkillPulseBeam : SkillObject
 {
-    [SerializeField] SkillCollisionChild beam;
+    [SerializeField] SkillCollisionChild NotMaxLevelBeam;
+    [SerializeField] SkillCollisionChild MaxLevelBeam;    
     [SerializeField] float activeFalseWaitingTime;
     private int state;
     private int count;
@@ -15,22 +16,38 @@ public class SkillPulseBeam : SkillObject
     private float attackPerTime;
     private List<Player> targetList = new List<Player>();
 
+    private SkillCollisionChild beam;
+
     private void Awake()
     {
         gameObject.SetActive(false);
-        beam.gameObject.SetActive(false);
-        beam.SetParent(this);
+
+        NotMaxLevelBeam.gameObject.SetActive(false);
+        MaxLevelBeam.gameObject.SetActive(false);
+
+        NotMaxLevelBeam.SetParent(this);
+        MaxLevelBeam.SetParent(this);
     }
 
     public override void Apply()
     {
         base.Apply();
 
+        if(m_skillData.m_skillTable.skilllv == ConstData.SkillMaxLevel)
+        {
+            beam = MaxLevelBeam;
+        }
+        else
+        {
+            beam = NotMaxLevelBeam;
+        }
+
         count = 0;
         beam.gameObject.SetActive(false);
         gameObject.SetActive(true);
         state = 0;
         elapsedTime = 0;
+        allElapsedTime = 0;
         targetList.Clear();
         transform.position = (Vector2)m_owner.transform.position + (Random.insideUnitCircle * m_distance);
         attackPerTime = m_skillData.m_skillTable.duration / m_skillData.m_skillTable.skillHitCount;
@@ -65,7 +82,7 @@ public class SkillPulseBeam : SkillObject
             return;
         }
 
-        gameObject.SetActive(false);
+        Close();
     }
 
     void SpawnBeam()
@@ -73,7 +90,7 @@ public class SkillPulseBeam : SkillObject
         beam.gameObject.SetActive(false);
         beam.gameObject.SetActive(true);
         beam.targetList.Clear();
-        beam.SetColliderActive(true);         
+        beam.SetColliderActive(true);
         beam.transform.position = (Vector2)transform.position + Random.insideUnitCircle * m_skillData.m_skillTable.skillArea * 2;
     }
 

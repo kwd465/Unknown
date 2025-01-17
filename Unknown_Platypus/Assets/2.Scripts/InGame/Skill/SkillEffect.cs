@@ -41,9 +41,8 @@ public class SkillEffect
 
     public Dictionary<SKILLOPTION_TYPE , float> m_dicCurSelectOption = new Dictionary<SKILLOPTION_TYPE, float>();
 
-
-
     public bool m_isReady;
+    public bool isActiving;
 
     public float CoolTimeNormalized
     {
@@ -64,7 +63,8 @@ public class SkillEffect
         m_ownerData = _ownerData;
         m_coolTime = 0;
         m_isUpdateCool = true;
-        if(_isBaseSkill){
+        isActiving = false;
+        if (_isBaseSkill){
             m_isReady = false;
         }else
         {
@@ -96,12 +96,12 @@ public class SkillEffect
     {
         m_coolTime = 0f;
         m_isReady = false;
-        Debug.Log("skill use");
+        isActiving = true;
     }
 
     public virtual void EndSkill()
     {
-
+        isActiving = false;
     }
 
     public virtual void UpdateSkill()
@@ -111,6 +111,11 @@ public class SkillEffect
 
         if (m_isReady)
             return;
+
+        if(isActiving)
+        {
+            return;
+        }
 
         if (m_coolTime < m_skillTable.coolTime)
             m_coolTime += Time.fixedDeltaTime;

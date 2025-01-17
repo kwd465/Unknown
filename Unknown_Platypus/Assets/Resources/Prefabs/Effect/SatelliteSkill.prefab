@@ -5117,12 +5117,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 2681928684986512258}
-  MaxLevelEffect: {fileID: 2681928684986512258}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 6935164002044744599}
+  MaxLevelEffectObj: {fileID: 6935164002044744599}
   m_satellites:
   - {fileID: 5857822685083856884}
   - {fileID: 5705070969347563717}

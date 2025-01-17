@@ -9926,12 +9926,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 6449800560748936673}
-  MaxLevelEffect: {fileID: 6449800560748936673}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 6329972471556556121}
+  MaxLevelEffectObj: {fileID: 6329972471556556121}
 --- !u!1 &9156440547416254239
 GameObject:
   m_ObjectHideFlags: 0
