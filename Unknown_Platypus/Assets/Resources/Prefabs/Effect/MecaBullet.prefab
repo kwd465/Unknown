@@ -9941,12 +9941,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: MecaHit
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 6816910672204201482}
-  MaxLevelEffect: {fileID: 6816910672204201482}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 4675293269255411589}
+  MaxLevelEffectObj: {fileID: 4675293269255411589}
 --- !u!1 &8683095935160684007
 GameObject:
   m_ObjectHideFlags: 0

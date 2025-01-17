@@ -9788,12 +9788,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 3900183428498127616}
-  MaxLevelEffect: {fileID: 3900183428498127616}
-  m_count: 0
-  m_distance: 0
-  m_duration: 1
-  m_area: 0
+  LowLevelEffectObj: {fileID: 8360453213312864404}
+  MaxLevelEffectObj: {fileID: 8360453213312864404}
   m_collisionChild: {fileID: 4307258661845241047}
   m_HitEffect: {fileID: 8466922963176070855}
   isShowIndicator: 0

@@ -19,7 +19,7 @@ public class EffectManager : BHSingleton<EffectManager>
         Effect _find = m_pool.Get(m_path+_path);
         if (null == _find)
             return null;
-
+        Debug.Log(@$"gameobject name {gameObject.name}");
         _find.Play(_pos, _rot, _size);
         return _find;
     }
