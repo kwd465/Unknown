@@ -24382,9 +24382,5 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 8112164096970044076}
-  MaxLevelEffect: {fileID: 8112164096970044076}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 6205079467286018286}
+  MaxLevelEffectObj: {fileID: 6205079467286018286}

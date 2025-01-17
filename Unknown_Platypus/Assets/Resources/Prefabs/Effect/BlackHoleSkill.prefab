@@ -82947,6 +82947,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51e758872238f428e884ef826e928adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isColliderCheck: 0
+  isShake: 0
+  m_effect: {fileID: 0}
+  HitEffect: 
+  isSetParentHit: 0
+  LowLevelEffectObj: {fileID: 4672940726742049712}
+  MaxLevelEffectObj: {fileID: 4672940726742049712}
 --- !u!1 &4751301872651882892
 GameObject:
   m_ObjectHideFlags: 0
