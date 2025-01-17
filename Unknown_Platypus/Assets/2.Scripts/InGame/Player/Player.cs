@@ -264,6 +264,7 @@ public class Player : MonoBase
             _skillObject.Init(_skillData, GameUtil.GetTarget(_skillData.m_skillTable, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this,m_inputVec);
         else
             _skillObject.Init(_skillData, _target:null, this,m_inputVec);
+        _skillObject.SkillEndAction = _skillData.EndSkill;
         return _skillObject;
     }
 

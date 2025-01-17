@@ -9712,12 +9712,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 3787929454597209163}
-  MaxLevelEffect: {fileID: 3787929454597209163}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 1819300101313739818}
+  MaxLevelEffectObj: {fileID: 1819300101313739818}
   m_trLaser:
   - {fileID: 3442030396455251924}
   m_trLaserHit:

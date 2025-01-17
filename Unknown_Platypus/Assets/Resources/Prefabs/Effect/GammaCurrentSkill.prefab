@@ -79760,12 +79760,8 @@ MonoBehaviour:
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffect: {fileID: 4952985183469545034}
-  MaxLevelEffect: {fileID: 4952985183469545034}
-  m_count: 0
-  m_distance: 0
-  m_duration: 0
-  m_area: 0
+  LowLevelEffectObj: {fileID: 2819788490507859655}
+  MaxLevelEffectObj: {fileID: 2819788490507859655}
   m_Effect:
   - {fileID: 7352988971013871979}
   - {fileID: 9211483410455226618}
