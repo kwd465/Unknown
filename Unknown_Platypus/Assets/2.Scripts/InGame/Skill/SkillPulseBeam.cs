@@ -9,11 +9,14 @@ public class SkillPulseBeam : SkillObject
     [SerializeField] SkillCollisionChild NotMaxLevelBeam;
     [SerializeField] SkillCollisionChild MaxLevelBeam;    
     [SerializeField] float activeFalseWaitingTime;
+    [SerializeField] float activeTrueWaitingTime;
+
     private int state;
     private int count;
     private float elapsedTime;
     private float allElapsedTime;
     private float attackPerTime;
+    private bool isFirstWaiting;
     private List<Player> targetList = new List<Player>();
 
     private SkillCollisionChild beam;
@@ -51,12 +54,22 @@ public class SkillPulseBeam : SkillObject
         targetList.Clear();
         transform.position = (Vector2)m_owner.transform.position + (Random.insideUnitCircle * m_distance);
         attackPerTime = m_skillData.m_skillTable.duration / m_skillData.m_skillTable.skillHitCount;
+        isFirstWaiting = false;
     }
 
     public override void UpdateLogic()
     {
         elapsedTime += Time.fixedDeltaTime;
         allElapsedTime += Time.fixedDeltaTime;
+
+        if (isFirstWaiting is false && elapsedTime <= activeTrueWaitingTime)
+        {
+            return;
+        }
+        else if(isFirstWaiting is false && elapsedTime > activeTrueWaitingTime)
+        {
+            isFirstWaiting = true;
+        }
 
         if (elapsedTime > attackPerTime)
         {
@@ -68,6 +81,11 @@ public class SkillPulseBeam : SkillObject
 
         if(allElapsedTime > m_duration && gameObject.activeInHierarchy)
         {
+            if(allElapsedTime - m_duration < activeFalseWaitingTime)
+            {
+                return;
+            }
+
             Close();
             return;
         }
