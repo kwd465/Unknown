@@ -1,7 +1,6 @@
 ﻿using BH;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class SkillPulseBeam : SkillObject
@@ -55,6 +54,7 @@ public class SkillPulseBeam : SkillObject
         transform.position = (Vector2)m_owner.transform.position + (Random.insideUnitCircle * m_distance);
         attackPerTime = m_skillData.m_skillTable.duration / m_skillData.m_skillTable.skillHitCount;
         isFirstWaiting = false;
+        SkillRangeImage.gameObject.SetActive(true);
     }
 
     public override void UpdateLogic()
