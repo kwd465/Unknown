@@ -19602,7 +19602,7 @@ Animator:
   m_GameObject: {fileID: 3112832124864494330}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 623da5893c3e60e4e9dd58a39379053b, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -44280,6 +44280,8 @@ MonoBehaviour:
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 3384780770538293701}
   MaxLevelEffectObj: {fileID: 2221607626746565505}
+  LowLevelAnimator: {fileID: 4157385001705696751}
+  HighLevelAnimator: {fileID: 6922353024941014185}
   NotMaxLevelBeam: {fileID: 8483527998309136360}
   MaxLevelBeam: {fileID: 6332769131733868748}
   activeFalseWaitingTime: 1.5
@@ -54265,3 +54267,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6412cac8b8d9620438d15cf00485e283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &6922353024941014185 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6668276067070785534, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+  m_PrefabInstance: {fileID: 4367183935437507415}
+  m_PrefabAsset: {fileID: 0}

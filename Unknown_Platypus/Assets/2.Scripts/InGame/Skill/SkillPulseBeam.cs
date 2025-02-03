@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class SkillPulseBeam : SkillObject
 {
+    [SerializeField] Animator LowLevelAnimator;
+    [SerializeField] Animator HighLevelAnimator;
     [SerializeField] SkillCollisionChild NotMaxLevelBeam;
     [SerializeField] SkillCollisionChild MaxLevelBeam;    
     [SerializeField] float activeFalseWaitingTime;
@@ -83,6 +85,15 @@ public class SkillPulseBeam : SkillObject
         {
             if(allElapsedTime - m_duration < activeFalseWaitingTime + activeTrueWaitingTime)
             {
+                if (m_skillData.m_skillTable.skilllv == ConstData.SkillMaxLevel)
+                {
+                    HighLevelAnimator.SetTrigger("Disapper");
+                }
+                else
+                {
+                    LowLevelAnimator.SetTrigger("Disapper");
+                }
+                    
                 return;
             }
 
