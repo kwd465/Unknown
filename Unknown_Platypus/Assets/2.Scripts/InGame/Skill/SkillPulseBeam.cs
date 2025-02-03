@@ -71,7 +71,7 @@ public class SkillPulseBeam : SkillObject
             isFirstWaiting = true;
         }
 
-        if (elapsedTime > attackPerTime)
+        if (elapsedTime > attackPerTime && count < m_skillData.m_skillTable.skillHitCount)
         {
             count++;
             elapsedTime = 0;
@@ -79,9 +79,9 @@ public class SkillPulseBeam : SkillObject
             return;
         }
 
-        if(allElapsedTime > m_duration && gameObject.activeInHierarchy)
+        if (allElapsedTime > m_duration && gameObject.activeInHierarchy)
         {
-            if(allElapsedTime - m_duration < activeFalseWaitingTime)
+            if(allElapsedTime - m_duration < activeFalseWaitingTime + activeTrueWaitingTime)
             {
                 return;
             }
@@ -90,17 +90,19 @@ public class SkillPulseBeam : SkillObject
             return;
         }
 
-        if (count < HitCount)
-        {
-            return;
-        }
 
-        if(elapsedTime < activeFalseWaitingTime)
-        {
-            return;
-        }
 
-        Close();
+        //if (count < HitCount)
+        //{
+        //    return;
+        //}
+
+        //if(elapsedTime < activeFalseWaitingTime)
+        //{
+        //    return;
+        //}
+
+        //Close();
     }
 
     void SpawnBeam()
@@ -111,7 +113,6 @@ public class SkillPulseBeam : SkillObject
         beam.SetColliderActive(true);
         beam.transform.position = (Vector2)transform.position + Random.insideUnitCircle * m_skillData.m_skillTable.skillArea * 2;
     }
-
 
     public override void OnTriggerEnterChild(Collider2D collision)
     {
