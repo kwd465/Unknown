@@ -41,6 +41,8 @@ public class TargetPlayer
 
 public class SkillObject : MonoBehaviour
 {
+    [Header("스킬 범위 표시 이미지 -Jun 25-01-30")]
+    public SpriteRenderer SkillRangeImage;
     [Header("�ݸ��� üũ �������")]
     public bool isColliderCheck = false;
     [Header("Camera Shake")]
@@ -90,9 +92,8 @@ public class SkillObject : MonoBehaviour
     }
 
 
-    public virtual void Init(SkillEffect _data, Player _target, Player _owner , Vector3 _dir)
+    public virtual void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
     {
-        Debug.Log("init");
         m_dir = _dir;
         m_taretList.Clear();
         if (isColliderCheck == false)
@@ -122,11 +123,17 @@ public class SkillObject : MonoBehaviour
             Apply(m_taretList[i]);
 
         SkillEndAction = null;
+
+#if UNITY_EDITOR
+        if (SkillRangeImage != null)
+            SetRangeImage();
+#else
+        SetRangeImage();
+#endif
     }
 
     public virtual void Init(SkillEffect _data, List<Player> _targets, Player _owner, Vector3 _dir)
     {
-        Debug.Log("init list target");
         m_dir = _dir;
         m_taretList.Clear();
         if(isColliderCheck == false)
@@ -148,8 +155,17 @@ public class SkillObject : MonoBehaviour
             return;
         }
 
-        for(int i = 0; i < m_taretList.Count; i++)
+        for (int i = 0; i < m_taretList.Count; i++)
             Apply(m_taretList[i]);
+
+        SkillEndAction = null;
+
+#if UNITY_EDITOR
+        if (SkillRangeImage != null)
+            SetRangeImage();
+#else
+        SetRangeImage();
+#endif
     }
 
     public virtual void Apply(Player _target)
@@ -221,6 +237,23 @@ public class SkillObject : MonoBehaviour
 
             m_curTime += Time.deltaTime;
         }
+    }
+
+    public void SetRangeImage()
+    {
+        if(m_skillData == null)
+        {
+            Debug.LogError($@"{gameObject.name} skill data check");
+            return;
+        }
+
+        if(SkillRangeImage == null)
+        {
+            Debug.LogWarning($@"{gameObject.name} 스킬 범위 표시 안하는 스킬인지 확인 필요");
+            return;
+        }
+
+        SkillRangeImage.transform.localScale = new Vector3(m_skillData.m_skillTable.skillArea, m_skillData.m_skillTable.skillArea, 1);
     }
 
     public virtual void OnTriggerEnterChild(Collider2D collision)
