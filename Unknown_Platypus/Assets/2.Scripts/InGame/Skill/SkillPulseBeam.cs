@@ -1,19 +1,23 @@
 ﻿using BH;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro.EditorUtilities;
 using UnityEngine;
 
 public class SkillPulseBeam : SkillObject
 {
+    [SerializeField] Animator LowLevelAnimator;
+    [SerializeField] Animator HighLevelAnimator;
     [SerializeField] SkillCollisionChild NotMaxLevelBeam;
     [SerializeField] SkillCollisionChild MaxLevelBeam;    
     [SerializeField] float activeFalseWaitingTime;
+    [SerializeField] float activeTrueWaitingTime;
+
     private int state;
     private int count;
     private float elapsedTime;
     private float allElapsedTime;
     private float attackPerTime;
+    private bool isFirstWaiting;
     private List<Player> targetList = new List<Player>();
 
     private SkillCollisionChild beam;
@@ -51,6 +55,8 @@ public class SkillPulseBeam : SkillObject
         targetList.Clear();
         transform.position = (Vector2)m_owner.transform.position + (Random.insideUnitCircle * m_distance);
         attackPerTime = m_skillData.m_skillTable.duration / m_skillData.m_skillTable.skillHitCount;
+        isFirstWaiting = false;
+        SkillRangeImage.gameObject.SetActive(true);
     }
 
     public override void UpdateLogic()
@@ -58,7 +64,16 @@ public class SkillPulseBeam : SkillObject
         elapsedTime += Time.fixedDeltaTime;
         allElapsedTime += Time.fixedDeltaTime;
 
-        if (elapsedTime > attackPerTime)
+        if (isFirstWaiting is false && elapsedTime <= activeTrueWaitingTime)
+        {
+            return;
+        }
+        else if(isFirstWaiting is false && elapsedTime > activeTrueWaitingTime)
+        {
+            isFirstWaiting = true;
+        }
+
+        if (elapsedTime > attackPerTime && count < m_skillData.m_skillTable.skillHitCount)
         {
             count++;
             elapsedTime = 0;
@@ -66,23 +81,37 @@ public class SkillPulseBeam : SkillObject
             return;
         }
 
-        if(allElapsedTime > m_duration && gameObject.activeInHierarchy)
+        if (allElapsedTime > m_duration && gameObject.activeInHierarchy)
         {
+            if(allElapsedTime - m_duration < activeFalseWaitingTime + activeTrueWaitingTime)
+            {
+                if (m_skillData.m_skillTable.skilllv == ConstData.SkillMaxLevel)
+                {
+                    HighLevelAnimator.SetTrigger("Disapper");
+                }
+                else
+                {
+                    LowLevelAnimator.SetTrigger("Disapper");
+                }
+                    
+                return;
+            }
+
             Close();
             return;
         }
 
-        if (count < HitCount)
-        {
-            return;
-        }
+        //if (count < HitCount)
+        //{
+        //    return;
+        //}
 
-        if(elapsedTime < activeFalseWaitingTime)
-        {
-            return;
-        }
+        //if(elapsedTime < activeFalseWaitingTime)
+        //{
+        //    return;
+        //}
 
-        Close();
+        //Close();
     }
 
     void SpawnBeam()
@@ -91,9 +120,28 @@ public class SkillPulseBeam : SkillObject
         beam.gameObject.SetActive(true);
         beam.targetList.Clear();
         beam.SetColliderActive(true);
+        var pos = (Vector2)transform.position + Random.insideUnitCircle * m_skillData.m_skillTable.skillArea * 2;
+
+        if (pos.x >= ConstData.MapMaxPos.x)
+        {
+            pos = new Vector2(ConstData.MapMaxPos.x, pos.y);
+        }
+        else if(pos.x < ConstData.MapMinPos.x)
+        {
+            pos = new Vector2(ConstData.MapMinPos.x, pos.y);
+        }
+
+        if(pos.y >= ConstData.MapMaxPos.y)
+        {
+            pos = new Vector2(pos.x, ConstData.MapMaxPos.y);
+        }
+        else if(pos.y < ConstData.MapMinPos.y)
+        {
+            pos = new Vector2(pos.x, ConstData.MapMinPos.y);
+        }
+
         beam.transform.position = (Vector2)transform.position + Random.insideUnitCircle * m_skillData.m_skillTable.skillArea * 2;
     }
-
 
     public override void OnTriggerEnterChild(Collider2D collision)
     {
