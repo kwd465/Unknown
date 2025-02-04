@@ -253,6 +253,7 @@ public class SkillObject : MonoBehaviour
             return;
         }
 
+        Debug.Log($@"{m_skillData.m_skillTable.skillArea} skill rnage");
         SkillRangeImage.transform.localScale = new Vector3(m_skillData.m_skillTable.skillArea, m_skillData.m_skillTable.skillArea, 1);
     }
 

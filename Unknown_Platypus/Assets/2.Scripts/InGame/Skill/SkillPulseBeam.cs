@@ -57,6 +57,7 @@ public class SkillPulseBeam : SkillObject
         attackPerTime = m_skillData.m_skillTable.duration / m_skillData.m_skillTable.skillHitCount;
         isFirstWaiting = false;
         SkillRangeImage.gameObject.SetActive(true);
+        SetRangeImage();
     }
 
     public override void UpdateLogic()
