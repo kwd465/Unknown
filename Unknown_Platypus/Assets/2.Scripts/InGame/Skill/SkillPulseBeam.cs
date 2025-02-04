@@ -101,8 +101,6 @@ public class SkillPulseBeam : SkillObject
             return;
         }
 
-
-
         //if (count < HitCount)
         //{
         //    return;
@@ -122,6 +120,26 @@ public class SkillPulseBeam : SkillObject
         beam.gameObject.SetActive(true);
         beam.targetList.Clear();
         beam.SetColliderActive(true);
+        var pos = (Vector2)transform.position + Random.insideUnitCircle * m_skillData.m_skillTable.skillArea * 2;
+
+        if (pos.x >= ConstData.MapMaxPos.x)
+        {
+            pos = new Vector2(ConstData.MapMaxPos.x, pos.y);
+        }
+        else if(pos.x < ConstData.MapMinPos.x)
+        {
+            pos = new Vector2(ConstData.MapMinPos.x, pos.y);
+        }
+
+        if(pos.y >= ConstData.MapMaxPos.y)
+        {
+            pos = new Vector2(pos.x, ConstData.MapMaxPos.y);
+        }
+        else if(pos.y < ConstData.MapMinPos.y)
+        {
+            pos = new Vector2(pos.x, ConstData.MapMinPos.y);
+        }
+
         beam.transform.position = (Vector2)transform.position + Random.insideUnitCircle * m_skillData.m_skillTable.skillArea * 2;
     }
 
