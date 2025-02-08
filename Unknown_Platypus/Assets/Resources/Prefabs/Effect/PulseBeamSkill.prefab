@@ -9882,8 +9882,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1467103945
-  m_SortingLayer: 0
+  m_SortingLayerID: 2061097525
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: bb6428ecfd61a6446973ed500f8a42c1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -19598,8 +19598,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1597230837
-  m_SortingLayer: 0
+  m_SortingLayerID: 2061097525
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -24428,8 +24428,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1597230837
-  m_SortingLayer: 0
+  m_SortingLayerID: 2061097525
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -49189,6 +49189,11 @@ MonoBehaviour:
   MaxLevelEffectObj: {fileID: 3133256337795369662}
   LowLevelAnimator: {fileID: 4157385001705696751}
   HighLevelAnimator: {fileID: 6178392446615578006}
+  LowLevelSpriteArr:
+  - {fileID: 3396470633509900513}
+  - {fileID: 7004879449841580329}
+  HighLevelSpriteArr:
+  - {fileID: 5228045470861181409}
   NotMaxLevelBeam: {fileID: 8483527998309136360}
   MaxLevelBeam: {fileID: 7083510948627069427}
   activeFalseWaitingTime: 1.5
@@ -54172,8 +54177,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1467103945
-  m_SortingLayer: 0
+  m_SortingLayerID: 2061097525
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 618df458750a23f49ae0d850cd5fdcc4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -59100,9 +59105,45 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4533463156869586426}
     m_Modifications:
+    - target: {fileID: 149378637838598153, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 149378637838598153, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2061097525
+      objectReference: {fileID: 0}
     - target: {fileID: 2472448686329469142, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
       propertyPath: m_Name
       value: PulseBeamSkill_Level05
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472448686329469142, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736037875278222217, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4736037875278222217, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2061097525
+      objectReference: {fileID: 0}
+    - target: {fileID: 4765687127374300470, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850745815247133728, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4850745815247133728, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_SortingLayerID
+      value: 2061097525
+      objectReference: {fileID: 0}
+    - target: {fileID: 4889209047318637889, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8824257342398544290, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -59152,6 +59193,11 @@ PrefabInstance:
 --- !u!1 &3133256337795369662 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2472448686329469142, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+  m_PrefabInstance: {fileID: 663285830483464808}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5228045470861181409 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4736037875278222217, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
   m_PrefabInstance: {fileID: 663285830483464808}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &6178392446615578006 stripped
