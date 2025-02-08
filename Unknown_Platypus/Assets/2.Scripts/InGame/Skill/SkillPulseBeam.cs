@@ -7,8 +7,10 @@ public class SkillPulseBeam : SkillObject
 {
     [SerializeField] Animator LowLevelAnimator;
     [SerializeField] Animator HighLevelAnimator;
+    [SerializeField] SpriteRenderer[] LowLevelSpriteArr;
+    [SerializeField] SpriteRenderer[] HighLevelSpriteArr;
     [SerializeField] SkillCollisionChild NotMaxLevelBeam;
-    [SerializeField] SkillCollisionChild MaxLevelBeam;    
+    [SerializeField] SkillCollisionChild MaxLevelBeam;
     [SerializeField] float activeFalseWaitingTime;
     [SerializeField] float activeTrueWaitingTime;
 
@@ -37,7 +39,7 @@ public class SkillPulseBeam : SkillObject
     {
         base.Apply();
 
-        if(m_skillData.m_skillTable.skilllv == ConstData.SkillMaxLevel)
+        if (m_skillData.m_skillTable.skilllv == ConstData.SkillMaxLevel)
         {
             beam = MaxLevelBeam;
         }
@@ -58,6 +60,7 @@ public class SkillPulseBeam : SkillObject
         isFirstWaiting = false;
         SkillRangeImage.gameObject.SetActive(true);
         SetRangeImage();
+        AnimatorInit();
     }
 
     public override void UpdateLogic()
@@ -69,7 +72,7 @@ public class SkillPulseBeam : SkillObject
         {
             return;
         }
-        else if(isFirstWaiting is false && elapsedTime > activeTrueWaitingTime)
+        else if (isFirstWaiting is false && elapsedTime > activeTrueWaitingTime)
         {
             isFirstWaiting = true;
         }
@@ -84,7 +87,7 @@ public class SkillPulseBeam : SkillObject
 
         if (allElapsedTime > m_duration && gameObject.activeInHierarchy)
         {
-            if(allElapsedTime - m_duration < activeFalseWaitingTime + activeTrueWaitingTime)
+            if (allElapsedTime - m_duration < activeFalseWaitingTime + activeTrueWaitingTime)
             {
                 if (m_skillData.m_skillTable.skilllv == ConstData.SkillMaxLevel)
                 {
@@ -94,7 +97,7 @@ public class SkillPulseBeam : SkillObject
                 {
                     LowLevelAnimator.SetTrigger("Disapper");
                 }
-                    
+
                 return;
             }
 
@@ -127,16 +130,16 @@ public class SkillPulseBeam : SkillObject
         {
             pos = new Vector2(ConstData.MapMaxPos.x, pos.y);
         }
-        else if(pos.x < ConstData.MapMinPos.x)
+        else if (pos.x < ConstData.MapMinPos.x)
         {
             pos = new Vector2(ConstData.MapMinPos.x, pos.y);
         }
 
-        if(pos.y >= ConstData.MapMaxPos.y)
+        if (pos.y >= ConstData.MapMaxPos.y)
         {
             pos = new Vector2(pos.x, ConstData.MapMaxPos.y);
         }
-        else if(pos.y < ConstData.MapMinPos.y)
+        else if (pos.y < ConstData.MapMinPos.y)
         {
             pos = new Vector2(pos.x, ConstData.MapMinPos.y);
         }
@@ -147,5 +150,21 @@ public class SkillPulseBeam : SkillObject
     public override void OnTriggerEnterChild(Collider2D collision)
     {
         BattleControl.instance.ApplySkill(m_skillData, m_owner, collision.GetComponent<Player>());
+    }
+
+    private void AnimatorInit()
+    {
+        LowLevelAnimator.Rebind();
+        HighLevelAnimator.Rebind();
+
+        for (int i = 0; i < LowLevelSpriteArr.Length; i++)
+        {
+            LowLevelSpriteArr[i].color = new Color32(255, 255, 255, 255);
+        }
+
+        for (int i = 0; i < HighLevelSpriteArr.Length; i++)
+        {
+            HighLevelSpriteArr[i].color = new Color32(255, 255, 255, 255);
+        }
     }
 }
