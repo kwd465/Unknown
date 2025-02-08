@@ -54,15 +54,29 @@ public class SkillElemental : SkillObject
             elemental[i].SetColliderActive(true);
             elemental[i].transform.localPosition = defaultPos[i];
         }
+
+        Debug.Log(@$"element check {m_objectCount} {m_skillData.m_skillTable.skilllv}");
+
+        if(ConstData.SkillMaxLevel == m_skillData.m_skillTable.skilllv)
+        {
+            LowLevelEffectObj.gameObject.SetActive(false);
+            MaxLevelEffectObj.gameObject.SetActive(true);
+        }
+        else
+        {
+            MaxLevelEffectObj.gameObject.SetActive(false);
+            LowLevelEffectObj.gameObject.SetActive(true);
+        }
     }
 
     public override void UpdateLogic()
     {
+        //state 0
         if (state == 0)
         {
             elapsedTime += Time.fixedDeltaTime;
             transform.position = m_owner.transform.position;
-            transform.Rotate(new Vector3(0, 0, 40 * Time.fixedDeltaTime));
+            //transform.Rotate(new Vector3(0, 0, 40 * Time.fixedDeltaTime));
             if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration))
             {
                 if (FindTarget())
@@ -72,6 +86,7 @@ public class SkillElemental : SkillObject
                 }
             }
         }
+        //state 1
         else if (state == 1)
         {
             // Ÿ���� ���� ���ư�
@@ -90,6 +105,7 @@ public class SkillElemental : SkillObject
                 elapsedTime = 0;
             }
         }
+        //state 2
         else if (state == 2)
         {
             // 2�� ���
@@ -101,6 +117,7 @@ public class SkillElemental : SkillObject
                 state = 3;
             }
         }
+        //state 3
         else if (state == 3)
         {
             // �ٽ� ���ƿ�.

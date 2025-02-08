@@ -19421,13 +19421,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8d93d7757909494c873a400c1eda5cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillRangeImage: {fileID: 0}
   isColliderCheck: 1
   isShake: 0
   m_effect: {fileID: 0}
   HitEffect: 
   isSetParentHit: 0
-  LowLevelEffectObj: {fileID: 1814055593360809040}
-  MaxLevelEffectObj: {fileID: 1814055593360809040}
+  LowLevelEffectObj: {fileID: 7405370241991164876}
+  MaxLevelEffectObj: {fileID: 7405370241991164876}
   elemental:
   - {fileID: 1234769404564428612}
   - {fileID: 7035471381824455114}
@@ -102308,7 +102309,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &292553600938577816
 Transform:
   m_ObjectHideFlags: 0
