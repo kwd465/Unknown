@@ -11,6 +11,7 @@ public class SkillElemental : SkillObject
     Vector2[] defaultPos = new Vector2[] { new Vector2(-2, 2), new Vector2(2, -2), new Vector2(2, 2), new Vector2(-2, -2) };
     Vector2[] targetPos = new Vector2[4];
     bool[] hasTarget = new bool[4];
+    float[] elementalMoveTime = new float[4];
     int state;
     float elapsedTime;
     List<Player> targetList = new List<Player>();
@@ -53,9 +54,8 @@ public class SkillElemental : SkillObject
             elemental[i].gameObject.SetActive(true);
             elemental[i].SetColliderActive(true);
             elemental[i].transform.localPosition = defaultPos[i];
+            elementalMoveTime[i] = 0;
         }
-
-        Debug.Log(@$"element check {m_objectCount} {m_skillData.m_skillTable.skilllv}");
 
         if(ConstData.SkillMaxLevel == m_skillData.m_skillTable.skilllv)
         {
@@ -67,16 +67,64 @@ public class SkillElemental : SkillObject
             MaxLevelEffectObj.gameObject.SetActive(false);
             LowLevelEffectObj.gameObject.SetActive(true);
         }
+
+        elapsedTime = m_skillData.m_skillTable.duration + m_skillData.m_skillTable.coolTime;
     }
 
     public override void UpdateLogic()
     {
+        gameObject.transform.position = Owner.transform.position;
+
+        elapsedTime += Time.deltaTime;
+
+        Debug.Log($@"{elapsedTime} {m_skillData.m_skillTable.duration} {m_skillData.m_skillTable.coolTime}");
+
+        if (elapsedTime < m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.coolTime))
+        {
+            return;
+        }
+
+        if(FindTarget() is false)
+        {
+            return;
+        }
+
+        for (int i = 0; i < m_objectCount; i++)
+        {
+            if (hasTarget[i] == false)
+            {
+                continue;
+            }
+
+            if (elementalMoveTime[i] >= 1)
+            {
+                elementalMoveTime[i] = 0;
+            }
+
+            elemental[i].transform.position = Vector2.Lerp(defaultPos[i] + (Vector2)m_owner.transform.position, targetPos[i], elementalMoveTime[i]);
+            elementalMoveTime[i] += Time.deltaTime;
+        }
+
+        if(elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.coolTime) + m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration))
+        {
+            elapsedTime = 0;
+
+            for (int i = 0; i < m_objectCount; i++)
+            {
+                elemental[i].transform.localPosition = defaultPos[i];
+                elementalMoveTime[i] = 0;
+            }
+
+            return;
+        }
+
+        /*
         //state 0
         if (state == 0)
         {
             elapsedTime += Time.fixedDeltaTime;
-            transform.position = m_owner.transform.position;
-            //transform.Rotate(new Vector3(0, 0, 40 * Time.fixedDeltaTime));
+            //transform.position = m_owner.transform.position;
+
             if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration))
             {
                 if (FindTarget())
@@ -91,7 +139,7 @@ public class SkillElemental : SkillObject
         {
             // Ÿ���� ���� ���ư�
             elapsedTime += Time.fixedDeltaTime;
-            transform.rotation = Quaternion.identity;
+            //transform.rotation = Quaternion.identity;
             for (int i = 0; i < m_objectCount; i++)
             {
                 if (hasTarget[i] == false)
@@ -99,7 +147,7 @@ public class SkillElemental : SkillObject
                 elemental[i].transform.position = Vector2.Lerp(elemental[i].transform.position, targetPos[i], elapsedTime);
             }
 
-            if (elapsedTime >= 0.5f)
+            if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration))
             {
                 state = 2;
                 elapsedTime = 0;
@@ -129,7 +177,7 @@ public class SkillElemental : SkillObject
                 elemental[i].transform.position = Vector2.Lerp(elemental[i].transform.position, targetPos[i], elapsedTime);
             }
 
-            if (elapsedTime >= 0.5f)
+            if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration))
             {
                 state = 0;
                 elapsedTime = 0;
@@ -141,6 +189,26 @@ public class SkillElemental : SkillObject
                 }
             }
         }
+        */
+    }
+
+    private IEnumerator CoElementMove()
+    {
+        float checkTime = 0;
+
+        while(m_skillData.m_skillTable.duration > checkTime)
+        {
+            checkTime += Time.deltaTime;
+
+            for (int i = 0; i < m_skillData.m_skillTable.skilllv; i++)
+            {
+
+            }
+
+            yield return null;
+        }
+
+        // 원상복귀 -Jun 25-02-12
     }
 
     public override void OnTriggerEnterChild(Collider2D collision)

@@ -19431,9 +19431,9 @@ MonoBehaviour:
   MaxLevelEffectObj: {fileID: 7405370241991164876}
   elemental:
   - {fileID: 1234769404564428612}
-  - {fileID: 7035471381824455114}
-  - {fileID: 4938988205257367352}
   - {fileID: 151962939345035864}
+  - {fileID: 4938988205257367352}
+  - {fileID: 7035471381824455114}
 --- !u!1 &2031394337908751087
 GameObject:
   m_ObjectHideFlags: 0
