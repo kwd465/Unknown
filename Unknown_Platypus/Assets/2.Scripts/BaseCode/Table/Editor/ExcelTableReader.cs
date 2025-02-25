@@ -221,6 +221,7 @@ public class ExcelTableReader : EditorWindow
             else
             {
                 book = new XSSFWorkbook(stream);
+                Debug.Log($@"data path {_data.path} {book.NumberOfSheets}");
             }
 
             for (int i = 0; i < book.NumberOfSheets; ++i)
