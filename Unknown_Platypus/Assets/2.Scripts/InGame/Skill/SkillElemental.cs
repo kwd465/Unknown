@@ -10,6 +10,7 @@ public class SkillElemental : SkillObject
 
     Vector2[] defaultPos = new Vector2[] { new Vector2(-2, 2), new Vector2(2, -2), new Vector2(2, 2), new Vector2(-2, -2) };
     Vector2[] targetPos = new Vector2[4];
+    float[] elementalMoveTimeArr = new float[4];
     bool[] hasTarget = new bool[4];
     int state;
     float elapsedTime;
@@ -37,6 +38,9 @@ public class SkillElemental : SkillObject
             elemental[i].SetColliderActive(false);
             elemental[i].transform.localPosition = defaultPos[i];
         }
+
+        Debug.Log(@$"element check {m_objectCount} {m_skillData.m_skillTable.skilllv}");
+
     }
 
     public override void Apply()
@@ -53,6 +57,7 @@ public class SkillElemental : SkillObject
             elemental[i].gameObject.SetActive(true);
             elemental[i].SetColliderActive(true);
             elemental[i].transform.localPosition = defaultPos[i];
+            elementalMoveTimeArr[i] = 0;
         }
 
         Debug.Log(@$"element check {m_objectCount} {m_skillData.m_skillTable.skilllv}");
@@ -71,6 +76,56 @@ public class SkillElemental : SkillObject
 
     public override void UpdateLogic()
     {
+        gameObject.transform.position = Owner.transform.position;
+
+        elapsedTime += Time.deltaTime;
+
+        //Debug.Log($@"{elapsedTime} {m_skillData.m_skillTable.duration}");
+
+        if (elapsedTime < m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration))
+        {
+            return;
+        }
+
+        if (FindTarget() is false)
+        {
+            return;
+        }
+
+        for (int i = 0; i < m_objectCount; i++)
+        {
+            if (hasTarget[i] == false)
+            {
+                continue;
+            }
+
+            if (elementalMoveTimeArr[i] >= 1)
+            {
+                elementalMoveTimeArr[i] -= Time.deltaTime;
+            }
+            else
+            {
+                elementalMoveTimeArr[i] += Time.deltaTime;
+            }
+            Vector3 calcPos = (targetPos[i] - (Vector2)elemental[i].transform.position).normalized * Time.deltaTime * elementalMoveTimeArr[i];
+            //elemental[i].transform.position = Vector2.Lerp(defaultPos[i] + (Vector2)m_owner.transform.position, targetPos[i], elementalMoveTimeArr[i]);
+            elemental[i].transform.position += calcPos;
+        }
+
+        if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration) * 2)
+        {
+            elapsedTime = 0;
+
+            for (int i = 0; i < m_objectCount; i++)
+            {
+                elemental[i].transform.localPosition = defaultPos[i];
+                elementalMoveTimeArr[i] = 0;
+            }
+
+            return;
+        }
+
+        /*
         //state 0
         if (state == 0)
         {
@@ -141,6 +196,7 @@ public class SkillElemental : SkillObject
                 }
             }
         }
+        */
     }
 
     public override void OnTriggerEnterChild(Collider2D collision)
