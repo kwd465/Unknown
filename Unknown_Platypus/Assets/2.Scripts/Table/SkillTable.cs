@@ -29,6 +29,7 @@ public enum e_SkillEffect
     none,
     damage,
     piercedamage,
+    speed,
     buff,
     debuff
 }

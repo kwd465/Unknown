@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7697303219229689005}
   - component: {fileID: 4120895197199226400}
   - component: {fileID: 5297818433808124218}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ins Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4917,7 +4917,7 @@ GameObject:
   - component: {fileID: 754142521782187172}
   - component: {fileID: 3630813481739180191}
   - component: {fileID: 4648124279408100807}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Impact (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9822,7 +9822,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2612977762923353480}
   - component: {fileID: 3396470633509900513}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9907,7 +9907,7 @@ GameObject:
   - component: {fileID: 6657252632417671551}
   - component: {fileID: 2032201924605797457}
   - component: {fileID: 7288173739876464476}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: DissolveBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14813,7 +14813,7 @@ GameObject:
   - component: {fileID: 8861851681934312864}
   - component: {fileID: 7376749963481991543}
   - component: {fileID: 3755138629033305110}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19644,7 +19644,7 @@ GameObject:
   - component: {fileID: 2261887897758531809}
   - component: {fileID: 6147813193226943487}
   - component: {fileID: 6204295247780489101}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Str Glow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24473,7 +24473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9193248098849251021}
   - component: {fileID: 5656647103746935453}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: frame_circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24557,7 +24557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6429182472824027701}
   - component: {fileID: 7193754818048577614}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: 'Guidance system '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24616,7 +24616,7 @@ GameObject:
   - component: {fileID: 4031862882697463742}
   - component: {fileID: 8483527998309136360}
   - component: {fileID: 8557957573033782759}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29500,7 +29500,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3454706970654048299}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SkillEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29536,7 +29536,7 @@ GameObject:
   - component: {fileID: 7190317657780937774}
   - component: {fileID: 3234722019251822205}
   - component: {fileID: 7088370159599655531}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34442,7 +34442,7 @@ GameObject:
   - component: {fileID: 8827521392143225622}
   - component: {fileID: 1294770008326497499}
   - component: {fileID: 2010866508014300007}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Str Shock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39330,7 +39330,7 @@ GameObject:
   - component: {fileID: 610393332137890159}
   - component: {fileID: 3132201863863943874}
   - component: {fileID: 5203306024958027970}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Glow Beam (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44236,7 +44236,7 @@ GameObject:
   - component: {fileID: 7777188989510110192}
   - component: {fileID: 1920662242324135465}
   - component: {fileID: 380979336341017122}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Glow Beam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49142,7 +49142,7 @@ GameObject:
   - component: {fileID: 4533463156869586426}
   - component: {fileID: 2293613036813470239}
   - component: {fileID: 4157385001705696751}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: PulseBeamSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54117,7 +54117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8565044219499483188}
   - component: {fileID: 7004879449841580329}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54202,7 +54202,7 @@ GameObject:
   - component: {fileID: 8517392801383857756}
   - component: {fileID: 3603107828901123993}
   - component: {fileID: 2130972556998965104}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Impact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59105,6 +59105,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4533463156869586426}
     m_Modifications:
+    - target: {fileID: 54888104524573421, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 149378637838598153, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
       propertyPath: m_SortingLayer
       value: 3
@@ -59113,6 +59117,10 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: 2061097525
       objectReference: {fileID: 0}
+    - target: {fileID: 195754596809713892, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 2472448686329469142, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
       propertyPath: m_Name
       value: PulseBeamSkill_Level05
@@ -59120,6 +59128,22 @@ PrefabInstance:
     - target: {fileID: 2472448686329469142, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790119750737710215, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3061081344968471860, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3088817540921782973, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4194567212249947836, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4736037875278222217, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
       propertyPath: m_SortingLayer
@@ -59144,6 +59168,26 @@ PrefabInstance:
     - target: {fileID: 4889209047318637889, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5535154015329755843, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5862724818233462527, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143750041772377593, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265328038435564519, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8289922968039621637, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8824257342398544290, guid: 88c36a2dd5923ea4d87602015a43e6d0, type: 3}
       propertyPath: m_LocalPosition.x
