@@ -1,12 +1,13 @@
 using BH;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class SkillElemental : SkillObject
 {
-    [SerializeField] SkillCollisionChild [] elemental;
+    [SerializeField] SkillCollisionChild[] elemental;
 
     Vector2[] defaultPos = new Vector2[] { new Vector2(-2, 2), new Vector2(2, -2), new Vector2(2, 2), new Vector2(-2, -2) };
     Vector2[] targetPos = new Vector2[4];
@@ -16,6 +17,8 @@ public class SkillElemental : SkillObject
     float elapsedTime;
     List<Player> targetList = new List<Player>();
     int m_objectCount = 0;
+
+    Coroutine resetCoroutine = null;
     public void Awake()
     {
         gameObject.SetActive(false);
@@ -43,6 +46,12 @@ public class SkillElemental : SkillObject
 
     }
 
+    //public override void Init(SkillEffect _data, List<Player> _targets, Player _owner, Vector3 _dir)
+    //{
+    //    base.Init(_data, _targets, _owner, _dir);
+    //    Apply();
+    //}
+
     public override void Apply()
     {
         gameObject.SetActive(true);
@@ -62,7 +71,7 @@ public class SkillElemental : SkillObject
 
         Debug.Log(@$"element check {m_objectCount} {m_skillData.m_skillTable.skilllv}");
 
-        if(ConstData.SkillMaxLevel == m_skillData.m_skillTable.skilllv)
+        if (ConstData.SkillMaxLevel == m_skillData.m_skillTable.skilllv)
         {
             LowLevelEffectObj.gameObject.SetActive(false);
             MaxLevelEffectObj.gameObject.SetActive(true);
@@ -72,17 +81,26 @@ public class SkillElemental : SkillObject
             MaxLevelEffectObj.gameObject.SetActive(false);
             LowLevelEffectObj.gameObject.SetActive(true);
         }
+
+        if(resetCoroutine is not null)
+        {
+            StopCoroutine(resetCoroutine);
+        }
+        //SkillEffect.isActiving = false;
     }
 
     public override void UpdateLogic()
     {
         gameObject.transform.position = Owner.transform.position;
 
+        //하 시발 이거 필요한데 여기면 안되는데 코드 어저냐 -Jun 25-02-25
+        //SkillEffect.m_coolTime += Time.deltaTime;
+
         elapsedTime += Time.deltaTime;
 
-        //Debug.Log($@"{elapsedTime} {m_skillData.m_skillTable.duration}");
+        //Debug.Log($@"{elapsedTime} {m_skillData.m_skillTable.duration} {SkillEffect.m_coolTime} {m_skillData.m_coolTime} {SkillEffect.m_skillTable.coolTime}");
 
-        if (elapsedTime < m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration))
+        if (elapsedTime < m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.coolTime))
         {
             return;
         }
@@ -94,7 +112,7 @@ public class SkillElemental : SkillObject
 
         for (int i = 0; i < m_objectCount; i++)
         {
-            if (hasTarget[i] == false)
+            if (hasTarget[i] is false)
             {
                 continue;
             }
@@ -107,22 +125,21 @@ public class SkillElemental : SkillObject
             {
                 elementalMoveTimeArr[i] += Time.deltaTime;
             }
-            Vector3 calcPos = (targetPos[i] - (Vector2)elemental[i].transform.position).normalized * Time.deltaTime * elementalMoveTimeArr[i];
+            Vector3 calcPos = (targetPos[i] - (Vector2)elemental[i].transform.position).normalized * Time.deltaTime * elementalMoveTimeArr[i] * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
             //elemental[i].transform.position = Vector2.Lerp(defaultPos[i] + (Vector2)m_owner.transform.position, targetPos[i], elementalMoveTimeArr[i]);
             elemental[i].transform.position += calcPos;
+            Debug.Log(@$" move to target {i} {targetPos[i]} {calcPos} {elemental[i].transform.position} {m_skillData.m_skillTable.skillEffectDataList[1].skillEffectType}");
         }
 
-        if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration) * 2)
+        if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration) + m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.coolTime))
         {
             elapsedTime = 0;
 
-            for (int i = 0; i < m_objectCount; i++)
+            if (resetCoroutine is not null)
             {
-                elemental[i].transform.localPosition = defaultPos[i];
-                elementalMoveTimeArr[i] = 0;
+                StopCoroutine(resetCoroutine);
             }
-
-            return;
+            resetCoroutine = StartCoroutine(CoBackToDefaultPos());
         }
 
         /*
@@ -199,12 +216,42 @@ public class SkillElemental : SkillObject
         */
     }
 
+    private IEnumerator CoBackToDefaultPos()
+    {
+        bool[] allPosCheck = Enumerable.Repeat(false, m_objectCount).ToArray();
+
+        while (allPosCheck.Contains(false))
+        {
+            for (int i = 0; i < m_objectCount; i++)
+            {
+                yield return null;
+
+                if (allPosCheck[i])
+                {
+                    continue;
+                }
+
+                if (allPosCheck[i] is false && (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).sqrMagnitude <= 0.1f)
+                {
+                    elemental[i].transform.localPosition = defaultPos[i];
+                    allPosCheck[i] = true;
+                    continue;
+                }
+
+                Vector3 calcPos = (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).normalized * Time.deltaTime * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
+            Debug.Log(@$"move to back {m_objectCount} {allPosCheck.Contains(false)} {allPosCheck[0]} {(defaultPos[0] - (Vector2)elemental[0].transform.localPosition).sqrMagnitude <= 0.01f} {calcPos} {defaultPos[0]} {elemental[0].transform.localPosition}");
+                elemental[i].transform.localPosition += calcPos;
+                elementalMoveTimeArr[i] = 0;
+            }
+        }
+
+        resetCoroutine = null;
+    }
+
     public override void OnTriggerEnterChild(Collider2D collision)
     {
         BattleControl.instance.ApplySkill(m_skillData, m_owner, collision.GetComponent<Player>());
     }
-
-
 
     bool FindTarget()
     {
@@ -213,12 +260,12 @@ public class SkillElemental : SkillObject
         //Collider2D[] _target = Physics2D.OverlapCircleAll(actor.transform.position, 50, 7);
 
         var liveMonster = StagePlayLogic.instance.m_SpawnLogic.m_monList;
-        
+
         Vector3 pos1 = m_owner.transform.position;
         Vector3 pos2;
         float dist;
         float[] farthestDist = new float[4];
-        Player[] farthestMon = new Player[4]; 
+        Player[] farthestMon = new Player[4];
 
         foreach (var mon in liveMonster)
         {
@@ -229,7 +276,7 @@ public class SkillElemental : SkillObject
 
             int idx = 0;
 
-            if( pos2.x > pos1.x )
+            if (pos2.x > pos1.x)
             {
                 if (pos2.y > pos1.y)
                     idx = 2;
@@ -244,7 +291,7 @@ public class SkillElemental : SkillObject
                     idx = 3;
             }
 
-            if( dist > farthestDist[idx])
+            if (dist > farthestDist[idx])
             {
                 farthestDist[idx] = dist;
                 farthestMon[idx] = mon;
@@ -252,11 +299,12 @@ public class SkillElemental : SkillObject
         }
 
         bool _isTarget = false;
-        for(int i=0; i<4; i++)
+        for (int i = 0; i < 4; i++)
         {
             if (farthestMon[i] == null)
             {
-                hasTarget[i] = false;                
+                hasTarget[i] = false;
+                elementalMoveTimeArr[i] = 0;
             }
             else
             {
@@ -266,11 +314,6 @@ public class SkillElemental : SkillObject
             }
         }
 
-
         return _isTarget;
-
     }
-
-
-
 }
