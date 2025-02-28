@@ -13,6 +13,14 @@ public enum e_SkillType
     CharacterSkill,
 }
 
+public enum SKILL_ACTIVE_TYPE
+{ 
+    CONTINIUS,
+    TIMED,
+
+    MAX
+}
+
 [System.Serializable]
 public enum e_SkillSubType
 {
@@ -84,6 +92,7 @@ public class SkillTableData : RecordBase
     public e_SkillType skillType;
     public e_SkillSubType skillSubType;
     public e_SkillAreaType skillAreaType;
+    public SKILL_ACTIVE_TYPE Skill_Active_Type;
     
     public int group;
     public int skillName;
@@ -111,6 +120,7 @@ public class SkillTableData : RecordBase
         skillType = FileUtil.Get<e_SkillType>(_data, "skillType");
         skillSubType = FileUtil.Get<e_SkillSubType>(_data, "skillSubType");
         skillAreaType = FileUtil.Get<e_SkillAreaType>(_data, "skillAreaType");
+        Skill_Active_Type = FileUtil.Get<SKILL_ACTIVE_TYPE>(_data, "SKILL_ACTIVE_TYPE");
         skillName = FileUtil.Get<int>(_data, "skillName");
         skillDesc = FileUtil.Get<int>(_data, "skillDesc");
         skillSubDesc = FileUtil.Get<int>(_data, "skillSubDesc");

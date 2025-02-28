@@ -38,12 +38,11 @@ public class SkillElemental : SkillObject
         for (int i = 0; i < m_objectCount; i++)
         {
             elemental[i].gameObject.SetActive(true);
-            elemental[i].SetColliderActive(false);
-            elemental[i].transform.localPosition = defaultPos[i];
+            elemental[i].SetColliderActive(true);
+            elemental[i].transform.localPosition = SkillEffect.isActiving ? elemental[i].transform.localPosition : defaultPos[i];
         }
 
-        Debug.Log(@$"element check {m_objectCount} {m_skillData.m_skillTable.skilllv}");
-
+        Debug.Log(@$"element check refresh {m_objectCount} {m_skillData.m_skillTable.skilllv}");
     }
 
     //public override void Init(SkillEffect _data, List<Player> _targets, Player _owner, Vector3 _dir)
@@ -69,7 +68,7 @@ public class SkillElemental : SkillObject
             elementalMoveTimeArr[i] = 0;
         }
 
-        Debug.Log(@$"element check {m_objectCount} {m_skillData.m_skillTable.skilllv}");
+        Debug.Log(@$"element check apply {m_objectCount} {m_skillData.m_skillTable.skilllv}");
 
         if (ConstData.SkillMaxLevel == m_skillData.m_skillTable.skilllv)
         {
@@ -93,12 +92,7 @@ public class SkillElemental : SkillObject
     {
         gameObject.transform.position = Owner.transform.position;
 
-        //하 시발 이거 필요한데 여기면 안되는데 코드 어저냐 -Jun 25-02-25
-        //SkillEffect.m_coolTime += Time.deltaTime;
-
         elapsedTime += Time.deltaTime;
-
-        //Debug.Log($@"{elapsedTime} {m_skillData.m_skillTable.duration} {SkillEffect.m_coolTime} {m_skillData.m_coolTime} {SkillEffect.m_skillTable.coolTime}");
 
         if (elapsedTime < m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.coolTime))
         {
@@ -128,18 +122,12 @@ public class SkillElemental : SkillObject
             Vector3 calcPos = (targetPos[i] - (Vector2)elemental[i].transform.position).normalized * Time.deltaTime * elementalMoveTimeArr[i] * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
             //elemental[i].transform.position = Vector2.Lerp(defaultPos[i] + (Vector2)m_owner.transform.position, targetPos[i], elementalMoveTimeArr[i]);
             elemental[i].transform.position += calcPos;
-            Debug.Log(@$" move to target {i} {targetPos[i]} {calcPos} {elemental[i].transform.position} {m_skillData.m_skillTable.skillEffectDataList[1].skillEffectType}");
+            //Debug.Log(@$" move to target {i} {targetPos[i]} {calcPos} {elemental[i].transform.position} {m_skillData.m_skillTable.skillEffectDataList[1].skillEffectType}");
         }
 
         if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration) + m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.coolTime))
         {
-            elapsedTime = 0;
-
-            if (resetCoroutine is not null)
-            {
-                StopCoroutine(resetCoroutine);
-            }
-            resetCoroutine = StartCoroutine(CoBackToDefaultPos());
+            Close();
         }
 
         /*
@@ -239,7 +227,7 @@ public class SkillElemental : SkillObject
                 }
 
                 Vector3 calcPos = (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).normalized * Time.deltaTime * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
-            Debug.Log(@$"move to back {m_objectCount} {allPosCheck.Contains(false)} {allPosCheck[0]} {(defaultPos[0] - (Vector2)elemental[0].transform.localPosition).sqrMagnitude <= 0.01f} {calcPos} {defaultPos[0]} {elemental[0].transform.localPosition}");
+            //Debug.Log(@$"move to back {m_objectCount} {allPosCheck.Contains(false)} {allPosCheck[0]} {(defaultPos[0] - (Vector2)elemental[0].transform.localPosition).sqrMagnitude <= 0.01f} {calcPos} {defaultPos[0]} {elemental[0].transform.localPosition}");
                 elemental[i].transform.localPosition += calcPos;
                 elementalMoveTimeArr[i] = 0;
             }
@@ -251,6 +239,19 @@ public class SkillElemental : SkillObject
     public override void OnTriggerEnterChild(Collider2D collision)
     {
         BattleControl.instance.ApplySkill(m_skillData, m_owner, collision.GetComponent<Player>());
+    }
+
+    public override void Close()
+    {
+        elapsedTime = 0;
+
+        SkillEndAction?.Invoke();
+
+        if (resetCoroutine is not null)
+        {
+            StopCoroutine(resetCoroutine);
+        }
+        resetCoroutine = StartCoroutine(CoBackToDefaultPos());
     }
 
     bool FindTarget()

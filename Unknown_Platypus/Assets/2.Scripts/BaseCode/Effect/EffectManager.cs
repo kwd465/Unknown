@@ -17,9 +17,9 @@ public class EffectManager : BHSingleton<EffectManager>
     public Effect Play(string _path, Vector3 _pos, Quaternion _rot, float _size = 1f, bool _loop = false)
     {
         Effect _find = m_pool.Get(m_path+_path);
+
         if (null == _find)
             return null;
-        Debug.Log(@$"gameobject name {gameObject.name}");
         _find.Play(_pos, _rot, _size);
         return _find;
     }

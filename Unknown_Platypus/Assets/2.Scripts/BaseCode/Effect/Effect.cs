@@ -101,8 +101,6 @@ public class Effect : MonoBase
             m_particleList[i].SetSize(_size);
             m_particleList[i].Play(_loop);
         }
-
-
     }
 
     public virtual void Play(Transform _parent, float _size, bool _loop = false)

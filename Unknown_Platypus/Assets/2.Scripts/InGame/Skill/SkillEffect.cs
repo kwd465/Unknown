@@ -38,7 +38,6 @@ public class SkillEffect
     public Player m_ownerData;
     public Action<SkillEffect> m_updateCallBack;
 
-
     public Dictionary<SKILLOPTION_TYPE , float> m_dicCurSelectOption = new Dictionary<SKILLOPTION_TYPE, float>();
 
     public bool m_isReady;
@@ -90,7 +89,6 @@ public class SkillEffect
         else
             m_dicCurSelectOption.Add(_selectOption , _value);
     }
-
 
     public virtual void UseSkill()
     {
@@ -158,7 +156,4 @@ public class SkillEffect
                 return _value;
         }
     }
-
-
 }
-
