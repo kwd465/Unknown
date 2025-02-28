@@ -213,6 +213,7 @@ public class SkillObject : MonoBehaviour
             Debug.LogWarning($@"{gameObject.name} skill effect 확인 필요 -Jun 24-10-12");
         }
 #endif
+
         NowSelectEffectObj?.gameObject.SetActive(false);
     }
 

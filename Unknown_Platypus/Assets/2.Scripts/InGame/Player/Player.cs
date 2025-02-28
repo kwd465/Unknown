@@ -50,8 +50,9 @@ public class Player : MonoBase
 
     //�ڵ� ��ų
     protected List<SkillEffect> m_skillList = new List<SkillEffect>();
+    protected Dictionary<int, SkillObject> skillObjDict = new();
     //��Ÿ�� ���� ��ų (���ӽ�ų ���ѽ�ų)
-    private List<SkillObject> m_NoCoolSkillList = new List<SkillObject>();
+    //private List<SkillObject> m_NoCoolSkillList = new List<SkillObject>();
 
     protected SkillEffect m_baseSkill;
 
@@ -79,15 +80,15 @@ public class Player : MonoBase
             }
         }
 
-        List<SkillObject> _nocoolList = m_NoCoolSkillList.FindAll(item => item.SkillData.skillType == e_SkillType.InGameSkill);
+        //List<SkillObject> _nocoolList = m_NoCoolSkillList.FindAll(item => item.SkillData.skillType == e_SkillType.InGameSkill);
 
-        if(_nocoolList != null && _nocoolList.Count >0)
-        {
-            for(int i = 0; i < _nocoolList.Count; i++)
-            {
-                _temp.Add(_nocoolList[i].SkillData);
-            }
-        }
+        //if(_nocoolList != null && _nocoolList.Count >0)
+        //{
+        //    for(int i = 0; i < _nocoolList.Count; i++)
+        //    {
+        //        _temp.Add(_nocoolList[i].SkillData);
+        //    }
+        //}
 
         return _temp;
     }
@@ -129,6 +130,7 @@ public class Player : MonoBase
         m_Rooting?.SetArea(0.5f);
 
         SelectSkillOptionDict.Clear();
+        skillObjDict = new();
     }
 
     public override void UpdateLogic()
@@ -181,22 +183,28 @@ public class Player : MonoBase
         //��ų ȹ��
         if (_skillData.skillSubType == e_SkillSubType.Auto)
         {
-            if (_skillData.coolTime == 0)
-            {
-                SkillObject _target = m_NoCoolSkillList.Find(item => item.SkillData.group == _skillData.group);
-                if (_target == null)
-                    m_NoCoolSkillList.Add(MakeSkillEffect(new SkillEffect(_skillData, this)));
-                else
-                    _target.Init(new SkillEffect(_skillData, this), GameUtil.GetTarget(_skillData, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this, m_inputVec);
-            }
+            //if (_skillData.coolTime == 0)
+            //{
+            //    SkillObject _target = m_NoCoolSkillList.Find(item => item.SkillData.group == _skillData.group);
+            //    if (_target == null)
+            //        m_NoCoolSkillList.Add(MakeSkillEffect(new SkillEffect(_skillData, this)));
+            //    else
+            //        _target.Init(new SkillEffect(_skillData, this), GameUtil.GetTarget(_skillData, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this, m_inputVec);
+            //}
+            //else
+            //{
+            //    SkillEffect _target = m_skillList.Find(item => item.m_skillTable.group == _skillData.group);
+            //    if (_target != null)
+            //        _target.SetUpdateData(_skillData);
+            //    else
+            //        m_skillList.Add(new SkillEffect(_skillData, this));
+            //}
+
+            SkillEffect _target = m_skillList.Find(item => item.m_skillTable.group == _skillData.group);
+            if (_target != null)
+                _target.SetUpdateData(_skillData);
             else
-            {
-                SkillEffect _target = m_skillList.Find(item => item.m_skillTable.group == _skillData.group);
-                if (_target != null)
-                    _target.SetUpdateData(_skillData);
-                else
-                    m_skillList.Add(new SkillEffect(_skillData, this));
-            }
+                m_skillList.Add(new SkillEffect(_skillData, this));
         }
     }
 
@@ -251,24 +259,85 @@ public class Player : MonoBase
         return list;
     }
 
-    private SkillObject MakeSkillEffect(SkillEffect _skillData, bool _isParent = false)
+    private void MakeSkillEffect(SkillEffect _skillData, bool _isParent = false)
     {
         Effect _skill = null;
-        if(_isParent)
-            _skill = EffectManager.instance.Play(_skillData.m_skillTable.effectPath, m_trAttackAngle);
+        SkillObject _skillObject = null;
+
+        bool isExist = false;
+
+        //if(skillObjDict.TryGetValue(_skillData.m_skillTable.group , out var obj) is false)
+        //{
+        //    if (_isParent)
+        //        _skill = EffectManager.instance.Play(_skillData.m_skillTable.effectPath, m_trAttackAngle);
+        //    else
+        //        _skill = EffectManager.instance.Play(_skillData.m_skillTable.effectPath, transform.position, Quaternion.identity);
+        //    _skillData.UseSkill();
+        //    _skillObject = _skill.GetComponent<SkillObject>();
+        //    skillObjDict.Add(_skillData.m_skillTable.group, _skillObject);
+        //    Debug.Log("create");
+        //}
+        //else
+        //{
+        //    Debug.Log("use");
+        //    _skillData.UseSkill();
+        //    _skillObject = obj;
+        //    _skillObject.Close();
+
+        //    _skill = _skillObject.GetComponent<Effect>();
+
+        //    if (_isParent)
+        //        _skill.Play(m_trAttackAngle, 1);
+        //    else
+        //        _skill.Play(transform.position, Quaternion.identity, 1);
+        //    _skillObject.RefreshSkill(_skillData);
+        //}
+        //switch (_skillData.m_skillTable.Skill_Active_Type)
+        //{
+        //    case SKILL_ACTIVE_TYPE.CONTINIUS:
+
+        //        break;
+        //    case SKILL_ACTIVE_TYPE.TIMED:
+
+        //        break;
+        //}
+
+        //if (_skillData.m_skillTable.skillType != e_SkillType.InGameSkill)
+        //    _skillObject.Init(_skillData, GameUtil.GetTarget(_skillData.m_skillTable, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this, m_inputVec);
+        //else
+        //    _skillObject.Init(_skillData, _target: null, this, m_inputVec);
+        //_skillObject.SkillEndAction = _skillData.EndSkill;
+
+        //return;
+
+        if (skillObjDict.TryGetValue(_skillData.m_skillTable.skillName, out var skillObj) is false)
+        {
+            skillObj = null;
+            skillObjDict.Add(_skillData.m_skillTable.skillName, null);
+        }
+
+        if(skillObj is null || _skillData.m_skillTable.Skill_Active_Type == SKILL_ACTIVE_TYPE.TIMED)
+        {
+            if (_isParent)
+                _skill = EffectManager.instance.Play(_skillData.m_skillTable.effectPath, m_trAttackAngle);
+            else
+                _skill = EffectManager.instance.Play(_skillData.m_skillTable.effectPath, transform.position, Quaternion.identity);
+        }
         else
-            _skill = EffectManager.instance.Play(_skillData.m_skillTable.effectPath, transform.position, Quaternion.identity);
+        {
+            _skill = skillObj.GetComponent<Effect>();
+        }
+
         _skillData.UseSkill();
-        SkillObject _skillObject = _skill.GetComponent<SkillObject>();
-        if(_skillData.m_skillTable.skillType != e_SkillType.InGameSkill)
-            _skillObject.Init(_skillData, GameUtil.GetTarget(_skillData.m_skillTable, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this,m_inputVec);
+        _skillObject = _skill.GetComponent<SkillObject>();
+        if (_skillData.m_skillTable.skillType != e_SkillType.InGameSkill)
+            _skillObject.Init(_skillData, GameUtil.GetTarget(_skillData.m_skillTable, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this, m_inputVec);
         else
-            _skillObject.Init(_skillData, _target:null, this,m_inputVec);
+            _skillObject.Init(_skillData, _target: null, this, m_inputVec);
         _skillObject.SkillEndAction = _skillData.EndSkill;
-        return _skillObject;
+
+        skillObjDict[_skillData.m_skillTable.skillName] = _skillObject;
     }
-
-
 
     #region ���� ĳ���͸� ����
     public void Move(Vector2 _input)
@@ -277,7 +346,6 @@ public class Player : MonoBase
         m_inputVec = _input;
         float angle = Mathf.Atan2(inputVec.y, inputVec.x) * Mathf.Rad2Deg;
         m_trAttackAngle.rotation = Quaternion.Euler(0, 0, angle - 90);
-
 
         if (m_fsm.curState != ePLAYER_STATE.move &&
             m_fsm.curState != ePLAYER_STATE.move_Attack) 

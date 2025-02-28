@@ -320,7 +320,6 @@ public partial class UIPopup_SkillSelect : UIPopup
 
         yield return new WaitForSecondsRealtime(CloseTime);
 
-
         StagePlayLogic.instance.m_Player.SetSkill(selectData);
         StagePlayLogic.instance.m_Player.AddSkillOption(selectData.group, currentOptionIndex);
         StagePlayLogic.instance.SetPause(false);
