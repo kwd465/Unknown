@@ -1,4 +1,5 @@
 using BH;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -104,26 +105,54 @@ public class SkillElemental : SkillObject
             return;
         }
 
-        for (int i = 0; i < m_objectCount; i++)
-        {
-            if (hasTarget[i] is false)
-            {
-                continue;
-            }
+        Move();
+        
 
-            if (elementalMoveTimeArr[i] >= 1)
-            {
-                elementalMoveTimeArr[i] -= Time.deltaTime;
-            }
-            else
-            {
-                elementalMoveTimeArr[i] += Time.deltaTime;
-            }
-            Vector3 calcPos = (targetPos[i] - (Vector2)elemental[i].transform.position).normalized * Time.deltaTime * elementalMoveTimeArr[i] * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
-            //elemental[i].transform.position = Vector2.Lerp(defaultPos[i] + (Vector2)m_owner.transform.position, targetPos[i], elementalMoveTimeArr[i]);
-            elemental[i].transform.position += calcPos;
-            //Debug.Log(@$" move to target {i} {targetPos[i]} {calcPos} {elemental[i].transform.position} {m_skillData.m_skillTable.skillEffectDataList[1].skillEffectType}");
-        }
+        //for (int i = 0; i < m_objectCount; i++)
+        //{
+        //    Vector3 calcPos = Vector3.zero;
+
+        //    elementalMoveTimeArr[i] += Time.deltaTime;
+
+        //    if (elementalMoveTimeArr[i] >= 1 || hasTarget[i] is false)
+        //    {
+        //        if (elementalMoveTimeArr[i] >= 2)
+        //        {
+        //            elementalMoveTimeArr[i] = 0;
+        //            elemental[i].transform.localPosition = defaultPos[i];
+        //            continue;
+        //        }
+
+        //        calcPos = (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).normalized * Time.deltaTime * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
+                
+        //        if((defaultPos[i] - (Vector2)elemental[i].transform.localPosition).sqrMagnitude <= 0.01f)
+        //        {
+        //            elementalMoveTimeArr[i] = 2;
+        //            elemental[i].transform.localPosition = defaultPos[i];
+        //        }
+        //        else
+        //        {
+        //            elemental[i].transform.localPosition += calcPos;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        calcPos = (targetPos[i] - (Vector2)elemental[i].transform.position).normalized * Time.deltaTime * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
+
+        //        if ((targetPos[i] - (Vector2)elemental[i].transform.position).sqrMagnitude <= 0.01f)
+        //        {
+        //            elementalMoveTimeArr[i] = 1;
+        //            elemental[i].transform.position = targetPos[i];
+        //        }
+        //        else
+        //        {
+        //            elemental[i].transform.position += calcPos;
+        //        }
+        //    }
+        //    Debug.Log($@"move time check {elementalMoveTimeArr[i]} {i} {elapsedTime}");
+        //    //elemental[i].transform.position = Vector2.Lerp(defaultPos[i] + (Vector2)m_owner.transform.position, targetPos[i], elementalMoveTimeArr[i]);
+        //    //Debug.Log(@$" move to target {i} {targetPos[i]} {calcPos} {elemental[i].transform.position} {m_skillData.m_skillTable.skillEffectDataList[1].skillEffectType}");
+        //}
 
         if (elapsedTime >= m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration) + m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.coolTime))
         {
@@ -204,35 +233,86 @@ public class SkillElemental : SkillObject
         */
     }
 
+    bool[] isMoveStartArr = new []{ false, false, false, false };
+
+    private void Move()
+    {
+        for (int i = 0; i < m_objectCount; i++)
+        {
+            if (isMoveStartArr[i] || hasTarget[i] is false)
+            {
+                continue;
+            }
+
+            Vector3[] vec3 = new Vector3[] { gameObject.transform.InverseTransformPoint(targetPos[i]), defaultPos[i] };
+            float distance = Vector2.Distance(targetPos[i], (Vector2)elemental[i].transform.position);
+            float moveTime = distance / (m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue)/*한 프레임당 이동 거리  (distance * Time.deltaTime * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue)*/;
+            Debug.Log($@" move {moveTime} {distance} {targetPos[i]} {i}");
+            int myIndex = i;
+            isMoveStartArr[myIndex] = true;
+            elemental[i].transform.DOLocalPath(vec3, moveTime).OnComplete(() =>
+            {
+                //elemental[i].transform.DOLocalMove(defaultPos[myIndex], moveTime).OnComplete(() =>
+                //{
+                //    Debug.Log(@$"move end go to defalut {elemental[i].gameObject.transform.position} {elemental[i].gameObject.transform.localPosition} {defaultPos[myIndex]} {myIndex} {moveTime}");
+                //    isMoveStartArr[myIndex] = false;
+                //});
+                DOVirtual.DelayedCall(0.5f, () =>
+                {
+                    isMoveStartArr[myIndex] = false;
+                });
+            });
+        }
+    }
+
     private IEnumerator CoBackToDefaultPos()
     {
-        bool[] allPosCheck = Enumerable.Repeat(false, m_objectCount).ToArray();
+        //bool[] allPosCheck = Enumerable.Repeat(false, m_objectCount).ToArray();
 
-        while (allPosCheck.Contains(false))
+        //while (allPosCheck.Contains(false))
+        //{
+        //    gameObject.transform.position = Owner.transform.position;
+
+        //    for (int i = 0; i < m_objectCount; i++)
+        //    {
+        //        if (allPosCheck[i])
+        //        {
+        //            continue;
+        //        }
+
+        //        isMoveStartArr[i] = false;
+        //        elemental[i].transform.DOKill();
+
+        //        if (allPosCheck[i] is false && (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).sqrMagnitude <= 0.01f)
+        //        {
+        //            elemental[i].transform.localPosition = defaultPos[i];
+        //            allPosCheck[i] = true;
+        //            elementalMoveTimeArr[i] = 0;
+        //            continue;
+        //        }
+
+        //        Vector3 calcPos = (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).normalized * Time.deltaTime * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
+
+        //        elemental[i].transform.localPosition += calcPos;
+        //        Debug.Log(@$"clost {i} {elemental[i].transform.localPosition} {defaultPos[i]} {calcPos}");
+        //    }
+
+        //    yield return null;
+        //}
+        for (int i = 0; i < m_objectCount; i++)
         {
-            for (int i = 0; i < m_objectCount; i++)
+            isMoveStartArr[i] = false;
+            elemental[i].transform.DOKill();
+            float distance = (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).magnitude;
+            float moveTime = distance / (m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue);
+            Debug.Log($@"close {moveTime} {i}");
+            int nowIndex = i;
+            elemental[i].transform.DOLocalMove(defaultPos[i], moveTime).OnComplete(() =>
             {
-                yield return null;
-
-                if (allPosCheck[i])
-                {
-                    continue;
-                }
-
-                if (allPosCheck[i] is false && (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).sqrMagnitude <= 0.1f)
-                {
-                    elemental[i].transform.localPosition = defaultPos[i];
-                    allPosCheck[i] = true;
-                    continue;
-                }
-
-                Vector3 calcPos = (defaultPos[i] - (Vector2)elemental[i].transform.localPosition).normalized * Time.deltaTime * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue;
-            //Debug.Log(@$"move to back {m_objectCount} {allPosCheck.Contains(false)} {allPosCheck[0]} {(defaultPos[0] - (Vector2)elemental[0].transform.localPosition).sqrMagnitude <= 0.01f} {calcPos} {defaultPos[0]} {elemental[0].transform.localPosition}");
-                elemental[i].transform.localPosition += calcPos;
-                elementalMoveTimeArr[i] = 0;
-            }
+                elemental[i].transform.localPosition = defaultPos[nowIndex];
+            });
         }
-
+        yield return null;
         resetCoroutine = null;
     }
 
