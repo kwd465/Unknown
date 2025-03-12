@@ -9674,6 +9674,7 @@ GameObject:
   - component: {fileID: 6605384980137630174}
   - component: {fileID: 4938988205257367352}
   - component: {fileID: 2738490658103696102}
+  - component: {fileID: 1719823578178785319}
   m_Layer: 0
   m_Name: Element Earth
   m_TagString: Untagged
@@ -14546,6 +14547,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.2
+--- !u!50 &1719823578178785319
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631136294293067624}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &635069775094889139
 GameObject:
   m_ObjectHideFlags: 0
@@ -19429,11 +19457,16 @@ MonoBehaviour:
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 7405370241991164876}
   MaxLevelEffectObj: {fileID: 7405370241991164876}
-  elemental:
+  elementalArr:
   - {fileID: 1234769404564428612}
   - {fileID: 151962939345035864}
   - {fileID: 4938988205257367352}
   - {fileID: 7035471381824455114}
+  elementalRigArr:
+  - {fileID: 9100745493283043709}
+  - {fileID: 3557509972250051519}
+  - {fileID: 1719823578178785319}
+  - {fileID: 3371760496460115182}
 --- !u!1 &2031394337908751087
 GameObject:
   m_ObjectHideFlags: 0
@@ -48718,6 +48751,7 @@ GameObject:
   - component: {fileID: 1544978379529410206}
   - component: {fileID: 151962939345035864}
   - component: {fileID: 6058761319376818975}
+  - component: {fileID: 3557509972250051519}
   m_Layer: 0
   m_Name: Element Fire
   m_TagString: Untagged
@@ -53589,6 +53623,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.2
+--- !u!50 &3557509972250051519
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3436781459520878130}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &4088127543737611434
 GameObject:
   m_ObjectHideFlags: 0
@@ -78043,6 +78104,7 @@ GameObject:
   - component: {fileID: 2647548293590633427}
   - component: {fileID: 7035471381824455114}
   - component: {fileID: 3278751342296296022}
+  - component: {fileID: 3371760496460115182}
   m_Layer: 0
   m_Name: Element Water
   m_TagString: Untagged
@@ -82915,6 +82977,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.2
+--- !u!50 &3371760496460115182
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661628071525980002}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &5855047348429769089
 GameObject:
   m_ObjectHideFlags: 0
@@ -97419,6 +97508,7 @@ GameObject:
   - component: {fileID: 6967609719743275879}
   - component: {fileID: 1234769404564428612}
   - component: {fileID: 1444768525673473244}
+  - component: {fileID: 9100745493283043709}
   m_Layer: 0
   m_Name: Element  Wind
   m_TagString: Untagged
@@ -102292,6 +102382,33 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.2
+--- !u!50 &9100745493283043709
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7111417412245282266}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &7405370241991164876
 GameObject:
   m_ObjectHideFlags: 0
@@ -102323,10 +102440,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3348606060514515384}
   - {fileID: 675609409513150385}
-  - {fileID: 8665676986713844987}
   - {fileID: 7225192899075731313}
+  - {fileID: 8665676986713844987}
+  - {fileID: 3348606060514515384}
   m_Father: {fileID: 6088849547236132927}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &8861354539240413233
