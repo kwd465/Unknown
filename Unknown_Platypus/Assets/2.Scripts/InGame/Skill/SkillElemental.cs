@@ -55,10 +55,12 @@ public class SkillElemental : SkillObject
             if(level == i)
             {
                 elementalArr[i].gameObject.SetActive(true);
+                elementalArr[i].SetColliderActive(true);
                 continue;
             }
 
             elementalArr[i].gameObject.SetActive(false);
+            elementalArr[i].SetColliderActive(false);
         }
     }
 
@@ -92,10 +94,12 @@ public class SkillElemental : SkillObject
             if (level == i)
             {
                 elementalArr[i].gameObject.SetActive(true);
+                elementalArr[i].SetColliderActive(true);
                 continue;
             }
 
             elementalArr[i].gameObject.SetActive(false);
+            elementalArr[i].SetColliderActive(false);
         }
 
         //Debug.Log(@$"element check apply {m_objectCount} {m_skillData.m_skillTable.skilllv}");
@@ -225,9 +229,9 @@ public class SkillElemental : SkillObject
     {
         if (isMoveTargetStart)
         {
-            elementalRigArr[level].AddForce((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue);
+            elementalRigArr[level].AddForce((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * 2);
 
-            //elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime;
+            //elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2;
 
             if ((targetPos - elementalRigArr[level].transform.localPosition).sqrMagnitude <= 0.01f)
             {
@@ -348,6 +352,7 @@ public class SkillElemental : SkillObject
     public override void OnTriggerEnterChild(Collider2D collision)
     {
         BattleControl.instance.ApplySkill(m_skillData, m_owner, collision.GetComponent<Player>());
+        Debug.Log("on trigger");
     }
 
     public override void Close()
