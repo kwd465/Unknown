@@ -229,7 +229,10 @@ public class SkillElemental : SkillObject
     {
         if (isMoveTargetStart)
         {
+            if(elementalRigArr[level].velocity.sqrMagnitude <=100)
+            {
             elementalRigArr[level].AddForce((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * 2);
+            }
 
             //elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2;
 
