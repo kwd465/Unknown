@@ -224,14 +224,15 @@ public class SkillElemental : SkillObject
     //bool[] isMoveStartArr = new []{ false, false, false, false };
     bool isMoveTargetStart = false;
     Vector3 targetPos = Vector3.zero;
+    //[SerializeField]float maxSpeed = 10;
 
     private void Move()
     {
         if (isMoveTargetStart)
         {
-            elementalRigArr[level].AddForce((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * 2);
-
-            //elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2;
+            //elementalRigArr[level].AddForce((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * 2);
+            //elementalRigArr[level].velocity = Vector3.ClampMagnitude(elementalRigArr[level].velocity, maxSpeed);
+            elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2;
 
             if ((targetPos - elementalRigArr[level].transform.localPosition).sqrMagnitude <= 0.01f)
             {
