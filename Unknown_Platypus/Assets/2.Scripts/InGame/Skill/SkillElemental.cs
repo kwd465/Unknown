@@ -1,5 +1,6 @@
 using BH;
 using DG.Tweening;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -226,13 +227,41 @@ public class SkillElemental : SkillObject
     Vector3 targetPos = Vector3.zero;
     [SerializeField] float maxSpeed = 10;
 
+    Vector3[] areaPos = { new Vector3(1, 1, 0), new Vector3(1, -1, 0), new Vector3(-1, -1, 0), new Vector3(-1, 1, 0) };
+    bool[] selectArea = { true, false, false, false };
+
+    private void SelectArea()
+    {
+        int index = UnityEngine.Random.Range(0, selectArea.Length);
+
+        while (selectArea[index])
+        {
+            index = UnityEngine.Random.Range(0, selectArea.Length);
+        }
+
+        for (int i = 0; i < selectArea.Length; i++)
+        {
+            selectArea[i] = false;
+        }
+
+        selectArea[index] = true;
+
+        targetPos = elementalArr[level].transform.parent.transform.TransformPoint(new Vector3
+    (UnityEngine.Random.Range(0f, m_skillData.m_skillTable.skillDistance) * areaPos[index].x,
+    UnityEngine.Random.Range(0f, m_skillData.m_skillTable.skillDistance) * areaPos[index].y,
+    0));
+    }
+
     private void Move()
     {
         if (isMoveTargetStart)
         {
-            elementalRigArr[level].AddForce((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * 2);
-            elementalRigArr[level].velocity = Vector3.ClampMagnitude(elementalRigArr[level].velocity, maxSpeed);
-            //elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2;
+            //elementalRigArr[level].AddForce((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * 2);
+            //elementalRigArr[level].velocity = Vector3.ClampMagnitude(elementalRigArr[level].velocity, maxSpeed);
+            elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2;
+            //elementalRigArr[level].MovePosition((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2);
+
+            //Debug.Log($@"{targetPos} {elementalRigArr[level].transform.localPosition} random");
 
             if ((targetPos - elementalRigArr[level].transform.localPosition).sqrMagnitude <= 0.01f)
             {
@@ -243,11 +272,8 @@ public class SkillElemental : SkillObject
         }
 
         isMoveTargetStart = true;
+        SelectArea();
 
-        targetPos = new Vector3
-            (Random.Range(m_skillData.m_skillTable.skillDistance * -1, m_skillData.m_skillTable.skillDistance),
-            Random.Range(m_skillData.m_skillTable.skillDistance * -1, m_skillData.m_skillTable.skillDistance),
-            0);
         // 클래스의 멤버 변수로 선언 (초기값은 Vector3.zero)
         //if (isMoveTargetStart)
         //{
