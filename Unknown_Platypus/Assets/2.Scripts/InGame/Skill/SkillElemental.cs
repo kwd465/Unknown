@@ -246,10 +246,10 @@ public class SkillElemental : SkillObject
 
         selectArea[index] = true;
 
-        targetPos = elementalArr[level].transform.parent.transform.TransformPoint(new Vector3
+        targetPos = new Vector3
     (UnityEngine.Random.Range(0f, m_skillData.m_skillTable.skillDistance) * areaPos[index].x,
     UnityEngine.Random.Range(0f, m_skillData.m_skillTable.skillDistance) * areaPos[index].y,
-    0));
+    0);
     }
 
     private void Move()
