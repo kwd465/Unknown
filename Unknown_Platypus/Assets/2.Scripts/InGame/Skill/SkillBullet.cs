@@ -7,11 +7,9 @@ using BH;
 
 public class SkillBullet : SkillObject
 {
-
     private float m_checkDistace = 0f;
     private Player m_target;
     
-
     public override void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
     {
         base.Init(_data, _target, _owner, _dir);
@@ -33,7 +31,7 @@ public class SkillBullet : SkillObject
         }else
         {
             transform.position = Vector3.MoveTowards(transform.position, m_target.transform.position, Time.deltaTime * 8f);
-            transform.rotation = Quaternion.LookRotation(Vector3.forward, m_target.transform.position - transform.position);
+            //transform.rotation = Quaternion.LookRotation(Vector3.forward, m_target.transform.position - transform.position);
         
             if(m_target.getData.HP <= 0)
             {

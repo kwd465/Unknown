@@ -113,14 +113,14 @@ public class SkillObject : MonoBehaviour
 
         NowSelectEffectObj = _data.m_skillTable.skilllv >= 5 ? MaxLevelEffectObj : LowLevelEffectObj;
         NowSelectEffectObj.gameObject.SetActive(true);
-
+        Apply();
         if (_target == null)
         {
             Apply();
             return;
         }
-        for (int i = 0; i < m_taretList.Count; i++)
-            Apply(m_taretList[i]);
+        //for (int i = 0; i < m_taretList.Count; i++)
+        //    Apply(m_taretList[i]);
 
         SkillEndAction = null;
 
