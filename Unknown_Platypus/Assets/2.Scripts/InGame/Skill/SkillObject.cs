@@ -51,6 +51,7 @@ public class SkillObject : MonoBehaviour
     public Effect m_effect;
     [Header("Ÿ�� ����Ʈ")]
     public string HitEffect;
+    public string ImpactEffect;
     public bool isSetParentHit = false;
 
     protected SkillEffect m_skillData;
@@ -329,6 +330,14 @@ public class SkillObject : MonoBehaviour
             _effect.transform.SetParent(m_owner.transform);
     }
 
+    protected void ImpactEffectPlay(Vector3 _pos)
+    {
+        if (string.IsNullOrEmpty(ImpactEffect))
+            return;
 
+        Effect _effect = EffectManager.instance.Play(ImpactEffect, _pos, Quaternion.identity);
+        if (isSetParentHit)
+            _effect.transform.SetParent(m_owner.transform);
+    }
 
 }

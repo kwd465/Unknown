@@ -53,6 +53,7 @@ SpriteAtlas:
     packedSpriteRenderDataKeys:
     - 4575ee0084c3c466ebd93fc870b2e07c: 21300000
     - 47b40e5043f03461083413cd041e34f6: 21300000
+    - 5318beb0824a77d4e89aa99077524008: 21300000
     - 8201da01c67753241955b9ba33686115: 21300000
     - 59dceeb1278244b429441fc1a4d16dc7: 21300000
     - 28d224327b9d04da9b4c3294fadd3f2e: 21300000
@@ -79,6 +80,7 @@ SpriteAtlas:
   m_PackedSprites:
   - {fileID: 21300000, guid: 4575ee0084c3c466ebd93fc870b2e07c, type: 3}
   - {fileID: 21300000, guid: 47b40e5043f03461083413cd041e34f6, type: 3}
+  - {fileID: 21300000, guid: 5318beb0824a77d4e89aa99077524008, type: 3}
   - {fileID: 21300000, guid: 8201da01c67753241955b9ba33686115, type: 3}
   - {fileID: 21300000, guid: 59dceeb1278244b429441fc1a4d16dc7, type: 3}
   - {fileID: 21300000, guid: 28d224327b9d04da9b4c3294fadd3f2e, type: 3}
@@ -104,6 +106,7 @@ SpriteAtlas:
   m_PackedSpriteNamesToIndex:
   - Skill_16
   - Skill_08
+  - Skill_21
   - Skill_19
   - exp_2
   - Skill_18

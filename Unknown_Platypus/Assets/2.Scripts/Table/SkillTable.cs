@@ -39,7 +39,8 @@ public enum e_SkillEffect
     piercedamage,
     speed,
     buff,
-    debuff
+    debuff,
+    cooltime
 }
 
 
@@ -53,6 +54,7 @@ public enum e_SkillEffectType
     movespeed,
     atks,
     hpregen,
+    cooltime,
 }
 
 [System.Serializable]
