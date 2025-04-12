@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Skill
 {
-
     public enum SkillState
     {
         ready,
@@ -84,7 +83,7 @@ public class Skill
 
 
 public class SkillManager : Singleton<SkillManager>
-{    
+{
     List<Skill> skillList = new List<Skill>();
 
     OldPlayer player;
@@ -135,7 +134,5 @@ public class SkillManager : Singleton<SkillManager>
     public void UseSkill(Skill skill)
     {
         skill.UseSkill(player);
-
     }    
-
 }

@@ -9,26 +9,32 @@ public class SkillBullet : SkillObject
 {
     private float m_checkDistace = 0f;
     private Player m_target;
-    
+
     public override void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
     {
         base.Init(_data, _target, _owner, _dir);
         m_target = _target;
         SetRotation();
+
+        ImpactEffectPlay(_target.gameObject.transform.position);
     }
-    
+
     override public void UpdateLogic()
     {
         base.UpdateLogic();
 
-        if(m_target == null){
+        if(m_target == null)
+        {
             m_checkDistace += Time.deltaTime * 8f;
             transform.position += m_dir * Time.deltaTime * 8f;
             if(m_checkDistace ==   m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.distance))
             {
+                HitEffectPlay(transform.position);
+
                 Close();
             }
-        }else
+        }
+        else
         {
             transform.position = Vector3.MoveTowards(transform.position, m_target.transform.position, Time.deltaTime * 8f);
             //transform.rotation = Quaternion.LookRotation(Vector3.forward, m_target.transform.position - transform.position);
@@ -44,6 +50,7 @@ public class SkillBullet : SkillObject
                 HitEffectPlay(transform.position);
                 Close();
             }
+
 
         }
     }

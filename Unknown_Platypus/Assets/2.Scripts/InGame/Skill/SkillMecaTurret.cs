@@ -8,27 +8,29 @@ using UnityEngine;
 
 public class SkillMecaTurret : SkillObject
 {
+    [SerializeField] Transform m_trBullet;
+    [SerializeField]SpineAnimation m_spineTop;
+    [SerializeField] SpineAnimation m_spineBottom;
+    [SerializeField] TargetObjectRandomMove m_randomMove;
+    [SerializeField] SpriteRenderer NuclearTargetSprite;
 
-    [SerializeField]
-    private Transform m_trBullet;
+    int m_state = 0;
 
-    [SerializeField]
-    private SpineAnimation m_spineTop;
-    [SerializeField]
-    private SpineAnimation m_spineBottom;
+    float m_checkTime = 0f;
+    float nowNormalCoolTime = 0;
+    float nowNuclearCoolTime = 0;
 
-    private int m_state = 0;
-    private float m_checkTime = 0f;
-    private float m_attackDealy = 0;
-    [SerializeField]
-    private TargetObjectRandomMove m_randomMove;
+    float maxNormalCoolTime { get => m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue; }
+    float maxNuclearCoolTime { get=> m_skillData.m_skillTable.skillEffectDataList[2].skillEffectValue; }
+
 
     public override void Apply()
     {
         base.Apply();
         m_state = 0;
         m_checkTime = 0;
-        m_attackDealy = 0;
+        nowNormalCoolTime = 0;
+        nowNuclearCoolTime = 0;
     }
 
     public override void UpdateLogic()
@@ -36,10 +38,10 @@ public class SkillMecaTurret : SkillObject
         base.UpdateLogic();
 
         m_checkTime += Time.fixedDeltaTime;
-        m_attackDealy += Time.fixedDeltaTime;
+        nowNormalCoolTime += Time.fixedDeltaTime;
         m_randomMove.UpdateLogic();
 
-        if (m_attackDealy >= 0.5f)
+        if (nowNormalCoolTime >= maxNormalCoolTime)
         {
             Player _target = GameUtil.GetAreaTarget(m_owner, m_area, m_distance, false, true);
             if (_target == null)
@@ -51,7 +53,7 @@ public class SkillMecaTurret : SkillObject
             var bullet = _bullet.GetComponent<SkillBullet>();
             bullet.Init(m_skillData, _target, m_owner, _dir);
             _bullet.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.right, _dir);
-            Debug.Log(@$"hit meca turret {m_attackDealy}");
+
             //if (moveCoroutine is not null)
             //{
             //    StopCoroutine(moveCoroutine);
@@ -59,7 +61,28 @@ public class SkillMecaTurret : SkillObject
 
             //moveCoroutine = StartCoroutine(CoMoveToTarget(_bullet, _target, _dir));
 
-            m_attackDealy = 0;
+            nowNormalCoolTime = 0;
+        }
+
+        if (m_skillData.m_skillTable.skilllv == ConstData.SkillMaxLevel)
+        {
+            nowNuclearCoolTime += Time.fixedDeltaTime;
+
+            if (nowNuclearCoolTime >= maxNuclearCoolTime)
+            {
+                Player _target = GameUtil.GetAreaTarget(m_owner, m_area, m_distance, false, true);
+                if (_target == null)
+                    return;
+
+                Vector3 _dir = (_target.transform.position - transform.position);
+
+                Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position, Quaternion.FromToRotation(Vector3.right, _dir));
+                var bullet = _bullet.GetComponent<SkillBullet>();
+                bullet.Init(m_skillData, _target, m_owner, _dir);
+                _bullet.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, _dir);
+
+                nowNuclearCoolTime = 0;
+            }
         }
 
         if (m_checkTime >= m_duration)

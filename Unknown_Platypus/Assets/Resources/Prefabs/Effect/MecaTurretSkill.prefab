@@ -9,13 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1914539106394143712}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tr_bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1914539106394143712
 Transform:
   m_ObjectHideFlags: 0
@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5926500722295097242}
   - component: {fileID: 3399840996859585133}
   - component: {fileID: 3854069288117810363}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 9196969422567963236}
   - component: {fileID: 4675438191828356700}
   - component: {fileID: 9179157444402526045}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: bottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 7643842728897998342}
   - component: {fileID: 3184766143828385136}
   - component: {fileID: 5571075561468089358}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: MecaTurretSkill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,6 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7505de18436f4862a87aaf82dcc7321, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillRangeImage: {fileID: 0}
   isColliderCheck: 0
   isShake: 0
   m_effect: {fileID: 0}
@@ -357,6 +358,7 @@ MonoBehaviour:
   MaxLevelEffectObj: {fileID: 7009822997211213228}
   m_trBullet: {fileID: 1914539106394143712}
   m_randomMove: {fileID: 3184766143828385136}
+  NuclearTargetSprite: {fileID: 0}
 --- !u!1 &7143914438920917772
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +370,7 @@ GameObject:
   - component: {fileID: 8462021428702965349}
   - component: {fileID: 1887839072229519835}
   - component: {fileID: 4731473196157446619}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SkillEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
