@@ -23,11 +23,11 @@ public class SkillBullet : SkillObject
     {
         base.UpdateLogic();
 
-        if(m_target == null)
+        if (m_target == null)
         {
             m_checkDistace += Time.deltaTime * 8f;
             transform.position += m_dir * Time.deltaTime * 8f;
-            if(m_checkDistace ==   m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.distance))
+            if (m_checkDistace == m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.distance))
             {
                 HitEffectPlay(transform.position);
 
@@ -38,15 +38,19 @@ public class SkillBullet : SkillObject
         {
             transform.position = Vector3.MoveTowards(transform.position, m_target.transform.position, Time.deltaTime * 8f);
             //transform.rotation = Quaternion.LookRotation(Vector3.forward, m_target.transform.position - transform.position);
-        
-            if(m_target.getData.HP <= 0)
-            {
-                Close();
-            }
 
-            if(Vector2.Distance(transform.position, m_target.transform.position) < 0.2f)
+            //if (m_target.getData.HP <= 0)
+            //{
+            //    Close();
+            //}
+
+            if (Vector2.Distance(transform.position, m_target.transform.position) < 0.2f)
             {
-                BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target);
+                if (m_target.getData.HP >= 0)
+                {
+                    BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target);
+                }
+
                 HitEffectPlay(transform.position);
                 Close();
             }
