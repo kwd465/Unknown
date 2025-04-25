@@ -101,7 +101,7 @@ MonoBehaviour:
   isColliderCheck: 0
   isShake: 0
   m_effect: {fileID: 0}
-  HitEffect: MecaHit
+  HitEffect: NuclearHit
   ImpactEffect: NuclearImpact
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 4654143611534759252}

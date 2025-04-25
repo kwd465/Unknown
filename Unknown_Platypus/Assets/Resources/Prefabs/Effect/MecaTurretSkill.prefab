@@ -353,6 +353,7 @@ MonoBehaviour:
   isShake: 0
   m_effect: {fileID: 0}
   HitEffect: 
+  ImpactEffect: 
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 7009822997211213228}
   MaxLevelEffectObj: {fileID: 7009822997211213228}
