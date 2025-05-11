@@ -86,6 +86,8 @@ public class SkillObject : MonoBehaviour
 
     public System.Action SkillEndAction = null;
 
+    protected Effect impactEffect = null;
+
     public virtual void RefreshSkill(SkillEffect _data)
     {
         m_skillData = _data;
@@ -336,8 +338,17 @@ public class SkillObject : MonoBehaviour
             return;
 
         Effect _effect = EffectManager.instance.Play(ImpactEffect, _pos, Quaternion.identity);
-        if (isSetParentHit)
-            _effect.transform.SetParent(m_owner.transform);
-    }
 
+        if(_effect == null)
+        {
+            impactEffect = null;
+
+            return;
+        }
+
+        impactEffect = _effect;
+
+        if (isSetParentHit)
+            _effect.transform.SetParent(m_owner.transform);        
+    }
 }
