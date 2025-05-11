@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using BH;
+using static UnityEngine.GraphicsBuffer;
 
 
 public class SkillBullet : SkillObject
 {
     private float m_checkDistace = 0f;
     private Player m_target;
+
+    System.Action callBackAction;
 
     public override void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
     {
@@ -17,6 +20,25 @@ public class SkillBullet : SkillObject
         SetRotation();
 
         ImpactEffectPlay(_target.gameObject.transform.position);
+
+        if (impactEffect != null)
+        {
+            impactEffect.gameObject.transform.SetParent(m_target.gameObject.transform);
+        }
+    }
+
+    public void InitNotSetRotation(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
+    {
+        base.Init(_data, _target, _owner, _dir);
+        m_target = _target;
+        //SetRotation();
+
+        ImpactEffectPlay(_target.gameObject.transform.position);
+
+        if (impactEffect != null)
+        {
+            impactEffect.gameObject.transform.SetParent(m_target.gameObject.transform);
+        }
     }
 
     override public void UpdateLogic()
@@ -54,8 +76,6 @@ public class SkillBullet : SkillObject
                 HitEffectPlay(transform.position);
                 Close();
             }
-
-
         }
     }
 

@@ -106,9 +106,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1358405337
+  m_SortingLayer: 2
+  m_SortingOrder: 100
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3399840996859585133
 MonoBehaviour:
@@ -231,9 +231,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1358405337
+  m_SortingLayer: 2
+  m_SortingOrder: 100
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4675438191828356700
 MonoBehaviour:
@@ -372,7 +372,7 @@ GameObject:
   - component: {fileID: 1887839072229519835}
   - component: {fileID: 4731473196157446619}
   m_Layer: 8
-  m_Name: SkillEffect
+  m_Name: LowSkillEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
