@@ -4854,9 +4854,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1597230837
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1358405337
+  m_SortingLayer: 2
+  m_SortingOrder: 100
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -4960,9 +4960,9 @@ TrailRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 1358405337
+  m_SortingLayer: 2
+  m_SortingOrder: 100
   m_Time: 0.15
   m_PreviewTimeScale: 1
   m_Parameters:
@@ -9936,10 +9936,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e5c2f6f89f4d431d8825b87053e6cba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillRangeImage: {fileID: 0}
   isColliderCheck: 0
   isShake: 0
   m_effect: {fileID: 0}
   HitEffect: MecaHit
+  ImpactEffect: 
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 4675293269255411589}
   MaxLevelEffectObj: {fileID: 4675293269255411589}

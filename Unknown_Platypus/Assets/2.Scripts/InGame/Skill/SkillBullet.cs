@@ -4,12 +4,15 @@ using Unity.VisualScripting;
 using UnityEngine;
 using BH;
 using static UnityEngine.GraphicsBuffer;
+using System.Runtime.InteropServices.ComTypes;
 
 
 public class SkillBullet : SkillObject
 {
     private float m_checkDistace = 0f;
     private Player m_target;
+    private Vector3 targetPos;
+    private bool isPosSetting = false;
 
     System.Action callBackAction;
 
@@ -17,6 +20,7 @@ public class SkillBullet : SkillObject
     {
         base.Init(_data, _target, _owner, _dir);
         m_target = _target;
+        isPosSetting = false;
         SetRotation();
 
         ImpactEffectPlay(_target.gameObject.transform.position);
@@ -27,10 +31,33 @@ public class SkillBullet : SkillObject
         }
     }
 
+    public void InitPosSetting(SkillEffect _data, Vector3 _targetPos, Player _owner, Vector3 _dir, bool _isNotSetRotation = false)
+    {
+        m_target = null;
+        m_taretList.Clear();
+        base.Init(_data, m_target, _owner, _dir);
+
+        targetPos = _targetPos;
+        isPosSetting = true;
+
+        if (_isNotSetRotation is false)
+        {
+            SetRotation();
+        }
+
+        ImpactEffectPlay(targetPos);
+
+        if (impactEffect != null)
+        {
+            impactEffect.gameObject.transform.SetParent(null);
+        }
+    }
+
     public void InitNotSetRotation(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
     {
         base.Init(_data, _target, _owner, _dir);
         m_target = _target;
+        isPosSetting = false;
         //SetRotation();
 
         ImpactEffectPlay(_target.gameObject.transform.position);
@@ -44,6 +71,24 @@ public class SkillBullet : SkillObject
     override public void UpdateLogic()
     {
         base.UpdateLogic();
+
+        if (isPosSetting)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * 8f);
+
+            if (Vector2.Distance(transform.position, targetPos) < 0.2f)
+            {
+                if (m_target != null)
+                {
+                    BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target);
+                }
+
+                HitEffectPlay(targetPos);
+                Close();
+            }
+
+            return;
+        }
 
         if (m_target == null)
         {
@@ -59,12 +104,6 @@ public class SkillBullet : SkillObject
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, m_target.transform.position, Time.deltaTime * 8f);
-            //transform.rotation = Quaternion.LookRotation(Vector3.forward, m_target.transform.position - transform.position);
-
-            //if (m_target.getData.HP <= 0)
-            //{
-            //    Close();
-            //}
 
             if (Vector2.Distance(transform.position, m_target.transform.position) < 0.2f)
             {
@@ -81,17 +120,30 @@ public class SkillBullet : SkillObject
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag.Equals("Monster"))
+        if (collision.tag != "Monster")
         {
-
-            if(m_target == null){
-                BattleControl.instance.ApplySkill(m_skillData, m_owner, collision.GetComponent<Player>());
-                HitEffectPlay(transform.position);
-                Close();
-            }
+            return;
         }
 
+        if (m_target == null)
+        {
+            m_target = collision.GetComponent<Player>();
+        }
     }
 
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag != "Monster")
+        {
+            return;
+        }
 
+        if (m_target != null)
+        {
+            if (m_target.gameObject.GetHashCode() == collision.gameObject.GetHashCode())
+            {
+                m_target = null;
+            }
+        }
+    }
 }
