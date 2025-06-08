@@ -82,6 +82,10 @@ public class SkillBullet : SkillObject
                 {
                     BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target);
                 }
+                else
+                {
+
+                }
 
                 HitEffectPlay(targetPos);
                 Close();
@@ -128,6 +132,7 @@ public class SkillBullet : SkillObject
         if (m_target == null)
         {
             m_target = collision.GetComponent<Player>();
+            Debug.Log($@"find target m_target {m_target != null} {gameObject.name}");
         }
     }
 

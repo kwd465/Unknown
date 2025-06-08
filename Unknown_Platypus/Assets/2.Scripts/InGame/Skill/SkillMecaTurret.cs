@@ -89,26 +89,4 @@ public class SkillMecaTurret : SkillObject
         if (m_checkTime >= m_duration)
             Close();
     }
-
-    //Coroutine moveCoroutine = null;
-    //float moveTime = 0.25f;
-
-    //IEnumerator CoMoveToTarget(Effect _bullet , Player _target,Vector3 _dir )
-    //{
-    //    SkillObject _obj = _bullet.GetComponent<SkillObject>();
-        
-    //    float elapseTIme = 0;
-
-    //    Vector3 firstPos = gameObject.transform.position;
-    //    _bullet.gameObject.transform.position = firstPos;
-    //    Debug.Log($@"bullet game object {_bullet.gameObject.name} {_bullet.gameObject.activeSelf}");
-    //    while (elapseTIme < moveTime)
-    //    {
-    //        elapseTIme += Time.deltaTime;
-    //        _bullet.transform.position = Vector3.Lerp(firstPos, _target.gameObject.transform.position, elapseTIme / moveTime);
-    //        yield return null;
-    //    }
-
-    //    _obj.Init(m_skillData, _target, m_owner, _dir);
-    //}
 }
