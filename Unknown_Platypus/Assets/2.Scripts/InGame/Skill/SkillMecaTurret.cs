@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Spine.Unity;
 using UnityEditor;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 public class SkillMecaTurret : SkillObject
 {

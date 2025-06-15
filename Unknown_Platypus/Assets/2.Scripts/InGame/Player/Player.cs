@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
 using Yoo;
+using System;
 
 
 public class Player : MonoBase
@@ -35,6 +36,8 @@ public class Player : MonoBase
 
     public NavMeshAgent NavMeshAgent => m_navMeshAgent;
 
+    public Action<STATUS_EFFECT, float> StatusEffectActiveAction = null;
+    public Action<STATUS_EFFECT, float> StatusEffectEndAction = null;
 
     [SerializeField]
     protected Player_CheckRooting m_Rooting;
@@ -131,6 +134,9 @@ public class Player : MonoBase
 
         SelectSkillOptionDict.Clear();
         skillObjDict = new();
+
+        StatusEffectActiveAction = null;
+        StatusEffectEndAction = null;
     }
 
     public override void UpdateLogic()
