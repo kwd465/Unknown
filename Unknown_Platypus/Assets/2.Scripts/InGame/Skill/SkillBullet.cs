@@ -30,7 +30,7 @@ public class SkillBullet : SkillObject
             impactEffect.gameObject.transform.SetParent(m_target.gameObject.transform);
         }
     }
-
+    float time = 0;
     public void InitPosSetting(SkillEffect _data, Vector3 _targetPos, Player _owner, Vector3 _dir, bool _isNotSetRotation = false)
     {
         m_target = null;
@@ -53,21 +53,6 @@ public class SkillBullet : SkillObject
         }
     }
 
-    public void InitNotSetRotation(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
-    {
-        base.Init(_data, _target, _owner, _dir);
-        m_target = _target;
-        isPosSetting = false;
-        //SetRotation();
-
-        ImpactEffectPlay(_target.gameObject.transform.position);
-
-        if (impactEffect != null)
-        {
-            impactEffect.gameObject.transform.SetParent(m_target.gameObject.transform);
-        }
-    }
-
     override public void UpdateLogic()
     {
         base.UpdateLogic();
@@ -75,11 +60,12 @@ public class SkillBullet : SkillObject
         if (isPosSetting)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPos, Time.deltaTime * 8f);
-
+            time += Time.deltaTime;
             if (Vector2.Distance(transform.position, targetPos) < 0.2f)
             {
                 if (m_target != null)
                 {
+                    Debug.Log($@"active damage nuclear {time} ");
                     BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target);
                 }
                 else

@@ -141,6 +141,7 @@ public class ExcelTableReader : EditorWindow
         AddLoadExcelGroup("/../Table/EquipTable.xlsx", new EquipTable(_fileSave), "Sheet1");
         AddLoadExcelGroup("/../Table/ItemTable.xlsx", new ItemTable(_fileSave), "Sheet1");
         AddLoadExcelGroup("/../Table/GachaTable.xlsx", new GachaTable(_fileSave), "Sheet1");
+        AddLoadExcelGroup("/../Table/StatusEffectTable.xlsx", new GachaTable(_fileSave), "Sheet1");
     }
 
     void OnGUI ()
