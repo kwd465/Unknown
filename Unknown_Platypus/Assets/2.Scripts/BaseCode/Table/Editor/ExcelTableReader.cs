@@ -6,6 +6,7 @@ using NPOI.HSSF.UserModel;
 using NPOI.XSSF.UserModel;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using System;
 
 public class ExcelFileSheet
 {
@@ -141,7 +142,7 @@ public class ExcelTableReader : EditorWindow
         AddLoadExcelGroup("/../Table/EquipTable.xlsx", new EquipTable(_fileSave), "Sheet1");
         AddLoadExcelGroup("/../Table/ItemTable.xlsx", new ItemTable(_fileSave), "Sheet1");
         AddLoadExcelGroup("/../Table/GachaTable.xlsx", new GachaTable(_fileSave), "Sheet1");
-        AddLoadExcelGroup("/../Table/StatusEffectTable.xlsx", new GachaTable(_fileSave), "Sheet1");
+        AddLoadExcelGroup("/../Table/StatusEffectTable.xlsx", new StatusEffectTable(_fileSave), "Sheet1");
     }
 
     void OnGUI ()
@@ -212,24 +213,52 @@ public class ExcelTableReader : EditorWindow
 
     public void LoadExcel(ExcelFile _data)
     {
-        using (FileStream stream = File.Open(_data.path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-        {
-            IWorkbook book = null;
-            if (Path.GetExtension(_data.path) == ".xls")
-            {
-                book = new HSSFWorkbook(stream);
-            }
-            else
-            {
-                book = new XSSFWorkbook(stream);
-                Debug.Log($@"data path {_data.path} {book.NumberOfSheets}");
-            }
+        //using (FileStream stream = File.Open(_data.path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        //{
+        //    IWorkbook book = null;
+        //    if (Path.GetExtension(_data.path) == ".xls")
+        //    {
+        //        book = new HSSFWorkbook(stream);
+        //    }
+        //    else
+        //    {
+        //        Debug.Log($@"data path {_data.path} ");
+        //        book = new XSSFWorkbook(stream);
+        //        Debug.Log($@"data path {_data.path} {book.NumberOfSheets}");
+        //    }
 
-            for (int i = 0; i < book.NumberOfSheets; ++i)
+        //    for (int i = 0; i < book.NumberOfSheets; ++i)
+        //    {
+        //        ISheet s = book.GetSheetAt(i);      
+        //        _data.Load(s.SheetName, CreateExcelData(s));
+        //    }
+        //}
+        try
+        {
+            using (FileStream stream = File.Open(_data.path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             {
-                ISheet s = book.GetSheetAt(i);      
-                _data.Load(s.SheetName, CreateExcelData(s));
+                IWorkbook book = null;
+                if (Path.GetExtension(_data.path) == ".xls")
+                {
+                    book = new HSSFWorkbook(stream);
+                }
+                else
+                {
+                    Debug.Log($@"data path {_data.path} ");
+                    book = new XSSFWorkbook(stream); // 문제 라인
+                    Debug.Log($@"book.NumberOfSheets: {book.NumberOfSheets}");
+                }
+
+                for (int i = 0; i < book.NumberOfSheets; ++i)
+                {
+                    ISheet s = book.GetSheetAt(i);
+                    _data.Load(s.SheetName, CreateExcelData(s));
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Excel Load Error] file: {_data.path}\n{ex}");
         }
     }
     public List<Dictionary<string, string>> CreateExcelData(ISheet sheet)
