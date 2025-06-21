@@ -75,12 +75,12 @@ public class SkillMecaTurret : SkillObject
                 if (_target == null)
                     return;
 
-                Vector3 _dir = (_target.transform.position - transform.position);
+                Vector3 randomPos = new Vector3(Random.Range(-m_distance, m_distance), Random.Range(-m_distance, m_distance), 0);
 
-                Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position, Quaternion.FromToRotation(Vector3.right, _dir));
+                Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position,Quaternion.identity);
                 var bullet = _bullet.GetComponent<SkillBullet>();
-                bullet.InitPosSetting(m_skillData, _target.transform.position, m_owner, _dir, true);
-                bullet.transform.position = new Vector2(_target.transform.position.x, _target.transform.position.y + 5);
+                bullet.InitPosSetting(m_skillData, randomPos, m_owner, Vector3.down, true);
+                bullet.transform.position = new Vector2(randomPos.x, randomPos.y + 5);
                 //_bullet.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, _dir);
                 _bullet.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
                 nowNuclearCoolTime = 0;
