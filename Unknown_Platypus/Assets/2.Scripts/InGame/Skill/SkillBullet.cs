@@ -31,13 +31,14 @@ public class SkillBullet : SkillObject
         }
     }
     float time = 0;
-    public void InitPosSetting(SkillEffect _data, Vector3 _targetPos, Player _owner, Vector3 _dir, bool _isNotSetRotation = false)
+    public void InitPosSetting(SkillEffect _data, Vector2 _targetPos , Vector2 _initPos, Player _owner, Vector3 _dir, bool _isNotSetRotation = false)
     {
         m_target = null;
         m_taretList.Clear();
         base.Init(_data, m_target, _owner, _dir);
 
         targetPos = _targetPos;
+        transform.position = _initPos;
         isPosSetting = true;
 
         if (_isNotSetRotation is false)

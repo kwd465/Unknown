@@ -20,7 +20,7 @@ public class EffectManager : BHSingleton<EffectManager>
 
         if (null == _find)
             return null;
-        _find.Play(_pos, _rot, _size);
+        _find.Play(_pos, _rot, _size, _loop);
         return _find;
     }
 
@@ -32,7 +32,7 @@ public class EffectManager : BHSingleton<EffectManager>
             Debug.LogError("Not Found Effect: " + _path);
             return null;
         }
-        _find.Play(_parent, _size);
+        _find.Play(_parent, _size, _loop);
         return _find;
     }
 
