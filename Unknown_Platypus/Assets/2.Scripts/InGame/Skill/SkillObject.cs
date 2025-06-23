@@ -327,7 +327,7 @@ public class SkillObject : MonoBehaviour
         if(string.IsNullOrEmpty(HitEffect))
             return;
 
-        Effect _effect = EffectManager.instance.Play(HitEffect, _pos, Quaternion.identity);
+        Effect _effect = EffectManager.instance.Play(HitEffect, _pos, Quaternion.identity, 1, false);
         if (isSetParentHit)
             _effect.transform.SetParent(m_owner.transform);
     }
