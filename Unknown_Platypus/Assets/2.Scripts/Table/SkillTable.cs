@@ -4,6 +4,7 @@ using UnityEngine;
 using BH;
 using Unity.VisualScripting;
 using UnityEditorInternal;
+using System;
 
 [System.Serializable]
 public enum e_SkillType
@@ -40,7 +41,8 @@ public enum e_SkillEffect
     speed,
     buff,
     debuff,
-    cooltime
+    cooltime,
+    statusEffect
 }
 
 
@@ -82,7 +84,7 @@ public class SkillEffectData
     public e_SkillEffect skillEffect;
     public e_SkillEffectType skillEffectType;
     public e_StatType statType;
-    public float skillEffectValue;
+    public List<float> skillEffectValue;
     public float skillEffectTime;
 }
 
@@ -116,60 +118,82 @@ public class SkillTableData : RecordBase
 
     public override void LoadExcel(Dictionary<string, string> _data)
     {
-        base.LoadExcel(_data);
-
-        group = FileUtil.Get<int>(_data, "group");
-        skillType = FileUtil.Get<e_SkillType>(_data, "skillType");
-        skillSubType = FileUtil.Get<e_SkillSubType>(_data, "skillSubType");
-        skillAreaType = FileUtil.Get<e_SkillAreaType>(_data, "skillAreaType");
-        Skill_Active_Type = FileUtil.Get<SKILL_ACTIVE_TYPE>(_data, "SKILL_ACTIVE_TYPE");
-        skillName = FileUtil.Get<int>(_data, "skillName");
-        skillDesc = FileUtil.Get<int>(_data, "skillDesc");
-        skillSubDesc = FileUtil.Get<int>(_data, "skillSubDesc");
-        skillicon = FileUtil.Get<string>(_data, "skillicon");
-        skilllv = FileUtil.Get<int>(_data, "skilllv");
-
-        skillDistance = FileUtil.Get<int>(_data, "skillDistance");
-        skillArea = FileUtil.Get<int>(_data, "skillArea");
-
-        skillTargetCount = FileUtil.Get<int>(_data, "skillTargetCount");
-
-        skillHitCount = FileUtil.Get<int>(_data, "skillHitCount");
-
-        duration = FileUtil.Get<float>(_data, "duration");
-        coolTime = FileUtil.Get<float>(_data, "coolTime");
-        effectPath = FileUtil.Get<string>(_data, "effectPath");
-        
-        skillEffectDataList = new List<SkillEffectData>();
-
-        for (int i = 1; i < 4; i++)
+        try
         {
-            e_SkillEffect skillEffect = FileUtil.Get<e_SkillEffect>(_data, "skillEffect" + i);
+            base.LoadExcel(_data);
 
-            if (skillEffect == e_SkillEffect.none)
-                continue;
+            group = FileUtil.Get<int>(_data, "group");
+            skillType = FileUtil.Get<e_SkillType>(_data, "skillType");
+            skillSubType = FileUtil.Get<e_SkillSubType>(_data, "skillSubType");
+            skillAreaType = FileUtil.Get<e_SkillAreaType>(_data, "skillAreaType");
+            Skill_Active_Type = FileUtil.Get<SKILL_ACTIVE_TYPE>(_data, "SKILL_ACTIVE_TYPE");
+            skillName = FileUtil.Get<int>(_data, "skillName");
+            skillDesc = FileUtil.Get<int>(_data, "skillDesc");
+            skillSubDesc = FileUtil.Get<int>(_data, "skillSubDesc");
+            skillicon = FileUtil.Get<string>(_data, "skillicon");
+            skilllv = FileUtil.Get<int>(_data, "skilllv");
 
-            SkillEffectData effectData = new SkillEffectData();
-            effectData.skillEffect = skillEffect;
-            effectData.skillEffectType = FileUtil.Get<e_SkillEffectType>(_data, "skillEffectType" + i);
-            effectData.statType = FileUtil.Get<e_StatType>(_data, "e_stat" + i);
-            effectData.skillEffectValue = FileUtil.Get<float>(_data, "skillEffectValue" + i);
-            effectData.skillEffectTime = FileUtil.Get<float>(_data, "skillEffectTime" + i);
-            skillEffectDataList.Add(effectData);
-        }
+            skillDistance = FileUtil.Get<int>(_data, "skillDistance");
+            skillArea = FileUtil.Get<int>(_data, "skillArea");
 
-        string _skillOption = FileUtil.Get<string>(_data, "skillOption");
-        SkillOptionList = new List<int>();
+            skillTargetCount = FileUtil.Get<int>(_data, "skillTargetCount");
 
-        if(string.IsNullOrEmpty(_skillOption) == false)
-        {
-            string[] _optionList = _skillOption.Split(',');
-            foreach (var option in _optionList)
+            skillHitCount = FileUtil.Get<int>(_data, "skillHitCount");
+
+            duration = FileUtil.Get<float>(_data, "duration");
+            coolTime = FileUtil.Get<float>(_data, "coolTime");
+            effectPath = FileUtil.Get<string>(_data, "effectPath");
+
+            skillEffectDataList = new List<SkillEffectData>();
+
+            for (int i = 1; i < 4; i++)
             {
-                SkillOptionList.Add(int.Parse(option));
-                Debug.Log(@$"skill option add {option} {skillName} {SkillOptionList.Count}");
+                e_SkillEffect skillEffect = FileUtil.Get<e_SkillEffect>(_data, "skillEffect" + i);
+
+                if (skillEffect == e_SkillEffect.none)
+                    continue;
+
+                SkillEffectData effectData = new SkillEffectData();
+                effectData.skillEffect = skillEffect;
+                effectData.skillEffectType = FileUtil.Get<e_SkillEffectType>(_data, "skillEffectType" + i);
+                effectData.statType = FileUtil.Get<e_StatType>(_data, "e_stat" + i);
+                var effectValueString = FileUtil.Get<string>(_data, "skillEffectValue" + i).Split(";");
+                effectData.skillEffectValue = new();
+                foreach (var effectValue in effectValueString)
+                {
+                    if(float.TryParse(effectValue, out var result))
+                    {
+                        effectData.skillEffectValue.Add(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($@"effect value {effectValue}");
+                    }
+                }
+
+                //effectData.skillEffectValue = FileUtil.Get<float>(_data, "skillEffectValue" + i);
+                effectData.skillEffectTime = FileUtil.Get<float>(_data, "skillEffectTime" + i);
+                skillEffectDataList.Add(effectData);
+            }
+
+            string _skillOption = FileUtil.Get<string>(_data, "skillOption");
+            SkillOptionList = new List<int>();
+
+            if (string.IsNullOrEmpty(_skillOption) == false)
+            {
+                string[] _optionList = _skillOption.Split(',');
+                foreach (var option in _optionList)
+                {
+                    SkillOptionList.Add(int.Parse(option));
+                    Debug.Log(@$"skill option add {option} {skillName} {SkillOptionList.Count}");
+                }
             }
         }
+        catch
+        {
+
+        }
+        
     }
 }
 
@@ -223,8 +247,5 @@ public class SkillTable : TTableBase<SkillTableData>
             }
             _groupData.Add(skill);
         }
-
     }
-
-
 }

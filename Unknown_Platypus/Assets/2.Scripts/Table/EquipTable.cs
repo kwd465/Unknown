@@ -48,6 +48,7 @@ public class EquipTableData : RecordBase
 
     public override void LoadExcel(Dictionary<string, string> _data)
     {
+        
         base.LoadExcel(_data);
 
         image = FileUtil.Get<string>(_data, "image");

@@ -21,8 +21,8 @@ public class SkillMecaTurret : SkillObject
     float nowNormalCoolTime = 0;
     float nowNuclearCoolTime = 0;
 
-    float maxNormalCoolTime { get => m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue; }
-    float maxNuclearCoolTime { get=> m_skillData.m_skillTable.skillEffectDataList[2].skillEffectValue; }
+    float maxNormalCoolTime { get => m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue[0]; }
+    float maxNuclearCoolTime { get=> m_skillData.m_skillTable.skillEffectDataList[2].skillEffectValue[0]; }
 
 
     public override void Apply()

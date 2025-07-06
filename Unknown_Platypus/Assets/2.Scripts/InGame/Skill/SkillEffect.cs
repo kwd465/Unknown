@@ -26,6 +26,7 @@ public enum SKILLOPTION_TYPE
     piercingDamage,
     debuff_movespeed,
     skillHitCount,
+    statusEffect,
 }
 
 [System.Serializable]

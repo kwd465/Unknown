@@ -17,6 +17,7 @@ public class TableControl : BHSingleton<TableControl>
     public WaveTable m_waveTable;
     public EquipTable m_equipTable;
     public GachaTable m_gachaTable;
+    public StatusEffectTable m_statusEffectTable;
 
     public SkillOptionTable m_skillOptionTable;
 
@@ -64,7 +65,8 @@ public class TableControl : BHSingleton<TableControl>
         m_tableList.Add(m_ItemTable = new ItemTable(m_fileSave));
         m_tableList.Add(m_gachaTable = new GachaTable(m_fileSave));
         m_tableList.Add(m_skillOptionTable = new SkillOptionTable(m_fileSave));
-
+        m_tableList.Add(m_statusEffectTable = new StatusEffectTable(m_fileSave));
+        
         for (int i = 0; i < m_tableList.Count; ++i)
         {
             m_tableList[i].Load();

@@ -258,7 +258,7 @@ public class SkillElemental : SkillObject
         {
             //elementalRigArr[level].AddForce((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * 2);
             //elementalRigArr[level].velocity = Vector3.ClampMagnitude(elementalRigArr[level].velocity, maxSpeed);
-            elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2;
+            elementalRigArr[level].transform.localPosition += (targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue[0] * Time.deltaTime * 2;
             //elementalRigArr[level].MovePosition((targetPos - elementalRigArr[level].transform.localPosition).normalized * m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue * Time.deltaTime * 2);
 
             //Debug.Log($@"{targetPos} {elementalRigArr[level].transform.localPosition} random");
