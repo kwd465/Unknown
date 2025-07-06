@@ -18,7 +18,7 @@ public class SkillAirSphere : SkillObject
 
     private void Awake()
     {
-        for( int i=0; i<4; i++)
+        for (int i = 0; i < 4; i++)
         {
             defaultPosMain[i] = sphere[i].transform.localPosition;
             defaultPosSub[i] = subSphere[i].transform.localPosition;
@@ -33,7 +33,7 @@ public class SkillAirSphere : SkillObject
         m_checkTime = 0;
         m_checkDistance = 0;
         transform.position = m_owner.transform.position;
-        m_speed = m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.distance) / m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration)* 3f;
+        m_speed = m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.distance) / m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration) * 3f;
         int i = 0;
         foreach (var obj in sphere)
         {
@@ -84,7 +84,7 @@ public class SkillAirSphere : SkillObject
             obj.transform.position += obj.transform.right * m_speed * Time.fixedDeltaTime;
         }
 
-        if(m_checkDistance >= m_distance)
+        if (m_checkDistance >= m_distance)
         {
             Close();
         }
@@ -97,6 +97,13 @@ public class SkillAirSphere : SkillObject
 
     public override void OnTriggerEnterChild(Collider2D collision)
     {
+        var player = collision.GetComponent<Player>();
+
+        if (player == null)
+        {
+            return;
+        }
+
         BattleControl.instance.ApplySkill(m_skillData, m_owner, collision.GetComponent<Player>());
     }
 }

@@ -318,7 +318,6 @@ namespace BH
         }
         #endregion
 
-
         static public float GetPercentage(float _value, float _percent, float _percentRatio = 1000f)
         {
             return _value * _percent / _percentRatio;

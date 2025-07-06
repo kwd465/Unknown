@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 3007804389309886178}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: 0, y: -0.027, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -86,9 +86,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: aeef7fcd206a5584aa8160215bd4b9a5, type: 2}
-  - {fileID: 2100000, guid: 3de1ba6a33f7654428fb691e057fb1e9, type: 2}
-  - {fileID: 2100000, guid: aeef7fcd206a5584aa8160215bd4b9a5, type: 2}
+  - {fileID: 2100000, guid: ca51bdf31db04ae45b8b64e350549f3a, type: 2}
+  - {fileID: 2100000, guid: fe2ace773ca49eb4f8f434bbb685b801, type: 2}
+  - {fileID: 2100000, guid: ca51bdf31db04ae45b8b64e350549f3a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: f92daa28aaaeeed47a0f421247c49f22, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 49181f6b57953ed49b001994fcf19cc3, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -147,7 +147,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 0
-  _animationName: turret
+  _animationName: IDLE
   loop: 1
   timeScale: 1
 --- !u!33 &3854069288117810363
@@ -212,8 +212,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8a71ba0f2ff93d24cb36b0bb3221f42b, type: 2}
-  - {fileID: 2100000, guid: d1bf247cd06b6204bbfe17aa94fab046, type: 2}
+  - {fileID: 2100000, guid: e999f0090bcf2e3469cc08f5c6158cd3, type: 2}
+  - {fileID: 2100000, guid: 6793f92e526129f47ad0d896ff6925b4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 6b8c3d0445ed8424cb0d9f510be648c3, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 0be07575d015faa4386e9d143b9b2915, type: 2}
   initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -272,7 +272,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 0
-  _animationName: turret_bottom
+  _animationName: animation
   loop: 1
   timeScale: 1
 --- !u!33 &9179157444402526045

@@ -120,7 +120,7 @@ public class TTableBase<T> : TableBase where T : RecordBase, new()
     }
 
     public override void LoadExcel(string _sheetName, List<Dictionary<string, string>> _data)
-    {       
+    {
         List<T> _recordList = new List<T>();
         foreach (Dictionary<string, string> _var in _data)
         {

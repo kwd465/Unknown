@@ -56,7 +56,7 @@ public class StatusEffectController
 
     public void SetStatusEffect(STATUS_EFFECT _effect, float _time, long _value)
     {
-        if (Now_Status_Effect.HasFlag(_effect) is false)
+        if(IsExistStatusEffect(_effect) == false)
         {
             Now_Status_Effect |= _effect;
         }

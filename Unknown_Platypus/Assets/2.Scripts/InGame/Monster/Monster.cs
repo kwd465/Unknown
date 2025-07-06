@@ -28,6 +28,8 @@ public class Monster : Player
         m_fsm = _fsm.Create(this);
         m_PlayerAni = new PlayerAni_Sprite(transform.GetComponentInChildren<SpriteRenderer>());
         m_fsm.SetState(ePLAYER_STATE.move);
+
+        statusEffectCtrl = new(this);
     }
 
     public override void UpdateLogic()
@@ -37,8 +39,7 @@ public class Monster : Player
         if(m_checkAttackTime >= 1f)
             return;
 
-        m_checkAttackTime += Time.fixedDeltaTime;
-    
+        m_checkAttackTime += Time.fixedDeltaTime; 
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

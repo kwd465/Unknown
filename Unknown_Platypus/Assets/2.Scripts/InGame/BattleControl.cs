@@ -97,13 +97,19 @@ namespace BH
 
                 case e_SkillEffect.damage:
                 case e_SkillEffect.piercedamage:
-                    float _skillRatio = _effect.skillEffectValue + _skill.GetOptionValue(SKILLOPTION_TYPE.damage);
+                    float _skillRatio = _effect.skillEffectValue[0] + _skill.GetOptionValue(SKILLOPTION_TYPE.damage);
                     double baseDam = _owner.getData.GetStatValue(eSTAT.atk);
                     _value = GetDamValue(eSTAT.atk, baseDam, target , _effect.skillEffect == e_SkillEffect.piercedamage) * _skillRatio;
 
                     if (_value < 1)
                         _value = 1;
 
+                    break;
+                case e_SkillEffect.statusEffect:
+                    STATUS_EFFECT effect = (STATUS_EFFECT)(int)_effect.skillEffectValue[0];
+                    //var statusEffectData = TableControl.instance.m_statusEffectTable.GetStatusEffect(effect, _effect.skillEffectTime);
+                    Debug.Log("effect start");
+                    target.SetStatusEffect(effect, _effect.skillEffectTime, (long)_effect.skillEffectValue[0]);
                     break;
             }
 
