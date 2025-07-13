@@ -38,7 +38,8 @@ public class SkillAirSphere : SkillObject
         m_checkTime = 0;
         m_checkDistance = 0;
         transform.position = m_owner.transform.position;
-        m_speed = m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.distance) / m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration) * 3f;
+        m_speed = m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.distance) / m_skillData.GetBaseAddValue(SKILLOPTION_TYPE.duration) ;
+        m_speed = m_speed * m_skillData.m_skillTable.skillEffectDataList[2].skillEffectValue[0];
         int i = 0;
 
         if (m_skillData.m_skillTable.skilllv < ConstData.SkillMaxLevel)
