@@ -433,21 +433,20 @@ public partial class Player : MonoBase
     {
         public STATUS_EFFECT Now_Status_Effect { get; protected set; }
 
-        protected Queue<STATUS_EFFECT> effectQueue;
-
         /// <summary>
         /// key == effect type, key == time , value == task queue -Jun 24-10-23
         /// </summary>
         private Dictionary<STATUS_EFFECT, Dictionary<float, Queue<UniTask>>> effectDict;
         private Dictionary<STATUS_EFFECT, Dictionary<float, Queue<CancellationTokenSource>>> cancelTokenDict;
+        private Dictionary<STATUS_EFFECT, Dictionary<float, Queue<Effect>>> effectEffectDict;
 
         private Player thisUnit;
 
         public StatusEffectController(Player _unit)
         {
-            effectQueue = new();
             effectDict = new();
             cancelTokenDict = new();
+            effectEffectDict = new();
             Now_Status_Effect = STATUS_EFFECT.NONE;
 
             Debug.Log("넌 또 왜 안나와 시발");
@@ -480,26 +479,30 @@ public partial class Player : MonoBase
             {
                 effectDict.Add(_effect, new());
                 cancelTokenDict.Add(_effect, new());
+                effectEffectDict.Add(_effect, new());
             }
 
             if (effectDict[_effect].TryGetValue(_time, out var queue) is false)
             {
                 effectDict[_effect].Add(_time, new());
                 cancelTokenDict[_effect].Add(_time, new());
+                effectEffectDict[_effect].Add(_time, new());
             }
 
             var newCancelToken = new CancellationTokenSource();
+            Effect effect = null;
 
             switch (_effect)
             {
                 case STATUS_EFFECT.FROZEN:
-                    
+                    effect = EffectManager.instance.Play("Ice_Debuff" , thisUnit.transform.position , Quaternion.identity , 1 , true);                   
                     break;
                 default:
                     Debug.LogError($@"status effect check {_effect}");
                     break;
             }
 
+            effectEffectDict[_effect][_time].Enqueue(effect);
             cancelTokenDict[_effect][_time].Enqueue(newCancelToken);
             effectDict[_effect][_time].Enqueue(CaclEffectTime(_effect, _time, _value, newCancelToken));
 
@@ -540,6 +543,16 @@ public partial class Player : MonoBase
 
         public void EndStatusEffect(STATUS_EFFECT _effect, float _time)
         {
+            if(effectDict.TryGetValue(_effect , out var timeDict) is false || timeDict == null)
+            {
+                return;
+            }
+
+            if(timeDict.TryGetValue(_time , out var queue) is false || queue == null)
+            {
+                return;
+            }
+
             if (effectDict[_effect][_time].Count == 0 || cancelTokenDict[_effect][_time].Count == 0)
             {
                 return;
@@ -549,6 +562,8 @@ public partial class Player : MonoBase
 
             effectDict[_effect][_time].Dequeue();
             cancelTokenDict[_effect][_time].Dequeue();
+            var effect = effectEffectDict[_effect][_time].Dequeue();
+            effect.Close();
 
             if (cancelTokenDict[_effect][_time].Count == 0)
             {

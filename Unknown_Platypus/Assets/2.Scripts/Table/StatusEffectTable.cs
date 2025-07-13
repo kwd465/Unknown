@@ -120,18 +120,7 @@ public class StatusEffectData : RecordBase
 {
     public STATUS_EFFECT Status_Effect = STATUS_EFFECT.NONE;
     public string name = "";
-    public float Duration 
-    {
-        get
-        {
-            if(value == null || value.Count <= 0)
-            {
-                return 0;
-            }
-            return value[1];
-        }
-    }
-    public List<float> value;
+    public string EffectPath = "";
 
     public override void LoadExcel(Dictionary<string, string> _data)
     {
@@ -142,18 +131,6 @@ public class StatusEffectData : RecordBase
         //Status_Effect = FileUtil.Get<STATUS_EFFECT>(_data, "STATUS_EFFECT");
         Status_Effect = System.Enum.Parse<STATUS_EFFECT>(name);
         string stringValue = FileUtil.Get<string>(_data, "value");
-        
-        // 안전하게 TryParse 사용 (숫자 변환 실패는 Skip)
-        List<float> safeNumbers = stringValue
-            .Split(';')
-            .Select(s => {
-                bool ok = float.TryParse(s, out float v);
-                return (ok, v);
-            })
-            .Where(tuple => tuple.ok)
-            .Select(tuple => tuple.v)
-            .ToList();
-
-        value = safeNumbers;
+        string effectPath = FileUtil.Get<string>(_data, "effectpath");
     }
 }
