@@ -108,8 +108,8 @@ namespace BH
                 case e_SkillEffect.statusEffect:
                     STATUS_EFFECT effect = (STATUS_EFFECT)(int)_effect.skillEffectValue[0];
                     //var statusEffectData = TableControl.instance.m_statusEffectTable.GetStatusEffect(effect, _effect.skillEffectTime);
-                    Debug.Log("effect start");
-                    target.SetStatusEffect(effect, _effect.skillEffectTime, (long)_effect.skillEffectValue[0]);
+                    Debug.Log(@$"effect start {_effect.skillEffectTime} {_effect.skillEffectValue.Count} {_effect.skillEffectValue[0]}");
+                    target.SetStatusEffect(effect, _effect.skillEffectTime, _effect.skillEffectValue[1], (long)_effect.skillEffectValue[0]);
                     break;
             }
 
