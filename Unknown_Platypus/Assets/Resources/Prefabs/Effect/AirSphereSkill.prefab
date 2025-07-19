@@ -83183,7 +83183,7 @@ MonoBehaviour:
   HitEffect: 
   ImpactEffect: 
   isSetParentHit: 0
-  LowLevelEffectObj: {fileID: 3733874156631178967}
+  LowLevelEffectObj: {fileID: 2836586528882796253}
   MaxLevelEffectObj: {fileID: 4397914757242080709}
   sphere:
   - {fileID: 2203832605206630720}

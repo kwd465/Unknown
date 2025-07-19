@@ -413,9 +413,9 @@ public partial class Player : MonoBase
 public partial class Player : MonoBase
 {
 
-    public void SetStatusEffect(STATUS_EFFECT _type, float _time, long _value)
+    public void SetStatusEffect(STATUS_EFFECT _type, float _time , float _percent, long _value)
     {
-        statusEffectCtrl.SetStatusEffect(_type, _time, _value);
+        statusEffectCtrl.SetStatusEffect(_type, _time, _percent, _value);
     }
 
     public void EndStatusEffect(int _endCount)
@@ -449,7 +449,6 @@ public partial class Player : MonoBase
             effectEffectDict = new();
             Now_Status_Effect = STATUS_EFFECT.NONE;
 
-            Debug.Log("넌 또 왜 안나와 시발");
             thisUnit = _unit;
         }
 
@@ -468,8 +467,13 @@ public partial class Player : MonoBase
             return 0;
         }
 
-        public void SetStatusEffect(STATUS_EFFECT _effect, float _time, long _value)
+        public void SetStatusEffect(STATUS_EFFECT _effect, float _time , float _percent, long _value)
         {
+            if(GamePlayStatics.IsRandomActive(_percent) == false)
+            {
+                return;
+            }
+
             if (Now_Status_Effect.HasFlag(_effect) is false)
             {
                 Now_Status_Effect |= _effect;
