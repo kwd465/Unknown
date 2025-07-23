@@ -79,7 +79,7 @@ public class SkillMecaTurret : SkillObject
                 Vector2 bulletPos = new Vector2(randomPos.x, randomPos.y + 25);
                 Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position,Quaternion.identity);
                 var bullet = _bullet.GetComponent<SkillBullet>();
-                bullet.InitPosSetting(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, true);
+                bullet.InitPosSetting(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, true , 1);
                 
                 //_bullet.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, _dir);
                 _bullet.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);

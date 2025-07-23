@@ -9,11 +9,12 @@ using System.Runtime.InteropServices.ComTypes;
 
 public class SkillBullet : SkillObject
 {
+    private int effectIndex = 0;
     private float m_checkDistace = 0f;
+    float time = 0;
     private Player m_target;
     private Vector3 targetPos;
     private bool isPosSetting = false;
-
     System.Action callBackAction;
 
     public override void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
@@ -29,9 +30,11 @@ public class SkillBullet : SkillObject
         {
             impactEffect.gameObject.transform.SetParent(m_target.gameObject.transform);
         }
+
+        effectIndex = 0;
     }
-    float time = 0;
-    public void InitPosSetting(SkillEffect _data, Vector2 _targetPos , Vector2 _initPos, Player _owner, Vector3 _dir, bool _isNotSetRotation = false)
+
+    public void InitPosSetting(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, bool _isNotSetRotation = false, int _effectIndex = 0)
     {
         m_target = null;
         m_taretList.Clear();
@@ -52,6 +55,8 @@ public class SkillBullet : SkillObject
         {
             impactEffect.gameObject.transform.SetParent(null);
         }
+
+        effectIndex = _effectIndex;
     }
 
     override public void UpdateLogic()
@@ -67,7 +72,7 @@ public class SkillBullet : SkillObject
                 if (m_target != null)
                 {
                     Debug.Log($@"active damage nuclear {time} ");
-                    BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target);
+                    BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target, effectIndex);
                 }
                 else
                 {
@@ -100,7 +105,7 @@ public class SkillBullet : SkillObject
             {
                 if (m_target.getData.HP >= 0)
                 {
-                    BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target);
+                    BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target, effectIndex);
                 }
 
                 HitEffectPlay(transform.position);
