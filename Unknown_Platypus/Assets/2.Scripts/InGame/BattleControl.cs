@@ -55,7 +55,7 @@ namespace BH
             return _cri*10000f >= Random.Range(0f, 10000f);
         }
 
-        public bool ApplySkill(SkillEffect _data ,Player _owner, Player _target)
+        public bool ApplySkill(SkillEffect _data, Player _owner, Player _target, int _effectIndex = 0)
         {
             bool _isDie = false;
             double _totalDam = 0;
@@ -63,7 +63,7 @@ namespace BH
                 return true;
             for (int i = 0; i < _data.m_skillTable.skillEffectDataList.Count; i++)
             {
-                _totalDam += ApplyEffect(_data, _data.m_skillTable.skillEffectDataList[i], _owner, _target);
+                _totalDam += ApplyEffect(_data, _data.m_skillTable.skillEffectDataList[i], _owner, _target, _effectIndex);
             }
 
             //������ ����
@@ -81,7 +81,7 @@ namespace BH
             return _isDie;
         }
 
-        public double ApplyEffect(SkillEffect _skill, SkillEffectData _effect, Player _owner, Player target)
+        public double ApplyEffect(SkillEffect _skill, SkillEffectData _effect, Player _owner, Player target , int effectValueMaxIndex = 0)
         {
             double _value = 0;
 
@@ -97,7 +97,25 @@ namespace BH
 
                 case e_SkillEffect.damage:
                 case e_SkillEffect.piercedamage:
-                    float _skillRatio = _effect.skillEffectValue[0] + _skill.GetOptionValue(SKILLOPTION_TYPE.damage);
+                    float _skillRatio = 0;
+                    float effectValue = 0;
+
+                    if (_effect.skillEffectValue.Count >= effectValueMaxIndex + 1)
+                    {
+                        for (int i = 0; i < effectValueMaxIndex; i++)
+                        {
+                            effectValue += _effect.skillEffectValue[i];
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError($@"{effectValueMaxIndex} {_effect.skillEffectValue.Count}");
+
+                        effectValue += _effect.skillEffectValue[0];
+                    }
+
+                    _skillRatio = effectValue + _skill.GetOptionValue(SKILLOPTION_TYPE.damage);
+
                     double baseDam = _owner.getData.GetStatValue(eSTAT.atk);
                     _value = GetDamValue(eSTAT.atk, baseDam, target , _effect.skillEffect == e_SkillEffect.piercedamage) * _skillRatio;
 
