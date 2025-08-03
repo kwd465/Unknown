@@ -71,7 +71,7 @@ public class SkillObject : MonoBehaviour
     public GameObject MaxLevelEffectObj;
     private GameObject NowSelectEffectObj;
 
-    protected List<Player> m_taretList = new List<Player>();
+    protected List<Player> targetList = new List<Player>();
 
     public SkillEffect SkillEffect { get { return m_skillData; } }
     public SkillTableData SkillData { get { return m_skillData.m_skillTable; } }
@@ -98,9 +98,9 @@ public class SkillObject : MonoBehaviour
     public virtual void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
     {
         m_dir = _dir;
-        m_taretList.Clear();
+        targetList.Clear();
         if (isColliderCheck == false)
-            m_taretList.Add(_target);
+            targetList.Add(_target);
         m_isSkillDie = false;
         m_skillData = _data;
         m_owner = _owner;
@@ -122,8 +122,8 @@ public class SkillObject : MonoBehaviour
             Apply();
             return;
         }
-        //for (int i = 0; i < m_taretList.Count; i++)
-        //    Apply(m_taretList[i]);
+        //for (int i = 0; i < targetList.Count; i++)
+        //    Apply(targetList[i]);
 
         SkillEndAction = null;
 
@@ -138,9 +138,9 @@ public class SkillObject : MonoBehaviour
     public virtual void Init(SkillEffect _data, List<Player> _targets, Player _owner, Vector3 _dir)
     {
         m_dir = _dir;
-        m_taretList.Clear();
+        targetList.Clear();
         if(isColliderCheck == false)
-            m_taretList = _targets;
+            targetList = _targets;
         m_isSkillDie = false;
         m_skillData = _data;
         m_owner = _owner;
@@ -158,8 +158,8 @@ public class SkillObject : MonoBehaviour
             return;
         }
 
-        for (int i = 0; i < m_taretList.Count; i++)
-            Apply(m_taretList[i]);
+        for (int i = 0; i < targetList.Count; i++)
+            Apply(targetList[i]);
 
         SkillEndAction = null;
 
@@ -232,9 +232,9 @@ public class SkillObject : MonoBehaviour
 
             if (m_curTime >= m_DamTick)
             {
-                for(int i = 0; i < m_taretList.Count; i++)
+                for(int i = 0; i < targetList.Count; i++)
                 {
-                    Apply(m_taretList[i]);
+                    Apply(targetList[i]);
                 }
                 m_curTime = 0;
             }
@@ -285,10 +285,10 @@ public class SkillObject : MonoBehaviour
             if (_player == null)
                 return;
 
-            if (m_taretList.Contains(_player))
+            if (targetList.Contains(_player))
                 return;
             
-            m_taretList.Add(_player);
+            targetList.Add(_player);
             Apply(_player);
         }
 
@@ -309,7 +309,7 @@ public class SkillObject : MonoBehaviour
             if (_player == null)
                 return;
 
-            m_taretList.Remove(_player);
+            targetList.Remove(_player);
         }
 
 

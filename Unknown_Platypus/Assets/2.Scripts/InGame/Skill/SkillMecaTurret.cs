@@ -10,7 +10,7 @@ using Cysharp.Threading.Tasks;
 public class SkillMecaTurret : SkillObject
 {
     [SerializeField] Transform m_trBullet;
-    [SerializeField]SpineAnimation m_spineTop;
+    [SerializeField] SpineAnimation m_spineTop;
     [SerializeField] SpineAnimation m_spineBottom;
     [SerializeField] TargetObjectRandomMove m_randomMove;
     [SerializeField] SpriteRenderer NuclearTargetSprite;
@@ -22,7 +22,7 @@ public class SkillMecaTurret : SkillObject
     float nowNuclearCoolTime = 0;
 
     float maxNormalCoolTime { get => m_skillData.m_skillTable.skillEffectDataList[1].skillEffectValue[0]; }
-    float maxNuclearCoolTime { get=> m_skillData.m_skillTable.skillEffectDataList[2].skillEffectValue[0]; }
+    float maxNuclearCoolTime { get => m_skillData.m_skillTable.skillEffectDataList[2].skillEffectValue[0]; }
 
 
     public override void Apply()
@@ -50,9 +50,9 @@ public class SkillMecaTurret : SkillObject
 
             Vector3 _dir = (_target.transform.position - transform.position);
 
-            Effect _bullet = EffectManager.instance.Play("MecaBullet", gameObject.transform.position, Quaternion.FromToRotation(Vector3.right,_dir));
+            Effect _bullet = EffectManager.instance.Play("MecaBullet", gameObject.transform.position, Quaternion.FromToRotation(Vector3.right, _dir));
             var bullet = _bullet.GetComponent<SkillBullet>();
-            bullet.Init(m_skillData, _target, m_owner, _dir);
+            bullet.Init(m_skillData, _target, m_owner, _dir, 1);
             _bullet.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.right, _dir);
 
             //if (moveCoroutine is not null)
@@ -77,11 +77,10 @@ public class SkillMecaTurret : SkillObject
 
                 Vector2 randomPos = new Vector2(Random.Range(-m_distance, m_distance), Random.Range(-m_distance, m_distance));
                 Vector2 bulletPos = new Vector2(randomPos.x, randomPos.y + 25);
-                Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position,Quaternion.identity);
+                Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position, Quaternion.identity);
                 var bullet = _bullet.GetComponent<SkillBullet>();
-                bullet.InitPosSetting(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, true , 2);
-                
-                //_bullet.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.up, _dir);
+                bullet.InitPosSetting(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, _targetCount: int.MaxValue, true, 2);
+
                 _bullet.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
                 nowNuclearCoolTime = 0;
             }
