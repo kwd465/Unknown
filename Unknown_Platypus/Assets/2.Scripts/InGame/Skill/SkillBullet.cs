@@ -9,16 +9,18 @@ using System.Runtime.InteropServices.ComTypes;
 
 public class SkillBullet : SkillObject
 {
-    private int effectIndex = 0;
+    private int effectIndex = 1;
     private float m_checkDistace = 0f;
     float time = 0;
     private Player m_target;
+    private Player targetList = new();
     private Vector3 targetPos;
     private bool isPosSetting = false;
     System.Action callBackAction;
 
     public override void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _dir)
     {
+        gameObject.SetActive(false);
         base.Init(_data, _target, _owner, _dir);
         m_target = _target;
         isPosSetting = false;
@@ -31,17 +33,18 @@ public class SkillBullet : SkillObject
             impactEffect.gameObject.transform.SetParent(m_target.gameObject.transform);
         }
 
-        effectIndex = 0;
+        effectIndex = 1;
+        gameObject.SetActive(true);
     }
 
     public void InitPosSetting(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, bool _isNotSetRotation = false, int _effectIndex = 0)
     {
+        gameObject.SetActive(false);
+        targetPos = _targetPos;
+        transform.position = _initPos;
         m_target = null;
         m_taretList.Clear();
         base.Init(_data, m_target, _owner, _dir);
-
-        targetPos = _targetPos;
-        transform.position = _initPos;
         isPosSetting = true;
 
         if (_isNotSetRotation is false)
@@ -57,6 +60,7 @@ public class SkillBullet : SkillObject
         }
 
         effectIndex = _effectIndex;
+        gameObject.SetActive(true);
     }
 
     override public void UpdateLogic()
@@ -71,7 +75,6 @@ public class SkillBullet : SkillObject
             {
                 if (m_target != null)
                 {
-                    Debug.Log($@"active damage nuclear {time} ");
                     BattleControl.instance.ApplySkill(m_skillData, m_owner, m_target, effectIndex);
                 }
                 else

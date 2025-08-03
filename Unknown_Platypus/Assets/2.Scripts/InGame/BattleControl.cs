@@ -55,7 +55,7 @@ namespace BH
             return _cri*10000f >= Random.Range(0f, 10000f);
         }
 
-        public bool ApplySkill(SkillEffect _data, Player _owner, Player _target, int _effectIndex = 0)
+        public bool ApplySkill(SkillEffect _data, Player _owner, Player _target, int _effectIndex = 1)
         {
             bool _isDie = false;
             double _totalDam = 0;
@@ -81,7 +81,7 @@ namespace BH
             return _isDie;
         }
 
-        public double ApplyEffect(SkillEffect _skill, SkillEffectData _effect, Player _owner, Player target , int effectValueMaxIndex = 0)
+        public double ApplyEffect(SkillEffect _skill, SkillEffectData _effect, Player _owner, Player target , int effectValueMaxIndex = 1)
         {
             double _value = 0;
 
@@ -100,7 +100,7 @@ namespace BH
                     float _skillRatio = 0;
                     float effectValue = 0;
 
-                    if (_effect.skillEffectValue.Count >= effectValueMaxIndex + 1)
+                    if (_effect.skillEffectValue.Count >= effectValueMaxIndex)
                     {
                         for (int i = 0; i < effectValueMaxIndex; i++)
                         {
@@ -109,7 +109,7 @@ namespace BH
                     }
                     else
                     {
-                        Debug.LogError($@"{effectValueMaxIndex} {_effect.skillEffectValue.Count}");
+                        Debug.LogError($@"{effectValueMaxIndex} {_effect.skillEffectValue.Count} {_skill.m_skillTable.skillName}");
 
                         effectValue += _effect.skillEffectValue[0];
                     }
