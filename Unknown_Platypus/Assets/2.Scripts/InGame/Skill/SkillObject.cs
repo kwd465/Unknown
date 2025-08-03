@@ -337,7 +337,7 @@ public class SkillObject : MonoBehaviour
         if (string.IsNullOrEmpty(ImpactEffect))
             return;
 
-        Effect _effect = EffectManager.instance.Play(ImpactEffect, _pos, Quaternion.identity);
+        Effect _effect = EffectManager.instance.Play(ImpactEffect, _pos, Quaternion.identity, 3);
 
         if(_effect == null)
         {
