@@ -311,11 +311,10 @@ public class SkillObject : MonoBehaviour
 
             targetList.Remove(_player);
         }
-
-
     }
 
-    protected void SetRotation(){
+    protected void SetRotation()
+    {
         // 이동 방향의 각도를 구합니다.
         float angle = Mathf.Atan2(m_dir.y, m_dir.x) * Mathf.Rad2Deg;
         // 오브젝트의 회전 각도를 설정합니다.

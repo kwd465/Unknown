@@ -50,9 +50,10 @@ public class SkillMecaTurret : SkillObject
 
             Vector3 _dir = (_target.transform.position - transform.position);
 
-            Effect _bullet = EffectManager.instance.Play("MecaBullet", gameObject.transform.position, Quaternion.FromToRotation(Vector3.right, _dir));
+            Effect _bullet = EffectManager.instance.Play("MecaBullet", gameObject.transform.position, Quaternion.identity);
+            _bullet.gameObject.SetActive(false);
             var bullet = _bullet.GetComponent<SkillBullet>();
-            bullet.Init(m_skillData, _target, m_owner, _dir, 1);
+            bullet.Init(m_skillData, _target, m_owner, gameObject.transform.position, _dir, 1, true);
             _bullet.gameObject.transform.rotation = Quaternion.FromToRotation(Vector3.right, _dir);
 
             //if (moveCoroutine is not null)
@@ -78,8 +79,9 @@ public class SkillMecaTurret : SkillObject
                 Vector2 randomPos = new Vector2(Random.Range(-m_distance, m_distance), Random.Range(-m_distance, m_distance));
                 Vector2 bulletPos = new Vector2(randomPos.x, randomPos.y + 25);
                 Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position, Quaternion.identity);
+                _bullet.gameObject.SetActive(false);
                 var bullet = _bullet.GetComponent<SkillBullet>();
-                bullet.InitPosSetting(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, _targetCount: int.MaxValue, true, 2);
+                bullet.InitWithOutTarget(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, _targetCount: int.MaxValue, true, 2);
 
                 _bullet.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
                 nowNuclearCoolTime = 0;

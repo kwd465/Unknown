@@ -9,25 +9,31 @@ using System.Runtime.InteropServices.ComTypes;
 
 public class SkillBullet : SkillObject
 {
-    private int effectIndex = 1;
+    bool isPosSetting = false;
+    bool isWatching = false;
+    int effectIndex = 1;
     int targetCount = 1;
-    private float m_checkDistace = 0f;
+    float m_checkDistace = 0f;
     float time = 0;
-    private bool isPosSetting = false;
+
     //private Player m_target;
     Player target;
     private Vector3 targetPos;
     System.Action callBackAction;
 
-    public void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _dir , int _targetCount)
+    public void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _initPos, Vector3 _dir, int _targetCount , bool _isWatching)
     {
-        gameObject.SetActive(false);
         base.Init(_data, _target, _owner, _dir);
+        gameObject.SetActive(false);
         //m_target = _target;
         target = _target;
         targetList.Clear();
         targetList.Add(target);
         isPosSetting = false;
+        isWatching = _isWatching;
+
+        gameObject.transform.position = _initPos;
+
         SetRotation();
 
         ImpactEffectPlay(_target.gameObject.transform.position);
@@ -42,14 +48,14 @@ public class SkillBullet : SkillObject
         gameObject.SetActive(true);
     }
 
-    public void InitPosSetting(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, int _targetCount, bool _isNotSetRotation = false, int _effectIndex = 0 )
+    public void InitWithOutTarget(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, int _targetCount, bool _isNotSetRotation = false, int _effectIndex = 1 )
     {
+        base.Init(_data, target, _owner, _dir);
         gameObject.SetActive(false);
         targetPos = _targetPos;
         transform.position = _initPos;
         target = null;
         targetList.Clear();
-        base.Init(_data, target, _owner, _dir);
         targetCount = _targetCount;
         isPosSetting = true;
 
@@ -72,6 +78,8 @@ public class SkillBullet : SkillObject
     override public void UpdateLogic()
     {
         base.UpdateLogic();
+
+        Watching();
 
         if (isPosSetting)
         {
@@ -187,5 +195,22 @@ public class SkillBullet : SkillObject
         }
 
         targetList.Remove(enemy);
+    }
+
+    void Watching()
+    {
+        if(isWatching == false)
+        {
+            return;
+        }
+
+        if(target == null)
+        {
+            return;
+        }
+
+        m_dir = target.transform.position - transform.position;
+
+        SetRotation();
     }
 }
