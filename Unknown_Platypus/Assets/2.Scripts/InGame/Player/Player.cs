@@ -14,7 +14,7 @@ using System.Threading;
 public partial class Player : MonoBase
 {
     protected StatusEffectController statusEffectCtrl = null;
-
+    
     protected PoolObjectGroup<DamageEffect> m_damageList;
     public Image m_imgHp;
     public Image m_imgAttack;
@@ -354,9 +354,24 @@ public partial class Player : MonoBase
         skillObjDict[_skillData.m_skillTable.skillName] = _skillObject;
     }
 
+    public bool IsExistStatusEffect (STATUS_EFFECT _effect)
+    {
+        if (statusEffectCtrl.IsExistStatusEffect(_effect))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     #region ���� ĳ���͸� ����
     public void Move(Vector2 _input)
     {
+        if (IsExistStatusEffect(STATUS_EFFECT.FROZEN))
+        {
+            return;
+        }
+
         inputVec = _input;
         m_inputVec = _input;
         float angle = Mathf.Atan2(inputVec.y, inputVec.x) * Mathf.Rad2Deg;
@@ -429,7 +444,7 @@ public partial class Player : MonoBase
     }
 
 
-    protected class StatusEffectController
+    public class StatusEffectController
     {
         public STATUS_EFFECT Now_Status_Effect { get; protected set; }
 
@@ -519,22 +534,24 @@ public partial class Player : MonoBase
 
             while (timeCheck < _time)
             {
-                await UniTask.WaitForSeconds(1, cancellationToken: _token.Token);
-                timeCheck += 1;
+                //await UniTask.WaitForSeconds(1, cancellationToken: _token.Token);
+                //timeCheck += 1;
+                await UniTask.Yield(cancellationToken: _token.Token);
+                timeCheck += Time.deltaTime;
 
                 //if (_effect == STATUS_EFFECT.BURN || _effect == STATUS_EFFECT.CURSED)
                 //{
                 //    thisUnit.FixedDamageHit(_value);
                 //}
-                switch (_effect)
-                {
-                    case STATUS_EFFECT.FROZEN:
-                        thisUnit.SetDamage(_value);
-                        break;
-                    default:
-                        Debug.LogError($@"status effect check {_effect}");
-                        break;
-                }
+                //switch (_effect)
+                //{
+                //    case STATUS_EFFECT.FROZEN:
+                //        thisUnit.SetDamage(_value);
+                //        break;
+                //    default:
+                //        Debug.LogError($@"status effect check {_effect}");
+                //        break;
+                //}
             }
 
             //if (_effect == STATUS_EFFECT.ATTACK_UP)

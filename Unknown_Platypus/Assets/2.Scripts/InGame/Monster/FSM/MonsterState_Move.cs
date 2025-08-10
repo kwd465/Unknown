@@ -6,6 +6,9 @@ using static UnityEngine.RuleTile.TilingRuleOutput;
 public class MonsterState_Move : PlayerState
 {
     public float obstacleAvoidanceDistance = 4f; // ��ֹ� ȸ�� �Ÿ�
+
+    float moveSpeed = 0;
+
     public MonsterState_Move(Player _monster) : base(_monster, ePLAYER_STATE.move)
     {
 
@@ -13,13 +16,31 @@ public class MonsterState_Move : PlayerState
 
     public override void Enter()
     {
+        if (m_player.IsExistStatusEffect(STATUS_EFFECT.FROZEN))
+        {
+            Debug.Log("is exist return");
+            return;
+        }
+
         base.Enter();
-        
+
+        moveSpeed = m_player.getData.Table.moveSpeed;
         m_player.NavMeshAgent.speed = m_player.getData.Table.moveSpeed;
     }
 
     public override void Update()
     {
+        if (m_player.IsExistStatusEffect(STATUS_EFFECT.FROZEN))
+        {
+            Debug.Log("is exist return");
+            m_player.NavMeshAgent.speed = 0;
+            return;
+        }
+        else
+        {
+            m_player.NavMeshAgent.speed = moveSpeed;
+        }
+
         base.Update();
         
         Vector2 dirVec = StagePlayLogic.instance.m_Player.Rig.position - m_player.Rig.position;
