@@ -99,8 +99,47 @@ public static class GameUtil
         return true;
     }
 
+    public static Player GetAreaTarget(Vector3 _initPos , Player _owner, float _area, float _dis, bool checkDir = true, bool _isRandom = false)
+    {
+        List<Player> _targets = new List<Player>();
+        List<Player> _result = new List<Player>();
 
-    
+        if (_owner.PlayerType == e_PlayerType.CHAR)
+            _targets = StagePlayLogic.instance.m_SpawnLogic.m_monList;
+        else
+            _targets.Add(StagePlayLogic.instance.m_Player);
+
+
+        for (int i = 0; i < _targets.Count; i++)
+        {
+            //��Ÿ� üũ
+            float _distance = Vector2.Distance(_targets[i].transform.position, _initPos);
+            if (_dis < _distance)
+                continue;
+
+            //�ٶ󺸴� ���⿡ ����
+            if (checkDir)
+            {
+                if (_owner.Ani.Dir == Vector3.left &&
+                    _initPos.x < _targets[i].transform.position.x)
+                    continue;
+                else if (_owner.Ani.Dir == Vector3.right &&
+                    _initPos.x > _targets[i].transform.position.x)
+                    continue;
+            }
+
+
+            _result.Add(_targets[i]);
+
+        }
+
+        if (_result.Count == 0)
+            return null;
+        if (_isRandom == false)
+            return _result[0];
+        else
+            return _result[Random.Range(0, _result.Count)];
+    }
 
     /// <summary>
     /// Ư�� ���� �ȿ� Ÿ���� �ִ��� üũ

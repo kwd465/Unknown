@@ -44,7 +44,7 @@ public class SkillMecaTurret : SkillObject
 
         if (nowNormalCoolTime >= maxNormalCoolTime)
         {
-            Player _target = GameUtil.GetAreaTarget(m_owner, m_area, m_distance, false, true);
+            Player _target = GameUtil.GetAreaTarget(gameObject.transform.position, m_owner, m_area, m_distance, false, true);
             if (_target == null)
                 return;
 
@@ -72,7 +72,7 @@ public class SkillMecaTurret : SkillObject
 
             if (nowNuclearCoolTime >= maxNuclearCoolTime)
             {
-                Player _target = GameUtil.GetAreaTarget(m_owner, m_area, m_distance, false, true);
+                Player _target = GameUtil.GetAreaTarget(gameObject.transform.position, m_owner, m_area, m_distance, false, true);
                 if (_target == null)
                     return;
 
