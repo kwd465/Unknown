@@ -21,10 +21,17 @@ public class SkillBullet : SkillObject
     private Vector3 targetPos;
     System.Action callBackAction;
 
+    TrailRenderer[] trailArr = null;
+
+    private void Awake()
+    {
+        trailArr = GetComponentsInChildren<TrailRenderer>();
+    }
+
     public void Init(SkillEffect _data, Player _target, Player _owner, Vector3 _initPos, Vector3 _dir, int _targetCount , bool _isWatching)
     {
-        base.Init(_data, _target, _owner, _dir);
         gameObject.SetActive(false);
+        
         //m_target = _target;
         target = _target;
         targetList.Clear();
@@ -33,7 +40,7 @@ public class SkillBullet : SkillObject
         isWatching = _isWatching;
 
         gameObject.transform.position = _initPos;
-
+        
         SetRotation();
 
         ImpactEffectPlay(_target.gameObject.transform.position);
@@ -46,12 +53,24 @@ public class SkillBullet : SkillObject
         effectIndex = 1;
         targetCount = _targetCount;
         gameObject.SetActive(true);
+
+        base.Init(_data, _target, _owner, _dir);
+
+        if (trailArr == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < trailArr.Length; i++)
+        {
+            trailArr[i].Clear();
+        }
     }
 
     public void InitWithOutTarget(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, int _targetCount, bool _isNotSetRotation = false, int _effectIndex = 1 )
     {
-        base.Init(_data, target, _owner, _dir);
         gameObject.SetActive(false);
+        
         targetPos = _targetPos;
         transform.position = _initPos;
         target = null;
@@ -63,7 +82,7 @@ public class SkillBullet : SkillObject
         {
             SetRotation();
         }
-
+        
         ImpactEffectPlay(targetPos);
 
         if (impactEffect != null)
@@ -73,6 +92,18 @@ public class SkillBullet : SkillObject
 
         effectIndex = _effectIndex;
         gameObject.SetActive(true);
+        
+        base.Init(_data, target, _owner, _dir);
+
+        if (trailArr == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < trailArr.Length; i++)
+        {
+            trailArr[i].Clear();
+        }
     }
 
     override public void UpdateLogic()
