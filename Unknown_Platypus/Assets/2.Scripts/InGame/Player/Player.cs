@@ -142,7 +142,14 @@ public partial class Player : MonoBase
         SelectSkillOptionDict.Clear();
         skillObjDict = new();
 
-        statusEffectCtrl = new(this);
+        if(statusEffectCtrl == null)
+        {
+            statusEffectCtrl = new(this);
+        }
+        else
+        {
+            statusEffectCtrl.Init();
+        }
 
         StatusEffectActiveAction = null;
         StatusEffectEndAction = null;
@@ -414,7 +421,10 @@ public partial class Player : MonoBase
         }
 #else
         if(m_Data.IsDead())
+        {
             m_fsm.SetState(ePLAYER_STATE.death);
+            statusEffectCtrl.RemoveAllStatusEffect();
+        }
 #endif
     }
 
@@ -428,7 +438,7 @@ public partial class Player : MonoBase
 public partial class Player : MonoBase
 {
 
-    public void SetStatusEffect(STATUS_EFFECT _type, float _time , float _percent, long _value)
+    public void SetStatusEffect(STATUS_EFFECT _type, float _time, float _percent, long _value)
     {
         statusEffectCtrl.SetStatusEffect(_type, _time, _percent, _value);
     }
@@ -467,6 +477,11 @@ public partial class Player : MonoBase
             thisUnit = _unit;
         }
 
+        public void Init()
+        {
+            RemoveAllStatusEffect();
+        }
+
         public bool IsExistStatusEffect(STATUS_EFFECT _effect)
         {
             return Now_Status_Effect.HasFlag(_effect) ? true : false;
@@ -482,9 +497,9 @@ public partial class Player : MonoBase
             return 0;
         }
 
-        public void SetStatusEffect(STATUS_EFFECT _effect, float _time , float _percent, long _value)
+        public void SetStatusEffect(STATUS_EFFECT _effect, float _time, float _percent, long _value)
         {
-            if(GamePlayStatics.IsRandomActive(_percent) == false)
+            if (GamePlayStatics.IsRandomActive(_percent) == false)
             {
                 return;
             }
@@ -514,13 +529,15 @@ public partial class Player : MonoBase
             switch (_effect)
             {
                 case STATUS_EFFECT.FROZEN:
-                    effect = EffectManager.instance.Play("Ice_Debuff" , thisUnit.transform.position , Quaternion.identity , 1 , true);                   
+                    effect = EffectManager.instance.Play("Ice_Debuff", thisUnit.transform.position, Quaternion.identity, 1, true);
                     break;
                 default:
                     Debug.LogError($@"status effect check {_effect}");
-                    break;
+                    return;
             }
 
+            effect.gameObject.transform.position = thisUnit.transform.position;
+            effect.gameObject.transform.SetParent(thisUnit.transform);
             effectEffectDict[_effect][_time].Enqueue(effect);
             cancelTokenDict[_effect][_time].Enqueue(newCancelToken);
             effectDict[_effect][_time].Enqueue(CaclEffectTime(_effect, _time, _value, newCancelToken));
@@ -564,12 +581,12 @@ public partial class Player : MonoBase
 
         public void EndStatusEffect(STATUS_EFFECT _effect, float _time)
         {
-            if(effectDict.TryGetValue(_effect , out var timeDict) is false || timeDict == null)
+            if (effectDict.TryGetValue(_effect, out var timeDict) is false || timeDict == null)
             {
                 return;
             }
 
-            if(timeDict.TryGetValue(_time , out var queue) is false || queue == null)
+            if (timeDict.TryGetValue(_time, out var queue) is false || queue == null)
             {
                 return;
             }
@@ -584,6 +601,7 @@ public partial class Player : MonoBase
             effectDict[_effect][_time].Dequeue();
             cancelTokenDict[_effect][_time].Dequeue();
             var effect = effectEffectDict[_effect][_time].Dequeue();
+            effect.transform.SetParent(null);
             effect.Close();
 
             if (cancelTokenDict[_effect][_time].Count == 0)
@@ -681,10 +699,24 @@ public partial class Player : MonoBase
                 }
             }
 
+            foreach(var effectDict in effectEffectDict.Values)
+            {
+                foreach(var effectQueue in effectDict.Values)
+                {
+                    if(effectQueue.TryDequeue(out var effect) is false)
+                    {
+                        continue;
+                    }
+
+                    effect.transform.SetParent(null);
+                    effect.Close();
+                }
+            }
+
             cancelTokenDict.Clear();
             effectDict.Clear();
+            effectEffectDict.Clear();
             Now_Status_Effect = STATUS_EFFECT.NONE;
         }
     }
-
 }
