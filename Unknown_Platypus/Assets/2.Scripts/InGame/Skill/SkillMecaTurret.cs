@@ -80,9 +80,10 @@ public class SkillMecaTurret : SkillObject
                 Vector2 bulletPos = new Vector2(randomPos.x, randomPos.y + 25);
 
                 int random = UnityEngine.Random.Range(0, 2);
-                Vector3 targetPos = random == 0 ? gameObject.transform.position : m_owner.transform.position;
+                Vector2 targetPos = random == 0 ? gameObject.transform.position : m_owner.transform.position;
+                randomPos += targetPos;
 
-                Effect _bullet = EffectManager.instance.Play("Nuclear", targetPos, Quaternion.identity);
+                Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position, Quaternion.identity);
                 _bullet.gameObject.SetActive(false);
                 var bullet = _bullet.GetComponent<SkillBullet>();
                 bullet.InitWithOutTarget(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, _targetCount: int.MaxValue, true, 2);
