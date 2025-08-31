@@ -4853,7 +4853,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1467103945
+  m_SortingLayerID: 2061097525
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_RenderMode: 0
@@ -9692,8 +9692,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -927848311
-  m_SortingLayer: 6
+  m_SortingLayerID: 2061097525
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -14522,7 +14522,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1810392373
+  m_SortingLayerID: 2104277213
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_RenderMode: 0
@@ -19410,7 +19410,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1810392373
+  m_SortingLayerID: 2104277213
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_RenderMode: 0
@@ -24241,7 +24241,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1467103945
-  m_SortingLayer: 3
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
