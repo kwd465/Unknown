@@ -67,8 +67,10 @@ public class SkillBullet : SkillObject
         }
     }
 
-    public void InitWithOutTarget(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, int _targetCount, bool _isNotSetRotation = false, int _effectIndex = 1 )
+    public void InitWithOutTarget(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, int _targetCount , bool _isWatching, bool _isNotSetRotation = false, int _effectIndex = 1 )
     {
+        base.Init(_data, target, _owner, _dir);
+
         gameObject.SetActive(false);
         
         targetPos = _targetPos;
@@ -77,6 +79,7 @@ public class SkillBullet : SkillObject
         targetList.Clear();
         targetCount = _targetCount;
         isPosSetting = true;
+        isWatching = _isWatching;
 
         if (_isNotSetRotation is false)
         {
@@ -93,8 +96,6 @@ public class SkillBullet : SkillObject
         effectIndex = _effectIndex;
         gameObject.SetActive(true);
         
-        base.Init(_data, target, _owner, _dir);
-
         if (trailArr == null)
         {
             return;
