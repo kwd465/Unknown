@@ -529,7 +529,7 @@ public partial class Player : MonoBase
             switch (_effect)
             {
                 case STATUS_EFFECT.FROZEN:
-                    effect = EffectManager.instance.Play("Ice_Debuff", thisUnit.transform.position, Quaternion.identity, 1, true);
+                    effect = EffectManager.instance.Play("IceDebuff", thisUnit.transform.position, Quaternion.identity, 1, true);
                     break;
                 default:
                     Debug.LogError($@"status effect check {_effect}");
