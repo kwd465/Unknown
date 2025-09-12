@@ -9783,10 +9783,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c4b84003d1ff407d9e270a2f9de40e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillRangeImage: {fileID: 0}
   isColliderCheck: 0
   isShake: 0
   m_effect: {fileID: 0}
   HitEffect: 
+  ImpactEffect: 
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 8360453213312864404}
   MaxLevelEffectObj: {fileID: 8360453213312864404}
@@ -14712,6 +14714,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6577141032625219543, guid: 669f523048df0e8458fc40ad96d03a36, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715690750482133337, guid: 669f523048df0e8458fc40ad96d03a36, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

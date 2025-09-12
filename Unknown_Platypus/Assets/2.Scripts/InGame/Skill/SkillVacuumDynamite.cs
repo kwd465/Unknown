@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class SkillVacuumDynamite : SkillObject
 {
-    
-
     [SerializeField]
     private SkillCollisionChild m_collisionChild;
 
@@ -40,8 +38,6 @@ public class SkillVacuumDynamite : SkillObject
 
     private Vector3 _startPos;
     private Vector3 _targetPos;
-
-
 
     Quaternion LookAt2D(Vector2 forward)
     {
