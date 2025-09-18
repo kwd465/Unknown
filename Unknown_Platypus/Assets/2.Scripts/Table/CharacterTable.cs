@@ -15,6 +15,7 @@ public class CharacterTableData : RecordBase
     public float attackSpeed;
     public WeaponStyle AttackType;
     public string prefab;
+    public float mass;
 
     public override void LoadExcel(Dictionary<string, string> _data)
     {
@@ -28,6 +29,7 @@ public class CharacterTableData : RecordBase
         attackSpeed = FileUtil.Get<float>(_data, "attackSpeed");
         AttackType = FileUtil.Get<WeaponStyle>(_data, "AttackType");
         prefab = FileUtil.Get<string>(_data, "prefab");
+        mass = FileUtil.Get<float>(_data, "mass", 1);
     }
 
     public float GetStat(eSTAT _stat)

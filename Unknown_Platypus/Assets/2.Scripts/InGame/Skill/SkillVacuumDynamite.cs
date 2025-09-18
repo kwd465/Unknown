@@ -49,8 +49,12 @@ public class SkillVacuumDynamite : SkillObject
         base.Apply();
         m_state = 0;
         elapsedTime = 0;
-        
-        _targetPos = m_owner.m_inputVec.normalized * 4 + m_owner.transform.position;
+
+        Vector2 randomPos = new Vector2(Random.Range(-1f, 1f), Random.Range(-1, 1f)).normalized;
+        //_targetPos = m_owner.m_inputVec.normalized * 4 + m_owner.transform.position;
+        _targetPos = (Vector2)m_owner.transform.position + (randomPos * m_distance);
+        //_targetPos = (m_owner.transform.position).normalized * m_distance;
+
         _startPos = m_owner.transform.position;
         m_time = 0;
         transform.position = _startPos;

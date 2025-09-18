@@ -29,6 +29,8 @@ public class Monster : Player
         m_PlayerAni = new PlayerAni_Sprite(transform.GetComponentInChildren<SpriteRenderer>());
         m_fsm.SetState(ePLAYER_STATE.move);
 
+        Rig.mass = _data.Table.mass;
+
         statusEffectCtrl = new(this);
     }
 

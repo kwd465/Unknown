@@ -139,6 +139,8 @@ public partial class Player : MonoBase
         m_imgAttack.fillAmount = 0f;
         m_Rooting?.SetArea(0.5f);
 
+        Rig.mass = _data.Table.mass;
+
         SelectSkillOptionDict.Clear();
         skillObjDict = new();
 
