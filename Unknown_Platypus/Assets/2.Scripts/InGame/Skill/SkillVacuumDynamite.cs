@@ -12,6 +12,10 @@ public class SkillVacuumDynamite : SkillObject
     [SerializeField]
     private GameObject m_HitEffect;
 
+    [SerializeField] GameObject LowLevelBoomEffect;
+    [SerializeField] GameObject MaxLevelBoomEffect;
+
+
     private int m_state = 0;
 
     float elapsedTime;
@@ -50,6 +54,17 @@ public class SkillVacuumDynamite : SkillObject
         m_state = 0;
         elapsedTime = 0;
 
+        if(SkillData.skilllv >= ConstData.SkillMaxLevel)
+        {
+            MaxLevelBoomEffect.gameObject.SetActive(true);
+            LowLevelBoomEffect.gameObject.SetActive(false);
+        }
+        else
+        {
+            MaxLevelBoomEffect.gameObject.SetActive(false);
+            LowLevelBoomEffect.gameObject.SetActive(true);
+        }
+
         Vector2 randomPos = new Vector2(Random.Range(-1f, 1f), Random.Range(-1, 1f)).normalized;
         //_targetPos = m_owner.m_inputVec.normalized * 4 + m_owner.transform.position;
         _targetPos = (Vector2)m_owner.transform.position + (randomPos * m_distance);
@@ -77,6 +92,10 @@ public class SkillVacuumDynamite : SkillObject
             elapsedTime = 0;
             m_HitEffect.SetActive(true);
             m_collisionChild.SetColliderActive(true);
+
+            MaxLevelBoomEffect.gameObject.SetActive(false);
+            LowLevelBoomEffect.gameObject.SetActive(false);
+
             m_state = 1;
         }else if(m_state == 1 && elapsedTime >= 0.3f)
         {
