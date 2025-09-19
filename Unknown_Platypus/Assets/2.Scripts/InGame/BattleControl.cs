@@ -134,6 +134,20 @@ namespace BH
             return _value;
         }
 
+        public SkillEffectData ApplyEffect(Player _player , SkillEffectData _skillData)
+        {
+            SkillEffectData returnData = new();
+
+            returnData.skillEffect = _skillData.skillEffect;
+            returnData.skillEffectType = _skillData.skillEffectType;
+            returnData.statType = _skillData.statType;
+            returnData.skillEffectValue = new() { };
+            returnData.skillEffectValue.AddRange(_skillData.skillEffectValue);
+            returnData.skillEffectTime = _skillData.skillEffectTime;
+
+            return returnData;
+        }
+
         public void ApplyAttack(Player _player , SkillEffect _skill)
         {
             Player _target = null;
@@ -184,7 +198,6 @@ namespace BH
             //_target.HpRegen((int)_player.getData.GetStatValue(eSTAT.AtkP));
             //EffectManager.instance.Play("Prefab/Effect/Heal", _target.transform).transform.localPosition = Vector3.zero;
         }
-
     }
 
 }
