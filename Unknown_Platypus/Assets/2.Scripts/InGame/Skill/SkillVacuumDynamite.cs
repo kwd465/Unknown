@@ -65,6 +65,8 @@ public class SkillVacuumDynamite : SkillObject
             LowLevelBoomEffect.gameObject.SetActive(true);
         }
 
+        m_collisionChild.SetArea(SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.area));
+
         Vector2 randomPos = new Vector2(Random.Range(-1f, 1f), Random.Range(-1, 1f)).normalized;
         //_targetPos = m_owner.m_inputVec.normalized * 4 + m_owner.transform.position;
         _targetPos = (Vector2)m_owner.transform.position + (randomPos * m_distance);
