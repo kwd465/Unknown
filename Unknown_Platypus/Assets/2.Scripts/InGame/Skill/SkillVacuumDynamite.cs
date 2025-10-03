@@ -81,8 +81,8 @@ public class SkillVacuumDynamite : SkillObject
 
         if (boomCount <= 0)
         {
+            boomCount = 1;
         }
-        boomCount = 2;
 
         chooseList = new();
 

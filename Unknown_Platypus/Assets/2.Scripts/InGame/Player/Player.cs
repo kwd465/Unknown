@@ -49,9 +49,6 @@ public partial class Player : MonoBase
 
     public Vector3 inputVec { get; private set; }
 
-    public Vector3 m_inputVec;
-
-
     public bool IsMove => inputVec != Vector3.zero;
 
     protected EquipTableData m_EquipData;
@@ -355,9 +352,9 @@ public partial class Player : MonoBase
         _skillData.UseSkill();
         _skillObject = _skill.GetComponent<SkillObject>();
         if (_skillData.m_skillTable.skillType != e_SkillType.InGameSkill)
-            _skillObject.Init(_skillData, GameUtil.GetTarget(_skillData.m_skillTable, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this, m_inputVec);
+            _skillObject.Init(_skillData, GameUtil.GetTarget(_skillData.m_skillTable, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this, inputVec);
         else
-            _skillObject.Init(_skillData, _target: null, this, m_inputVec);
+            _skillObject.Init(_skillData, _target: null, this, inputVec);
         _skillObject.SkillEndAction = _skillData.EndSkill;
 
         skillObjDict[_skillData.m_skillTable.skillName] = _skillObject;
@@ -382,7 +379,6 @@ public partial class Player : MonoBase
         }
 
         inputVec = _input;
-        m_inputVec = _input;
         float angle = Mathf.Atan2(inputVec.y, inputVec.x) * Mathf.Rad2Deg;
         m_trAttackAngle.rotation = Quaternion.Euler(0, 0, angle - 90);
 
