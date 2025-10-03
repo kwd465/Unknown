@@ -27,7 +27,7 @@ public class SkillStormSlashl : SkillObject
     {
         base.Apply();
         m_targetList.Clear();
-        transform.position = m_owner.transform.position + m_owner.m_inputVec.normalized*m_distance;
+        transform.position = m_owner.transform.position + m_owner.inputVec.normalized*m_distance;
         m_tickTime = m_count / m_duration;
         elapsedTime = 0;
         m_collisionChild.SetColliderActive(true);
