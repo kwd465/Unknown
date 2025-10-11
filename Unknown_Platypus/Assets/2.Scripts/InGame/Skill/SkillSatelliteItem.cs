@@ -57,8 +57,17 @@ public class SkillSatelliteItem : MonoBase
                 {
                     return;
                 }
-                
-                Vector3 _dir = (m_target.transform.position - transform.position).normalized;
+
+                Vector3 _dir = Vector3.zero;
+                if(m_target.IsMove)
+                {
+                    _dir = (m_target.inputVec - transform.position).normalized;
+                }
+                else
+                {
+                    _dir = (m_target.transform.position - transform.position).normalized;
+                }
+
                 // 이동 방향의 각도를 구합니다.
                 float angle = Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg;
                 // 오브젝트의 회전 각도를 설정합니다.
@@ -68,7 +77,6 @@ public class SkillSatelliteItem : MonoBase
                 _obj.Init(m_parent.SkillEffect, _target:null, m_parent.Owner, _dir);       
                 m_attackDealy = 0;      
             }
-
         }
     }
 }
