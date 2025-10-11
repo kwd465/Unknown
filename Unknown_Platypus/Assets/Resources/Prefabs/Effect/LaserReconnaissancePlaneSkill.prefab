@@ -9707,10 +9707,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9dce6bfbe40649fabf34e7e10bcf964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SkillRangeImage: {fileID: 0}
   isColliderCheck: 0
   isShake: 0
   m_effect: {fileID: 0}
   HitEffect: 
+  ImpactEffect: 
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 1819300101313739818}
   MaxLevelEffectObj: {fileID: 1819300101313739818}
@@ -9718,7 +9720,6 @@ MonoBehaviour:
   - {fileID: 3442030396455251924}
   m_trLaserHit:
   - {fileID: 2459914445798808739}
-  m_trPlane: {fileID: 2857088205579697437}
 --- !u!1 &3096670089217356713
 GameObject:
   m_ObjectHideFlags: 0
@@ -14708,6 +14709,7 @@ GameObject:
   - component: {fileID: 7631062549469042660}
   - component: {fileID: 3193044151414227886}
   - component: {fileID: 2540170569100787863}
+  - component: {fileID: 7474108764993160220}
   m_Layer: 0
   m_Name: Laser
   m_TagString: Untagged
@@ -19559,7 +19561,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5, y: -0.2}
+  m_Offset: {x: 5, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -19570,8 +19572,21 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.2, y: 1.7}
+  m_Size: {x: 10.1, y: 1.1}
   m_EdgeRadius: 0
+--- !u!114 &7474108764993160220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3827600185493756678}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6412cac8b8d9620438d15cf00485e283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isContainCheck: 1
 --- !u!1 &4324171201150436041
 GameObject:
   m_ObjectHideFlags: 0
