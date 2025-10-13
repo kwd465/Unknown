@@ -9,7 +9,10 @@ public class SkillLaserReconnaissancePlane : SkillObject
 {
     [SerializeField] Transform[] m_trLaser;
     [SerializeField] Transform[] m_trLaserHit;
+    [SerializeField] ParticleSystem laserParticle;
+    [SerializeField]BoxCollider2D laserCollider;
 
+    ParticleSystem.MainModule particleMain;
     List<SkillCollisionChild> laserColliserList = new();
 
     //[SerializeField]
@@ -21,7 +24,6 @@ public class SkillLaserReconnaissancePlane : SkillObject
     private readonly float m_attackDealy = 1; //공격 타임? 데미지 들어가는 시간?
 
     private List<TargetPlayer> m_targetList = new List<TargetPlayer>();
-
 
     private void Awake()
     {
@@ -42,11 +44,11 @@ public class SkillLaserReconnaissancePlane : SkillObject
             collision.SetParent(this);
             collision.SetColliderActive(true);
 
+            particleMain = laserParticle.main;
             laserColliserList.Add(collision);
         }
     }
 
-    
     public override void Apply()
     {
         base.Apply();
@@ -54,6 +56,9 @@ public class SkillLaserReconnaissancePlane : SkillObject
         transform.SetParent(m_owner.transform);
         transform.rotation = Quaternion.identity;
         transform.localPosition = Vector3.zero;
+
+        laserCollider.offset = new Vector2(m_distance / 2, 0);
+        laserCollider.size = new Vector2(m_distance, laserCollider.size.y);
     }
 
     public override void UpdateLogic()
@@ -100,7 +105,6 @@ public class SkillLaserReconnaissancePlane : SkillObject
                 m_trLaserHit[i].gameObject.SetActive(false);
                 laserColliserList[i].SetColliderActive(false);
             }
-
         }
         else if(m_curState == 1)
         {   
@@ -117,13 +121,17 @@ public class SkillLaserReconnaissancePlane : SkillObject
                 return;
             }
 
+            particleMain.startSizeZMultiplier = m_distance;
+            particleMain.startSizeZMultiplier = 1;
+            particleMain.startSizeZMultiplier = 1;
+
             for (int i = 0; i < m_trLaser.Length; i++)
             {
                 m_trLaser[i].gameObject.SetActive(true);
-                m_trLaser[i].localScale = new Vector3(m_distance, 1, 1);
+                //m_trLaser[i].localScale = new Vector3(m_distance, 1, 1);
 
                 m_trLaserHit[i].gameObject.SetActive(true);
-                m_trLaserHit[i].localPosition = new Vector3(m_distance, 0, 0);
+                m_trLaserHit[i].localPosition = new Vector3(0, m_distance, 0);
 
                 laserColliserList[i].SetColliderActive(true);
             }
@@ -184,7 +192,6 @@ public class SkillLaserReconnaissancePlane : SkillObject
             //    }
             //}
         }
-
     }
 
     public override void OnTriggerEnterChild(Collider2D collision)
@@ -208,7 +215,6 @@ public class SkillLaserReconnaissancePlane : SkillObject
         TargetPlayer _targetPlayer = m_targetList.Find(item=>item.m_target == _player);
 
         if(_targetPlayer != null)
-            m_targetList.Remove(_targetPlayer);    
-        
+            m_targetList.Remove(_targetPlayer);           
     }
 }
