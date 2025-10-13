@@ -34,7 +34,7 @@ public class SkillSwordWave : SkillObject
 
         if(m_dir == Vector3.zero)
         {
-            m_dir = new Vector2(Random.Range(0f,1f) , Random,Range(0f,1f)).normalized;        
+            m_dir = new Vector2(Random.Range(0f,1f) , Random.Range(0f,1f)).normalized;        
         }
 
         Vector3 _target = m_dir * 5f * Time.fixedDeltaTime;
