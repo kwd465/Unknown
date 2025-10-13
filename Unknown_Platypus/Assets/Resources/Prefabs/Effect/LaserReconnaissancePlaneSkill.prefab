@@ -9720,6 +9720,8 @@ MonoBehaviour:
   - {fileID: 3442030396455251924}
   m_trLaserHit:
   - {fileID: 2459914445798808739}
+  laserParticle: {fileID: 7631062549469042660}
+  laserCollider: {fileID: 2540170569100787863}
 --- !u!1 &3096670089217356713
 GameObject:
   m_ObjectHideFlags: 0
@@ -14986,7 +14988,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3.68
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
