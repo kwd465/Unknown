@@ -14,7 +14,7 @@ public class StatValueData
     {
         if (_type == e_StatType.add)
             addValue += _value;
-        else
+        else if(_type == e_StatType.mul)
             mulValue += _value;
     }
 

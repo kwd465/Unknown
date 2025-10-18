@@ -23,6 +23,19 @@ public class SkillLaserReconnaissancePlane : SkillObject
     private float m_attackTime = 0; 
     private readonly float m_attackDealy = 1; //공격 타임? 데미지 들어가는 시간?
 
+    public float AttackDelay
+    {
+        get
+        {
+            if (SkillData.skillEffectDataList[1] != null && SkillData.skillEffectDataList[1].skillEffectValue != null)
+            {
+                return SkillData.skillEffectDataList[1].skillEffectValue[0];
+            }
+
+            return 1.5f;
+        }
+    }
+
     private List<TargetPlayer> m_targetList = new List<TargetPlayer>();
 
     private void Awake()
@@ -94,7 +107,7 @@ public class SkillLaserReconnaissancePlane : SkillObject
         if (m_curState == 0)
         {
             m_waitTime += Time.fixedDeltaTime;
-            if(m_waitTime >= 1.5f)
+            if(m_waitTime >= AttackDelay)
             {
                 m_curState = 1;
                 m_waitTime = 0;
@@ -121,14 +134,17 @@ public class SkillLaserReconnaissancePlane : SkillObject
                 return;
             }
 
-            particleMain.startSizeZMultiplier = m_distance;
-            particleMain.startSizeZMultiplier = 1;
+            particleMain.startSizeXMultiplier = m_distance;
+            particleMain.startSizeYMultiplier = 1;
             particleMain.startSizeZMultiplier = 1;
 
             for (int i = 0; i < m_trLaser.Length; i++)
             {
                 m_trLaser[i].gameObject.SetActive(true);
                 //m_trLaser[i].localScale = new Vector3(m_distance, 1, 1);
+
+                laserCollider.offset = new Vector2(m_distance / 2, 0);
+                laserCollider.size = new Vector2(m_distance, laserCollider.size.y);
 
                 m_trLaserHit[i].gameObject.SetActive(true);
                 m_trLaserHit[i].localPosition = new Vector3(0, m_distance, 0);
@@ -147,50 +163,6 @@ public class SkillLaserReconnaissancePlane : SkillObject
             }
 
             m_attackTime += Time.fixedDeltaTime;
-
-            //Player m_target = GameUtil.GetAreaTarget(Owner, m_distance, m_distance, false);
-
-            //if (m_target == null)
-            //{
-            //    return;
-            //}
-
-            //if(m_target.IsMove)
-            //{
-            //    _dir = (m_target.transform.position - transform.position).normalized;
-            //}
-            //else
-            //{
-            //    _dir = (m_target.transform.position - transform.position).normalized;
-            //}
-
-            //// 이동 방향의 각도를 구합니다.
-            //float angle = Mathf.Atan2(_dir.y, _dir.x) * Mathf.Rad2Deg;
-            //// 오브젝트의 회전 각도를 설정합니다.
-            //m_trPlane.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-            //// 레이저 발사
-            //float _dis = m_distance;
-            //for(int i = 0; i < m_trLaser.Length; i++)
-            //{
-            //    m_trLaser[i].gameObject.SetActive(true);
-            //    m_trLaser[i].localScale = new Vector3(_dis * 0.1f, 1, 1);
-
-            //    m_trLaserHit[i].gameObject.SetActive(true);
-            //    m_trLaserHit[i].localPosition = new Vector3(_dis, 0, 0);
-            //}
-
-
-            //for(int i = 0 ; i < m_targetList.Count; i++)
-            //{
-            //m_targetList[i].UpdateLogic(Time.fixedDeltaTime);
-            //    if(m_targetList[i].CheckTime() && m_targetList[i].m_target != null &&
-            //    m_targetList[i].m_target.getData.IsDead() == false)
-            //    {
-            //        BattleControl.instance.ApplySkill(m_skillData, m_owner, m_targetList[i].m_target);
-            //        m_targetList[i].Apply();
-            //    }
-            //}
         }
     }
 
@@ -206,7 +178,6 @@ public class SkillLaserReconnaissancePlane : SkillObject
         BattleControl.instance.ApplySkill(m_skillData, m_owner, _player);
 
         m_targetList.Add(new TargetPlayer(_player, m_attackDealy));
-        Debug.Log("너 들어가지?");
     }
 
     public override void OnTriggerExitChild(Collider2D collision)
