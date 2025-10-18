@@ -204,6 +204,7 @@ public class SkillObject : MonoBehaviour
         m_distance = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.distance);
         m_duration = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.duration);
         m_area = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.area);
+        Debug.Log($@"m duration {m_duration}");
     }
 
     public virtual void Close()

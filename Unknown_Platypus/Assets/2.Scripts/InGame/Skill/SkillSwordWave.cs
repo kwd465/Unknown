@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using BH;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class SkillSwordWave : SkillObject
 {
-    
-
     private List<GameObject> targetList = new List<GameObject>();
     private float m_checkTime = 0;
 
@@ -23,7 +22,7 @@ public class SkillSwordWave : SkillObject
         targetList.Clear();
         gameObject.SetActive(true);
         m_checkTime = 0;
-        transform.localScale = new Vector3(m_area ,m_area , 1f);
+        //transform.localScale = new Vector3(m_area ,m_area , 1f);
     }
 
     override public void UpdateLogic()
@@ -44,8 +43,6 @@ public class SkillSwordWave : SkillObject
 
         // 오브젝트의 회전 각도를 설정합니다.
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-
 
         if (m_checkTime >= m_duration)
         {

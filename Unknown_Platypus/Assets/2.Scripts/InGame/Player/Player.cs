@@ -121,7 +121,7 @@ public partial class Player : MonoBase
 
             if(_skillData.skillSubType == e_SkillSubType.Auto)
             {
-                m_baseSkill = new SkillEffect(_skillData, this , true);
+                m_baseSkill = new SkillEffect(_skillData, this, true);
                 m_baseSkill.m_updateCallBack = (skill) => { 
                     m_imgAttack.fillAmount = skill.CoolTimeNormalized; 
                 };
@@ -223,7 +223,9 @@ public partial class Player : MonoBase
 
             SkillEffect _target = m_skillList.Find(item => item.m_skillTable.group == _skillData.group);
             if (_target != null)
+            {
                 _target.SetUpdateData(_skillData);
+            }
             else
                 m_skillList.Add(new SkillEffect(_skillData, this));
         }
@@ -287,50 +289,6 @@ public partial class Player : MonoBase
 
         bool isExist = false;
 
-        //if(skillObjDict.TryGetValue(_skillData.m_skillTable.group , out var obj) is false)
-        //{
-        //    if (_isParent)
-        //        _skill = EffectManager.instance.Play(_skillData.m_skillTable.effectPath, m_trAttackAngle);
-        //    else
-        //        _skill = EffectManager.instance.Play(_skillData.m_skillTable.effectPath, transform.position, Quaternion.identity);
-        //    _skillData.UseSkill();
-        //    _skillObject = _skill.GetComponent<SkillObject>();
-        //    skillObjDict.Add(_skillData.m_skillTable.group, _skillObject);
-        //    Debug.Log("create");
-        //}
-        //else
-        //{
-        //    Debug.Log("use");
-        //    _skillData.UseSkill();
-        //    _skillObject = obj;
-        //    _skillObject.Close();
-
-        //    _skill = _skillObject.GetComponent<Effect>();
-
-        //    if (_isParent)
-        //        _skill.Play(m_trAttackAngle, 1);
-        //    else
-        //        _skill.Play(transform.position, Quaternion.identity, 1);
-        //    _skillObject.RefreshSkill(_skillData);
-        //}
-        //switch (_skillData.m_skillTable.Skill_Active_Type)
-        //{
-        //    case SKILL_ACTIVE_TYPE.CONTINIUS:
-
-        //        break;
-        //    case SKILL_ACTIVE_TYPE.TIMED:
-
-        //        break;
-        //}
-
-        //if (_skillData.m_skillTable.skillType != e_SkillType.InGameSkill)
-        //    _skillObject.Init(_skillData, GameUtil.GetTarget(_skillData.m_skillTable, this, Ani.Dir, PlayerType == e_PlayerType.CHAR ? true : false), this, m_inputVec);
-        //else
-        //    _skillObject.Init(_skillData, _target: null, this, m_inputVec);
-        //_skillObject.SkillEndAction = _skillData.EndSkill;
-
-        //return;
-
         if (skillObjDict.TryGetValue(_skillData.m_skillTable.skillName, out var skillObj) is false)
         {
             skillObj = null;
@@ -356,6 +314,9 @@ public partial class Player : MonoBase
         else
             _skillObject.Init(_skillData, _target: null, this, inputVec);
         _skillObject.SkillEndAction = _skillData.EndSkill;
+        _skillData.UpdateCallBack = null;
+        _skillData.UpdateCallBack = _skillObject.Apply;
+
 
         skillObjDict[_skillData.m_skillTable.skillName] = _skillObject;
     }

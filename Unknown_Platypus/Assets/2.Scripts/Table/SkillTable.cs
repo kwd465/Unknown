@@ -75,6 +75,7 @@ public enum e_StatType
 {
     add,
     mul,
+    single,
 }
 
 

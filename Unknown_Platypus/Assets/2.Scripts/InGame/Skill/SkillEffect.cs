@@ -55,7 +55,9 @@ public class SkillEffect
         }
     }
 
-    public SkillEffect(SkillTableData _skillTable, Player _ownerData, bool _isBaseSkill = false)
+    public System.Action UpdateCallBack = null;
+
+    public SkillEffect(SkillTableData _skillTable, Player _ownerData, bool _isBaseSkill = false )
     {
         m_dicCurSelectOption.Clear();
         isBaseSkill = _isBaseSkill;
@@ -80,15 +82,18 @@ public class SkillEffect
     /// <param name="_value">선택한 옵션 값</param>
     public void SetUpdateData(SkillTableData _skillTable , SKILLOPTION_TYPE _selectOption = SKILLOPTION_TYPE.none, float _value = 0)
     {
-        m_skillTable = _skillTable;   
+        m_skillTable = _skillTable;
 
-        if(_selectOption == SKILLOPTION_TYPE.none || _value == 0)
+        UpdateCallBack?.Invoke();
+
+        if (_selectOption == SKILLOPTION_TYPE.none || _value == 0)
             return;
 
         if(m_dicCurSelectOption.ContainsKey(_selectOption))
             m_dicCurSelectOption[_selectOption] += _value;
         else
             m_dicCurSelectOption.Add(_selectOption , _value);
+
     }
 
     public virtual void UseSkill()
