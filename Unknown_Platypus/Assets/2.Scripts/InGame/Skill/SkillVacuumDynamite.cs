@@ -8,9 +8,11 @@ using UnityEngine;
 public class SkillVacuumDynamite : SkillObject
 {
     [Header("피격 콜라이더")]
-    [SerializeField] List<SkillCollisionChild> collisionList = new();
+    [SerializeField] List<SkillCollisionChild> LowCollisionList = new();
+    [SerializeField] List<SkillCollisionChild> MaxCollisionList = new();
 
-    [SerializeField] List<GameObject> HitEffectList = new List<GameObject>();
+    [SerializeField] List<GameObject> LowHitEffectList = new List<GameObject>();
+    [SerializeField] List<GameObject> MaxHitEffectList = new List<GameObject>();
 
     [Header("아래 자식  오브젝트들 -Jun 25-09-21")]
     [SerializeField] List<GameObject> LowLevelBoomList;
@@ -25,14 +27,20 @@ public class SkillVacuumDynamite : SkillObject
 
     private void Awake()
     {
-        collisionList.ForEach(x =>
+        LowCollisionList.ForEach(x =>
+        {
+            x.SetParent(this);
+        });
+
+        MaxCollisionList.ForEach(x =>
         {
             x.SetParent(this);
         });
 
         LowLevelBoomList.ForEach(x => x.gameObject.SetActive(false));
         MaxLevelBoomList.ForEach(x => x.gameObject.SetActive(false));
-        HitEffectList.ForEach(x => x.gameObject.SetActive(false));
+        LowHitEffectList.ForEach(x => x.gameObject.SetActive(false));
+        MaxHitEffectList.ForEach(x => x.gameObject.SetActive(false));
     }
 
     [SerializeField]
@@ -64,18 +72,31 @@ public class SkillVacuumDynamite : SkillObject
         _startPos = m_owner.transform.position;
         m_time = 0;
         transform.position = _startPos;
-
-        HitEffectList.ForEach(x =>
+        
+        MaxHitEffectList.ForEach(x =>
         {
             x.gameObject.transform.localScale = new Vector3(m_area, m_area, 1f);
             x.gameObject.SetActive(false);
         });
 
-        collisionList.ForEach(x =>
+        MaxCollisionList.ForEach(x =>
         {
-            x.SetArea(SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.area));
+            x.SetArea(SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.area) / 5);
             x.SetColliderActive(false);
         });
+
+        LowHitEffectList.ForEach(x =>
+        {
+            x.gameObject.transform.localScale = new Vector3(m_area, m_area, 1f);
+            x.gameObject.SetActive(false);
+        });
+
+        LowCollisionList.ForEach(x =>
+        {
+            x.SetArea(SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.area) / 5);
+            x.SetColliderActive(false);
+        });
+
 
         boomCount = Mathf.RoundToInt(SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.count));
 
@@ -140,9 +161,24 @@ public class SkillVacuumDynamite : SkillObject
             {
                 chooseList[i].gameObject.SetActive(false);
 
-                HitEffectList[i].gameObject.SetActive(true);
-                HitEffectList[i].gameObject.transform.position = chooseList[i].transform.position;
-                collisionList[i].SetColliderActive(true);
+                if (SkillData.skilllv >= ConstData.SkillMaxLevel)
+                {
+                    MaxHitEffectList[i].gameObject.SetActive(true);
+                    MaxHitEffectList[i].gameObject.transform.position = chooseList[i].transform.position;
+                    MaxCollisionList[i].SetColliderActive(true);
+
+                    LowHitEffectList[i].gameObject.SetActive(false);
+                    LowCollisionList[i].SetColliderActive(false);
+                }
+                else
+                {
+                    LowHitEffectList[i].gameObject.SetActive(true);
+                    LowHitEffectList[i].gameObject.transform.position = chooseList[i].transform.position;
+                    LowCollisionList[i].SetColliderActive(true);
+
+                    MaxHitEffectList[i].gameObject.SetActive(false);
+                    MaxCollisionList[i].SetColliderActive(false);
+                }
             }
 
             m_state = 1;
@@ -155,8 +191,12 @@ public class SkillVacuumDynamite : SkillObject
             for (int i = 0; i < boomCount; i++)
             {
                 chooseList[i].gameObject.SetActive(false);
-                HitEffectList[i].gameObject.SetActive(false);
-                collisionList[i].SetColliderActive(false);
+
+                MaxHitEffectList[i].gameObject.SetActive(false);
+                MaxCollisionList[i].SetColliderActive(false);
+
+                LowHitEffectList[i].gameObject.SetActive(false);
+                LowCollisionList[i].SetColliderActive(false);
             }
 
             Close();
