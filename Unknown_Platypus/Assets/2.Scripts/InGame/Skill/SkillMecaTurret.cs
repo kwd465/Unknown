@@ -86,7 +86,7 @@ public class SkillMecaTurret : SkillObject
                 Effect _bullet = EffectManager.instance.Play("Nuclear", gameObject.transform.position, Quaternion.identity);
                 _bullet.gameObject.SetActive(false);
                 var bullet = _bullet.GetComponent<SkillBullet>();
-                bullet.InitWithOutTarget(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, _targetCount: int.MaxValue, false, true, 2);
+                bullet.InitWithOutTarget(m_skillData, randomPos, bulletPos, m_owner, Vector3.down, _targetCount: int.MaxValue, false, true, false, 2);
 
                 _bullet.gameObject.transform.rotation = Quaternion.Euler(0, 0, 180);
                 nowNuclearCoolTime = 0;

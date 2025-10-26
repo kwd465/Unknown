@@ -10,6 +10,7 @@ using System.Runtime.InteropServices.ComTypes;
 public class SkillBullet : SkillObject
 {
     bool isPosSetting = false;
+    bool isHitedClose = false;
     bool isWatching = false;
     int effectIndex = 1;
     int targetCount = 1;
@@ -67,7 +68,7 @@ public class SkillBullet : SkillObject
         }
     }
 
-    public void InitWithOutTarget(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, int _targetCount , bool _isWatching, bool _isNotSetRotation = false, int _effectIndex = 1 )
+    public void InitWithOutTarget(SkillEffect _data, Vector2 _targetPos, Vector2 _initPos, Player _owner, Vector3 _dir, int _targetCount , bool _isWatching, bool _isNotSetRotation = false , bool _isHitedClose = true, int _effectIndex = 1 )
     {
         base.Init(_data, target, _owner, _dir);
 
@@ -79,6 +80,7 @@ public class SkillBullet : SkillObject
         targetList.Clear();
         targetCount = _targetCount;
         isPosSetting = true;
+        isHitedClose = _isHitedClose;
         isWatching = _isWatching;
 
         if (_isNotSetRotation is false)
@@ -190,7 +192,15 @@ public class SkillBullet : SkillObject
             return;
         }
 
-        targetList.Add(enemy);
+        if (isHitedClose)
+        {
+            BattleControl.instance.ApplySkill(m_skillData, m_owner, enemy, effectIndex);
+            Close();
+        }
+        else
+        {
+            targetList.Add(enemy);
+        }
 
         //if (targetCount == 1)
         //{

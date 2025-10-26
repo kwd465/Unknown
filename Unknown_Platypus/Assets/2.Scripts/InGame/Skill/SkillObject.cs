@@ -85,6 +85,7 @@ public class SkillObject : MonoBehaviour
     public float m_area { get; set; }
 
     public System.Action SkillEndAction = null;
+    public System.Action<Player,SkillObject> OnTriggetEnterAction = null;
 
     protected Effect impactEffect = null;
 
@@ -264,6 +265,7 @@ public class SkillObject : MonoBehaviour
 
     public virtual void OnTriggerEnterChild(Collider2D collision)
     {
+
     }
 
     public virtual void OnTriggerExitChild(Collider2D collision)
