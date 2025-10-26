@@ -74,8 +74,10 @@ public class SkillSatelliteItem : MonoBase
                 // 오브젝트의 회전 각도를 설정합니다.
                 transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 Effect _bullet = EffectManager.instance.Play("SatelliteBullet", m_trBullet.position, Quaternion.AngleAxis(angle, Vector3.forward));
-                SkillObject _obj = _bullet.GetComponent<SkillObject>();
-                _obj.Init(m_parent.SkillEffect, _target: null, m_parent.Owner, dir);
+                SkillBullet _obj = _bullet.GetComponent<SkillBullet>();
+                _obj.InitWithOutTarget(m_parent.SkillEffect, dir * 100, m_trBullet.position, m_parent.Owner, dir, 1, false, false, _isHitedClose: true);
+                _obj = null;
+
                 m_attackDealy = 0;
             }
         }
