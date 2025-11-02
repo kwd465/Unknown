@@ -13,18 +13,20 @@ public class SkillCollisionChild : MonoBehaviour
     SkillObject parent;
 
     public HashSet<GameObject> targetList = new HashSet<GameObject>();
+    public System.Action EventCallBackAction = null;
+    public System.Action EndAction = null;
 
     public void DelaySetActive(bool isActive, float delay)
     {
         StartCoroutine(DelaySetActiveCoroutine(isActive, delay));
-        
+
     }
 
     IEnumerator DelaySetActiveCoroutine(bool isActive, float delay)
     {
         yield return new WaitForSeconds(delay);
         SetColliderActive(isActive);
-        yield return  new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.1f);
         SetColliderActive(!isActive);
     }
 
@@ -35,17 +37,18 @@ public class SkillCollisionChild : MonoBehaviour
         SetColliderActive(false);
     }
 
-    public void SetArea(float _area){
+    public void SetArea(float _area)
+    {
 
-        if(collider is CircleCollider2D)
+        if (collider is CircleCollider2D)
         {
             ((CircleCollider2D)collider).radius = _area;
         }
-        else if(collider is BoxCollider2D)
+        else if (collider is BoxCollider2D)
         {
             ((BoxCollider2D)collider).size = new Vector2(_area, _area);
         }
-    }   
+    }
 
 
     public void SetColliderActive(bool isActive)
@@ -54,7 +57,7 @@ public class SkillCollisionChild : MonoBehaviour
         targetList.Clear();
     }
 
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag != "Monster")
@@ -76,8 +79,16 @@ public class SkillCollisionChild : MonoBehaviour
         if (m_isContainCheck && targetList.Contains(collision.gameObject))
             return;
 
-       parent.OnTriggerExitChild(collision);
+        parent.OnTriggerExitChild(collision);
     }
 
+    public void CallBackAniEvent()
+    {
+        EventCallBackAction?.Invoke();
+    }
 
+    public void EndCallBack()
+    {
+        EndAction?.Invoke();
+    }
 }
