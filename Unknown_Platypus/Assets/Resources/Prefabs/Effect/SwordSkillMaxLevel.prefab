@@ -34253,8 +34253,11 @@ GameObject:
   m_Component:
   - component: {fileID: 2731162375979558096}
   - component: {fileID: 2227841111712591748}
+  - component: {fileID: 3667074096038281856}
+  - component: {fileID: 2371917810350204279}
+  - component: {fileID: 8534461549272113600}
   m_Layer: 8
-  m_Name: Swordwave_Level05
+  m_Name: SwordSkillMaxLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34288,6 +34291,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4816068011242962259}
   m_CullTransparentMesh: 1
+--- !u!114 &3667074096038281856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816068011242962259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6412cac8b8d9620438d15cf00485e283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isContainCheck: 1
+--- !u!95 &2371917810350204279
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816068011242962259}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: df4a10424dc0e6d40a3ce47b2089d6f9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!58 &8534461549272113600
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4816068011242962259}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!1 &5262811476578025231
 GameObject:
   m_ObjectHideFlags: 0
@@ -48988,7 +49060,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2611941096850222682}
-  - component: {fileID: 111009328444879583}
   m_Layer: 8
   m_Name: Swordwave_Ani
   m_TagString: Untagged
@@ -49013,27 +49084,6 @@ Transform:
   - {fileID: 2919372881332771034}
   m_Father: {fileID: 2731162375979558096}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &111009328444879583
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7067550124004673810}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: df4a10424dc0e6d40a3ce47b2089d6f9, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7460670154191569936
 GameObject:
   m_ObjectHideFlags: 0
@@ -53942,6 +53992,7 @@ GameObject:
   - component: {fileID: 2919372881332771034}
   - component: {fileID: 4285322615710779859}
   - component: {fileID: 6108127110600545844}
+  - component: {fileID: 7506777006817939565}
   m_Layer: 8
   m_Name: SwordWave_Impact
   m_TagString: Untagged
@@ -58771,3 +58822,16 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7506777006817939565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8761925007494332883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6412cac8b8d9620438d15cf00485e283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_isContainCheck: 1

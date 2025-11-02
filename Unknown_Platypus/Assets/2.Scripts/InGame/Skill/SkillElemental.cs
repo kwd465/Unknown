@@ -379,7 +379,6 @@ public class SkillElemental : SkillObject
     public override void OnTriggerEnterChild(Collider2D collision)
     {
         BattleControl.instance.ApplySkill(m_skillData, m_owner, collision.GetComponent<Player>());
-        Debug.Log("on trigger");
     }
 
     public override void Close()
