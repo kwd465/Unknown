@@ -4,6 +4,7 @@ using UnityEngine;
 using BH;
 using static UnityEngine.GraphicsBuffer;
 using Unity.VisualScripting;
+using UnityEngine.UIElements;
 
 public class SkillLaserReconnaissancePlane : SkillObject
 {
@@ -20,8 +21,24 @@ public class SkillLaserReconnaissancePlane : SkillObject
 
     private int m_curState = 0;     //0 : 대기, 1 : 공격
     private float m_waitTime = 0;
-    private float m_attackTime = 0; 
+    private float m_attackTime = 0;
+    int randomDirection = 0;
+    float angleZ = 0;
+
+    float Speed = 60;
+
     private readonly float m_attackDealy = 1; //공격 타임? 데미지 들어가는 시간?
+
+    readonly float maxLevelPlaneSize = 7;
+
+    #region  폭탄 
+    Vector3 shadowStartPos;
+
+    private int _bombCount = 0;
+    private const int MaxBombs = 10;
+    private float _bombInterval = 0.75f / MaxBombs; // 0.25초 구간 동안 10개 뿌릴 거니까
+    private float _lastBombTime = 0f;
+    #endregion
 
     public float AttackDelay
     {
@@ -70,13 +87,63 @@ public class SkillLaserReconnaissancePlane : SkillObject
         transform.rotation = Quaternion.identity;
         transform.localPosition = Vector3.zero;
 
-        laserCollider.offset = new Vector2(m_distance / 2, 0);
-        laserCollider.size = new Vector2(m_distance, laserCollider.size.y);
+        if(m_skillData.m_skillTable.skilllv != ConstData.SkillMaxLevel)
+        {
+            laserCollider.offset = new Vector2(m_distance / 2, 0);
+            laserCollider.size = new Vector2(m_distance, laserCollider.size.y);
+        }
+        else
+        {
+            randomDirection = Random.Range(0, 4);
+
+            switch (randomDirection)
+            {
+                case 0:
+                    angleZ = 0;
+                    MaxLevelEffectObj.transform.position = new Vector3(0, -20);
+                    break;
+                case 1:
+                    angleZ = 90;
+                    MaxLevelEffectObj.transform.position = new Vector3(20, 0);
+                    break;
+                case 2:
+                    angleZ = 180;
+                    MaxLevelEffectObj.transform.position = new Vector3(0, 20);
+                    break;
+                case 3:
+                    angleZ = 270;
+                    MaxLevelEffectObj.transform.position = new Vector3(-20, 0);
+                    break;
+            }
+
+            shadowStartPos = MaxLevelEffectObj.transform.position;
+            
+            float rad = (angleZ + 90) * Mathf.Deg2Rad;
+            direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+            _bombCount = 0;
+            _lastBombTime = 0;
+            MaxLevelEffectObj.gameObject.transform.rotation = Quaternion.Euler(0, 0, angleZ);
+
+            MaxLevelEffectObj.gameObject.SetActive(true);
+        }
+
+        m_attackTime = 0;
     }
 
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+
+        LowLevel();
+        MaxLevel();
+    }
+
+    private void LowLevel()
+    {
+        if (ConstData.SkillMaxLevel == m_skillData.m_skillTable.skilllv)
+        {
+            return;
+        }
 
         Vector3 dir = Vector3.zero;
 
@@ -84,7 +151,7 @@ public class SkillLaserReconnaissancePlane : SkillObject
         {
             dir = Owner.inputVec.normalized;
             //transform.rotation = Quaternion.AngleAxis(Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg, Vector3.forward);
-            transform.rotation = Quaternion.FromToRotation(Vector2.right , dir);
+            transform.rotation = Quaternion.FromToRotation(Vector2.right, dir);
         }
         else
         {
@@ -107,7 +174,7 @@ public class SkillLaserReconnaissancePlane : SkillObject
         if (m_curState == 0)
         {
             m_waitTime += Time.fixedDeltaTime;
-            if(m_waitTime >= AttackDelay)
+            if (m_waitTime >= AttackDelay)
             {
                 m_curState = 1;
                 m_waitTime = 0;
@@ -119,9 +186,9 @@ public class SkillLaserReconnaissancePlane : SkillObject
                 laserColliserList[i].SetColliderActive(false);
             }
         }
-        else if(m_curState == 1)
-        {   
-            if(m_attackTime >= m_duration)
+        else if (m_curState == 1)
+        {
+            if (m_attackTime >= m_duration)
             {
                 m_curState = 0;
                 m_attackTime = 0;
@@ -164,6 +231,46 @@ public class SkillLaserReconnaissancePlane : SkillObject
 
             m_attackTime += Time.fixedDeltaTime;
         }
+    }
+    Vector2 direction;
+    float rad;
+    private void MaxLevel()
+    {
+        if(ConstData.SkillMaxLevel != m_skillData.m_skillTable.skilllv)
+        {
+            return;
+        }
+
+        m_attackTime += Time.deltaTime;
+
+        if(m_attackTime < 0.75f)
+        {
+            MaxLevelEffectObj.transform.position += (Vector3)direction * Speed * Time.deltaTime;
+
+            if (m_attackTime - _lastBombTime >= _bombInterval && _bombCount < MaxBombs)
+            {
+                DropBomb(_bombCount);
+                _bombCount++;
+                _lastBombTime = m_attackTime;
+            }
+        }
+        else
+        {
+            Close();
+        }
+    }
+
+    private void DropBomb(int index)
+    {
+        float t = (float)index / (MaxBombs - 1);
+        Vector3 start = shadowStartPos; // 그림자 시작 위치 저장해둬야 함
+        Vector3 end = MaxLevelEffectObj.transform.position;
+        Vector3 spawnPos = Vector3.Lerp(start, end, t);       
+
+        Effect bulletObj = EffectManager.instance.Play("Missile", gameObject.transform.position, Quaternion.identity);
+        bulletObj.gameObject.SetActive(false);
+        var bullet = bulletObj.GetComponent<SkillBullet>();
+        bullet.InitWithOutTarget(m_skillData, spawnPos, new Vector2(spawnPos.x, spawnPos.y + 3), m_owner, Vector3.down, _targetCount: int.MaxValue, false, true, false, 2);
     }
 
     public override void OnTriggerEnterChild(Collider2D collision)
