@@ -97,23 +97,25 @@ public class SkillLaserReconnaissancePlane : SkillObject
         {
             randomDirection = Random.Range(0, 4);
 
+            float random = Random.Range(-5f, 5f);
+
             switch (randomDirection)
             {
                 case 0:
                     angleZ = 0;
-                    MaxLevelEffectObj.transform.position = new Vector3(0, -20);
+                    MaxLevelEffectObj.transform.position = new Vector3(random, -20);
                     break;
                 case 1:
                     angleZ = 90;
-                    MaxLevelEffectObj.transform.position = new Vector3(20, 0);
+                    MaxLevelEffectObj.transform.position = new Vector3(20, random);
                     break;
                 case 2:
                     angleZ = 180;
-                    MaxLevelEffectObj.transform.position = new Vector3(0, 20);
+                    MaxLevelEffectObj.transform.position = new Vector3(random, 20);
                     break;
                 case 3:
                     angleZ = 270;
-                    MaxLevelEffectObj.transform.position = new Vector3(-20, 0);
+                    MaxLevelEffectObj.transform.position = new Vector3(-20, random);
                     break;
             }
 
