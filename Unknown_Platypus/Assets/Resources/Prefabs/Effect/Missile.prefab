@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7619979671658105489}
   - component: {fileID: 4806404026237727884}
   - component: {fileID: 6018152716332466322}
+  - component: {fileID: 8453230254313268152}
   m_Layer: 8
   m_Name: Missile
   m_TagString: Untagged
@@ -101,8 +102,43 @@ MonoBehaviour:
   isColliderCheck: 0
   isShake: 0
   m_effect: {fileID: 0}
-  HitEffect: 
+  HitEffect: MissileExplosion
   ImpactEffect: 
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 2082832456913732715}
   MaxLevelEffectObj: {fileID: 2082832456913732715}
+--- !u!58 &8453230254313268152
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082832456913732715}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2

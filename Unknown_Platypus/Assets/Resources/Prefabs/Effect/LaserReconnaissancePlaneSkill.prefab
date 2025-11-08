@@ -9712,8 +9712,8 @@ MonoBehaviour:
   isColliderCheck: 0
   isShake: 0
   m_effect: {fileID: 0}
-  HitEffect: 
-  ImpactEffect: 
+  HitEffect: MissileExplosion
+  ImpactEffect: MissileExplosion
   isSetParentHit: 0
   LowLevelEffectObj: {fileID: 110340832820884520}
   MaxLevelEffectObj: {fileID: 4833824833054330143}
@@ -9723,7 +9723,6 @@ MonoBehaviour:
   - {fileID: 2459914445798808739}
   laserParticle: {fileID: 7631062549469042660}
   laserCollider: {fileID: 2540170569100787863}
-  Speed: 20
 --- !u!1 &3096670089217356713
 GameObject:
   m_ObjectHideFlags: 0

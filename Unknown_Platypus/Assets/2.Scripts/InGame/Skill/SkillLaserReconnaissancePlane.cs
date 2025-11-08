@@ -36,8 +36,9 @@ public class SkillLaserReconnaissancePlane : SkillObject
 
     private int _bombCount = 0;
     private const int MaxBombs = 10;
-    private float _bombInterval = 0.75f / MaxBombs; // 0.25초 구간 동안 10개 뿌릴 거니까
-    private float _lastBombTime = 0f;
+    private const float _bombInterval = maxSkillMaxTime / MaxBombs; // 0.25초 구간 동안 10개 뿌릴 거니까
+    private const float maxSkillMaxTime = 0.75f;
+    private float _lastBombTime = 1f;
     #endregion
 
     public float AttackDelay
@@ -121,7 +122,7 @@ public class SkillLaserReconnaissancePlane : SkillObject
             float rad = (angleZ + 90) * Mathf.Deg2Rad;
             direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
             _bombCount = 0;
-            _lastBombTime = 0;
+            _lastBombTime = 0f;
             MaxLevelEffectObj.gameObject.transform.rotation = Quaternion.Euler(0, 0, angleZ);
 
             MaxLevelEffectObj.gameObject.SetActive(true);
@@ -243,7 +244,7 @@ public class SkillLaserReconnaissancePlane : SkillObject
 
         m_attackTime += Time.deltaTime;
 
-        if(m_attackTime < 0.75f)
+        if(m_attackTime < maxSkillMaxTime)
         {
             MaxLevelEffectObj.transform.position += (Vector3)direction * Speed * Time.deltaTime;
 
