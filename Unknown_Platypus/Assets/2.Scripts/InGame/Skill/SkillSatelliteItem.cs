@@ -7,6 +7,7 @@ public class SkillSatelliteItem : MonoBase
 {
     [SerializeField]
     private Transform m_trBullet;
+    [SerializeField] ParticleSystem ShootParticle;
 
     private int m_curState = 0;     //0 : 대기, 1 : 공격
     private float m_waitTime = 0;
@@ -20,6 +21,8 @@ public class SkillSatelliteItem : MonoBase
     {
         base.Open();
         m_parent = _parent;
+        ShootParticle.gameObject.SetActive(true);
+        ShootParticle.Stop();
     }
 
     public override void UpdateLogic()
@@ -76,6 +79,7 @@ public class SkillSatelliteItem : MonoBase
                 Effect _bullet = EffectManager.instance.Play("SatelliteBullet", m_trBullet.position, Quaternion.AngleAxis(angle, Vector3.forward));
                 SkillBullet _obj = _bullet.GetComponent<SkillBullet>();
                 _obj.InitWithOutTarget(m_parent.SkillEffect, dir * 100, m_trBullet.position, m_parent.Owner, dir, 1, false, false, _isHitedClose: true);
+                ShootParticle.Play();
                 _obj = null;
 
                 m_attackDealy = 0;
