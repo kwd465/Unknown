@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4826228102205904108}
   - component: {fileID: 6004317161321273094}
+  - component: {fileID: 7696126305844874036}
   m_Layer: 8
-  m_Name: Satellite_Bullet02
+  m_Name: SatelliteBullet02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84,3 +85,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7696126305844874036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4405458713328718403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e5c2f6f89f4d431d8825b87053e6cba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SkillRangeImage: {fileID: 0}
+  isColliderCheck: 0
+  isShake: 0
+  m_effect: {fileID: 0}
+  HitEffect: 
+  ImpactEffect: 
+  isSetParentHit: 0
+  LowLevelEffectObj: {fileID: 4405458713328718403}
+  MaxLevelEffectObj: {fileID: 4405458713328718403}

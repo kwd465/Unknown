@@ -204,8 +204,7 @@ public class SkillObject : MonoBehaviour
         HitCount = (int)SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.skillHitCount);
         m_distance = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.distance);
         m_duration = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.duration);
-        m_area = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.area);
-        Debug.Log($@"m duration {m_duration}");
+        m_area = SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.area);        
     }
 
     public virtual void Close()
@@ -218,7 +217,7 @@ public class SkillObject : MonoBehaviour
             Debug.LogWarning($@"{gameObject.name} skill effect 확인 필요 -Jun 24-10-12");
         }
 #endif
-        Debug.Log($@"close check {m_skillData.m_skillTable.skillName}");
+
         NowSelectEffectObj?.gameObject.SetActive(false);
     }
 
