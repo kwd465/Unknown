@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using BH;
 using Unity.VisualScripting;
-using UnityEditor.VisionOS;
 using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 

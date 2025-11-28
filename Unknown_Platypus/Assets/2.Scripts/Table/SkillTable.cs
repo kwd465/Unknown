@@ -2,9 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BH;
-using Unity.VisualScripting;
-using UnityEditorInternal;
-using System;
 
 [System.Serializable]
 public enum e_SkillType
