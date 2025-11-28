@@ -7,8 +7,7 @@ using UnityEngine;
 public class GoogleLogin : MonoBehaviour
 {
     private string web_client_id = "491876363766-j0mc1jtooft88k2ev9078s7ko5oi08iv.apps.googleusercontent.com";
-    [SerializeField] TMP_Text testText;
-
+    
     private void Awake()
     {
         Init();
@@ -28,7 +27,7 @@ public class GoogleLogin : MonoBehaviour
     public void SignIn()
     {
         Debug.Log("Calling SignIn");
-        testText.text = "Calling SignIn";
+
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(
           OnAuthenticationFinished);
     }
@@ -54,23 +53,16 @@ public class GoogleLogin : MonoBehaviour
                 }
                 else
                 {
-                    testText.text = @$"Calling SignIn {task.Exception}";
-                    
                     Debug.Log("Got Unexpected Exception?!?" + task.Exception);
                 }
             }
         }
         else if (task.IsCanceled)
         {
-            testText.text = @$"canceled";
             Debug.Log("Canceled");
         }
         else
         {
-            testText.text = @$"{task.Result.DisplayName} 
-{task.Result.Email}
-{task.Result.IdToken}";
-            
             Debug.Log("Welcome: " + task.Result.DisplayName + "!");
             Debug.Log(task.Result.Email + "!");
             Debug.Log(task.Result.IdToken + "!");
