@@ -74,8 +74,11 @@ public partial class UIPopup_SkillSelect : UIPopup
     public override void Open()
     {
         base.Open();
+#if UNITY_EDITOR
+        m_curCount = 50;
+#else
         m_curCount = 10;
-
+#endif
         m_btnReset.interactable = true;
         m_btnReset.image.sprite = BtnCanClickSprite;
 

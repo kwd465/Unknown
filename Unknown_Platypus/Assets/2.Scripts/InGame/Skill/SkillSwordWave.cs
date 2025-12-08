@@ -75,7 +75,7 @@ public class SkillSwordWave : SkillObject
                 m_dir = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized;
             }
 
-            Vector3 _target = m_dir * 5f * Time.fixedDeltaTime;
+            Vector3 _target = m_dir * SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.distance) * 5f * Time.fixedDeltaTime;
             transform.position += _target;
             // 이동 방향의 각도를 구합니다.
             float angle = Mathf.Atan2(m_dir.y, m_dir.x) * Mathf.Rad2Deg;
