@@ -48,8 +48,10 @@ public partial class Player : MonoBase
     protected Player_CheckRooting m_Rooting;
 
     public Vector3 inputVec { get; private set; }
+    public Vector3 LastInputVec { get; private set; }
 
     public bool IsMove => inputVec != Vector3.zero;
+
 
     protected EquipTableData m_EquipData;
 
@@ -70,8 +72,6 @@ public partial class Player : MonoBase
     /// key == skill group index , value == skill option Index -Jun 24-11-01
     /// </summary>
     private Dictionary<int, List<int>> SelectSkillOptionDict = new();
-
-
 
     public List<SkillTableData> GetInGameSkill()
     {
@@ -150,8 +150,10 @@ public partial class Player : MonoBase
             statusEffectCtrl.Init();
         }
 
+        LastInputVec = Vector2.left;
+
         StatusEffectActiveAction = null;
-        StatusEffectEndAction = null;
+        StatusEffectEndAction = null;        
     }
 
     public override void UpdateLogic()
@@ -340,6 +342,10 @@ public partial class Player : MonoBase
         }
 
         inputVec = _input;
+        if(_input != Vector2.zero)
+        {
+            LastInputVec = _input;
+        }
         float angle = Mathf.Atan2(inputVec.y, inputVec.x) * Mathf.Rad2Deg;
         m_trAttackAngle.rotation = Quaternion.Euler(0, 0, angle - 90);
 

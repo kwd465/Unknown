@@ -48,7 +48,7 @@ public class SkillSwordWave : SkillObject
             int random = UnityEngine.Random.Range(0, 2);
             Vector2 targetPos = random == 0 ? gameObject.transform.position : m_owner.transform.position;
             randomPos += targetPos;
-            Debug.Log("이거 맞냐?");
+
             MaxSkillCollision.transform.position = randomPos;
             MaxSkillCollision.SetColliderActive(true);
             MaxSkillCollision.gameObject.SetActive(true);
@@ -72,7 +72,7 @@ public class SkillSwordWave : SkillObject
 
             if (m_dir == Vector3.zero)
             {
-                m_dir = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f)).normalized;
+                m_dir = m_owner.LastInputVec;
             }
 
             Vector3 _target = m_dir * SkillEffect.GetBaseAddValue(SKILLOPTION_TYPE.distance) * 5f * Time.fixedDeltaTime;
