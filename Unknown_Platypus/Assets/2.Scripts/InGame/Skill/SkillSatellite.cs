@@ -67,12 +67,7 @@ public class SkillSatellite : SkillObject
     public override void UpdateLogic()
     {
         base.UpdateLogic();
-         
-        // float _dir = StagePlayLogic.instance.m_Player.Ani.Dir.x > 0 ?-1f:1f;
-        // Vector3 _scale = transform.localScale;
-        // _scale.x = _dir;
-        // transform.localScale = _scale;
-
+        
         if(ConstData.SkillMaxLevel != m_skillData.m_skillTable.skilllv)
         {
             for (int i = 0; i < m_count; i++)

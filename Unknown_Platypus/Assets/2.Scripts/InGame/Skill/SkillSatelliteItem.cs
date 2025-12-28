@@ -28,6 +28,16 @@ public class SkillSatelliteItem : MonoBase
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+        
+        if (m_parent.Owner.inputVec.normalized != Vector3.zero)
+        {
+            dir = m_parent.Owner.inputVec.normalized;
+        }
+
+        // 이동 방향의 각도를 구합니다.
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        // 오브젝트의 회전 각도를 설정합니다.
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
         if (m_curState == 0)
         {
@@ -50,32 +60,6 @@ public class SkillSatelliteItem : MonoBase
 
             if (m_attackDealy >= 0.3f)
             {
-                //m_target =GameUtil.GetAreaTarget(m_parent.Owner ,m_parent.m_distance ,m_parent.m_distance, false);
-
-                //if(m_target == null || m_target.getData.HP <= 0)
-                //{
-                //    return;
-                //}
-
-                //Vector3 _dir = Vector3.zero;
-                //if(m_target.IsMove)
-                //{
-                //    _dir = (m_target.inputVec - transform.position).normalized;
-                //}
-                //else
-                //{
-                //    _dir = (m_target.transform.position - transform.position).normalized;
-                //}
-
-                if (m_parent.Owner.inputVec.normalized != Vector3.zero)
-                {
-                    dir = m_parent.Owner.inputVec.normalized;
-                }
-
-                // 이동 방향의 각도를 구합니다.
-                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-                // 오브젝트의 회전 각도를 설정합니다.
-                transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
                 Effect _bullet = EffectManager.instance.Play("SatelliteBullet", m_trBullet.position, Quaternion.AngleAxis(angle, Vector3.forward));
                 SkillBullet _obj = _bullet.GetComponent<SkillBullet>();
                 _obj.InitWithOutTarget(m_parent.SkillEffect, dir * 100, m_trBullet.position, m_parent.Owner, dir, 1, false, false, _isHitedClose: true);
