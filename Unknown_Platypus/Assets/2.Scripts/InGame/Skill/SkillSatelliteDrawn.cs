@@ -1,6 +1,7 @@
 using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -34,6 +35,11 @@ public class SkillSatelliteDrawn : MonoBase
     public override void UpdateLogic()
     {
         base.UpdateLogic();
+
+        if (target == null || target.getData.HP == 0)
+        {
+            target = GameUtil.GetAreaTarget(gameObject.transform.position, useUnit, useSkillSkillObj.m_area, useSkillSkillObj.m_distance, false, true);
+        }
 
         if (target == null)
         {

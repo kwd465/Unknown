@@ -77,15 +77,14 @@ public class SkillSatellite : SkillObject
         }
         else
         {
-            if (target == null || target.getData.HP == 0)
-            {
-                target = GameUtil.GetAreaTarget(gameObject.transform.position, m_owner, m_area, m_distance, false, true);
-            }
+            //if (target == null || target.getData.HP == 0)
+            //{
+            //    target = GameUtil.GetAreaTarget(gameObject.transform.position, m_owner, m_area, m_distance, false, true);
+            //}
 
             for (int i = 0; i < drawnArr.Length; i++)
             {
                 drawnArr[i].UpdateLogic();
-                drawnArr[i].SetTarget(target);
             }
         }
     }
