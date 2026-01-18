@@ -136,6 +136,11 @@ public class SpawnLogic : MonoBase
 
     public void SpawnMonster(MonsterType _type , int _monIdx ,string _rewardIdx, int _monLv = 1)
     {
+        if(GameManager.instance.IsNoMoreSpawnEnemy)
+        {
+            return;
+        }
+
         CharacterTableData _mData = TableControl.instance.m_monsterTable.GetRecord(_monIdx);
 
         Player _monster = m_monsterList.Get(spwnPath + _mData.prefab);
@@ -148,7 +153,8 @@ public class SpawnLogic : MonoBase
         
         ((Monster)_monster).Init(_type== MonsterType.NORMAL?e_PlayerType.MON:e_PlayerType.MON_BOSS, _monData, new PlayerFsm_Monster() , GetSpawnPos());
         m_monList.Add(_monster);
-        //보스 몬스터 소환할때 소환되어 있던 몬스터를 전부 없앨 것인가?
+        //TODO == 보스 몬스터 소환할때 소환되어 있던 몬스터를 전부 없앨 것인가?
+        // 위 내용 내가쓴건 아니긴 해 -Jun 26-01-18
         if (_type == MonsterType.BOSS)
         {
             isBoss = true;

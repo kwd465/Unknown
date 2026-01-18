@@ -27,7 +27,7 @@ public class SkillSatellite : SkillObject
         if (m_skillData.m_skillTable.skilllv == ConstData.SkillMaxLevel)
         {
             MaxLevelEffectObj.gameObject.SetActive(true);
-            LowLevelEffectObj.gameObject.SetActive(false);
+            LowLevelEffectObj.gameObject.SetActive(true);
 
             for (int i = 0; i < drawnArr.Length; i++)
             {
@@ -37,7 +37,7 @@ public class SkillSatellite : SkillObject
 
             for (int i = m_count; i < m_satellites.Length; i++)
             {
-                m_satellites[i].Close();
+                m_satellites[i].Open(this);
             }
 
             target = GameUtil.GetAreaTarget(gameObject.transform.position, m_owner, m_area, m_distance, false, true);
@@ -77,10 +77,10 @@ public class SkillSatellite : SkillObject
         }
         else
         {
-            //if (target == null || target.getData.HP == 0)
-            //{
-            //    target = GameUtil.GetAreaTarget(gameObject.transform.position, m_owner, m_area, m_distance, false, true);
-            //}
+            for (int i = 0; i < m_count; i++)
+            {
+                m_satellites[i].UpdateLogic();
+            }
 
             for (int i = 0; i < drawnArr.Length; i++)
             {

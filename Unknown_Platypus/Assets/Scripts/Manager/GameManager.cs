@@ -6,6 +6,9 @@ using static UnityEngine.GraphicsBuffer;
 
 public class GameManager : BHSingleton<GameManager>
 {
+    #region Cheat
+    public bool IsNoMoreSpawnEnemy;
+    #endregion
 
     private void Start()
     {
