@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BH;
 using UnityEngine;
+using System.Linq;
 
 public class SkillSatellite : SkillObject
 {
@@ -31,11 +32,16 @@ public class SkillSatellite : SkillObject
 
             for (int i = 0; i < drawnArr.Length; i++)
             {
-                drawnArr[i].SetTarget(m_owner);
+                drawnArr[i].SetTarget(null);
                 drawnArr[i].Init(this, m_owner);
             }
 
-            for (int i = m_count; i < m_satellites.Length; i++)
+            foreach (var item in m_satellites)
+            {
+                item.Close();
+            }
+
+            for (int i = 0; i < m_satellites.Length; i++)
             {
                 m_satellites[i].Open(this);
             }
@@ -47,14 +53,14 @@ public class SkillSatellite : SkillObject
             MaxLevelEffectObj.gameObject.SetActive(false);
             LowLevelEffectObj.gameObject.SetActive(true);
 
-            for (int i = 0; i < m_count; i++)
-            {
-                m_satellites[i].Open(this);
-            }
-
             for (int i = m_count; i < m_satellites.Length; i++)
             {
                 m_satellites[i].Close();
+            }
+
+            for (int i = 0; i < m_count; i++)
+            {
+                m_satellites[i].Open(this);
             }
 
             for (int i = 0; i < drawnArr.Length; i++)

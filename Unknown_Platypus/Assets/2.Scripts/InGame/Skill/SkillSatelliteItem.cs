@@ -19,10 +19,10 @@ public class SkillSatelliteItem : MonoBase
 
     public virtual void Open(SkillObject _parent)
     {
-        base.Open();
         m_parent = _parent;
         ShootParticle.gameObject.SetActive(true);
         ShootParticle.Stop();
+        base.Open();
     }
 
     public override void UpdateLogic()
