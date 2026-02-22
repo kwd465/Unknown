@@ -24430,6 +24430,18 @@ PrefabInstance:
       value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 2731162375979558096, guid: c56645a66d9f38743a67511086049fb3, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2731162375979558096, guid: c56645a66d9f38743a67511086049fb3, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2731162375979558096, guid: c56645a66d9f38743a67511086049fb3, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2731162375979558096, guid: c56645a66d9f38743a67511086049fb3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -24477,6 +24489,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2731162375979558096, guid: c56645a66d9f38743a67511086049fb3, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4816068011242962259, guid: c56645a66d9f38743a67511086049fb3, type: 3}
       propertyPath: m_Name
       value: Swordwave_Level05
@@ -24502,8 +24518,8 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 2371917810350204279, guid: c56645a66d9f38743a67511086049fb3, type: 3}
   m_PrefabInstance: {fileID: 1183997326597742512}
   m_PrefabAsset: {fileID: 0}
---- !u!224 &3857736594344819552 stripped
-RectTransform:
+--- !u!4 &3857736594344819552 stripped
+Transform:
   m_CorrespondingSourceObject: {fileID: 2731162375979558096, guid: c56645a66d9f38743a67511086049fb3, type: 3}
   m_PrefabInstance: {fileID: 1183997326597742512}
   m_PrefabAsset: {fileID: 0}

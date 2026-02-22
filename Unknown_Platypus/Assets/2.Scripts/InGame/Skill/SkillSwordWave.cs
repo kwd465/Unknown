@@ -18,14 +18,12 @@ public class SkillSwordWave : SkillObject
         gameObject.SetActive(false);
     }
 
-
     override public void Apply()
     {
+        Debug.Log("레벨업 체크");
         base.Apply();
         targetList.Clear();
         gameObject.SetActive(true);
-
-        m_checkTime = 0;
 
         //transform.localScale = new Vector3(m_area ,m_area , 1f);
 
@@ -43,13 +41,15 @@ public class SkillSwordWave : SkillObject
             MaxSkillCollision.EndAction = null;
             MaxSkillCollision.EndAction = Close;
 
-            Vector2 randomPos = new Vector2(Random.Range(-m_distance, m_distance), Random.Range(-m_distance, m_distance));
+            Vector3 randomPos = new Vector3(Random.Range(-m_distance, m_distance), Random.Range(-m_distance, m_distance));
+            Debug.Log($@"distance check {m_distance} {randomPos}");
+            //int random = UnityEngine.Random.Range(0, 2);
+            //Vector2 targetPos = random == 0 ? gameObject.transform.position : m_owner.transform.position;
+            //randomPos += targetPos;
 
-            int random = UnityEngine.Random.Range(0, 2);
-            Vector2 targetPos = random == 0 ? gameObject.transform.position : m_owner.transform.position;
-            randomPos += targetPos;
-
-            MaxSkillCollision.transform.position = randomPos;
+            //MaxSkillCollision.transform.position = randomPos;
+            transform.position = randomPos + m_owner.transform.position;
+            transform.rotation = Quaternion.identity;
             MaxSkillCollision.SetColliderActive(true);
             MaxSkillCollision.gameObject.SetActive(true);
 
